@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ContractReaderV2.Concrete.Enum
+﻿namespace ContractReaderV2.Concrete.Enum
 {
    public class GlobalEnum
     {
@@ -17,8 +11,8 @@ namespace ContractReaderV2.Concrete.Enum
 
         public enum DocumentType
         {
-            doc,
-            pdf
+            Doc,
+            Pdf
         }
     }
 }

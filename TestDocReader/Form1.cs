@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 namespace TestDocReader
 {
     public partial class Form1 : Form
     {
-        private string _documentPath = System.Configuration.ConfigurationManager.AppSettings.Get("DocumentPath");
-        private const string TEMPORARY_FILE_NAME = "Temp_Output.txt";
-        private string _outputDocumentPath = $"{System.Configuration.ConfigurationManager.AppSettings.Get("OutputDocumentPath")}output.html";
+        private readonly string _documentPath = System.Configuration.ConfigurationManager.AppSettings.Get("DocumentPath");
+        private const string TemporaryFileName = "Temp_Output.txt";
+        private readonly string _outputDocumentPath = $"{System.Configuration.ConfigurationManager.AppSettings.Get("OutputDocumentPath")}output.html";
         
         private string _currentDocument;
         
@@ -36,20 +31,20 @@ namespace TestDocReader
                 }
             }
             
-            var fullTempPath = $"{_documentPath}{TEMPORARY_FILE_NAME}";
-            var contract = new ContractReaderV2.Reader(_currentDocument, fullTempPath, ContractReaderV2.Concrete.Enum.GlobalEnum.DocumentType.doc);
-            var fileType = new Logic.FileExtentionHandler().GetDocumentType(_currentDocument);
-            if(fileType == Logic.FileExtentionHandler.FileType.WordDoc)
+            var fullTempPath = $"{_documentPath}{TemporaryFileName}";
+            var contract = new ContractReaderV2.Reader(_currentDocument, fullTempPath);//, ContractReaderV2.Concrete.Enum.GlobalEnum.DocumentType.doc);
+            var fileType = new Logic.FileExtensionHandler().GetDocumentType(_currentDocument);
+            if(fileType == Logic.FileExtensionHandler.FileType.WordDoc)
             {
                 _documentLines = contract.ParseWordDocument();
             }
-            else if(fileType == Logic.FileExtentionHandler.FileType.Pdf)
+            else if(fileType == Logic.FileExtensionHandler.FileType.Pdf)
             {
                 _documentLines = contract.ParsePdfDocument();
             }
             else
             {
-                MessageBox.Show($"Error => Error occured while deriving file type {Environment.NewLine} Either file was not found or tye file type was unsupported");
+                MessageBox.Show($@"Error => Error occured while deriving file type {Environment.NewLine} Either file was not found or tye file type was unsupported");
             }
 
 
@@ -67,17 +62,14 @@ namespace TestDocReader
 
         }
 
-        
-
         private void btnOutput_Click(object sender, EventArgs e)
         {
-           
             if (_documentLines != null)
             {
                 try
                 {
                     new Logic.FileExportHandler().LinesToDoc(_documentLines,_outputDocumentPath);
-                    MessageBox.Show($"Export complete {Environment.NewLine} File saved to {_outputDocumentPath}");
+                    MessageBox.Show($@"Export complete {Environment.NewLine} File saved to {_outputDocumentPath}");
                 }
                 catch(Exception ex)
                 {
@@ -86,7 +78,7 @@ namespace TestDocReader
             }
             else
             {
-                MessageBox.Show("Please load a document first");
+                MessageBox.Show(@"Please load a document first");
             }
         }
 
