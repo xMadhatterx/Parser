@@ -13,7 +13,6 @@ namespace ContractReaderV2
 {
     public class Reader
     {
-        private readonly DocumentType _documentType;
         private readonly string _documentPath;
         private readonly string _tempDocumentPath;
         private readonly List<Contract> _lineList;
@@ -28,14 +27,13 @@ namespace ContractReaderV2
 
 
 
-        public Reader(string documentPath,string tempPath,DocumentType documentType)
+        public Reader(string documentPath,string tempPath)//,DocumentType documentType)
         {
-            _documentType = documentType;
             if(!string.IsNullOrWhiteSpace(documentPath) && !string.IsNullOrWhiteSpace(tempPath))
-            { 
-               _documentPath = documentPath;
-               _tempDocumentPath = tempPath;
-               _lineList = new List<Contract>();
+            {
+                _documentPath = documentPath;
+                _tempDocumentPath = tempPath;
+                _lineList = new List<Contract>();
             }
         }
 
@@ -43,7 +41,6 @@ namespace ContractReaderV2
         {
             var extractor = new TextExtractor(_documentPath);
             var docText = extractor.ExtractText();
-            //var file = new FileInfo(fullTempPath).Create();
             File.WriteAllText(_tempDocumentPath, docText);
             ParseTempDocument();
             return _lineList;
