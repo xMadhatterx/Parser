@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 namespace TestDocReader
 {
@@ -12,6 +13,15 @@ namespace TestDocReader
         private string _currentDocument;
         private List<ContractReaderV2.Concrete.Contract> _documentLines;
         private List<string> _keywords;
+
+
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+
+        [DllImportAttribute("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        [DllImportAttribute("user32.dll")]
+        public static extern bool ReleaseCapture();
 
         public Form1()
         {
@@ -106,6 +116,27 @@ namespace TestDocReader
             {
                 lstKeyword.Items.Add(keyword);
             }
+        }
+        private void Form1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
+        }
+
+        private void btnCloseFrm_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            
+        }
+
+
+
+        private void btnMinimize_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
         }
     }
 }
