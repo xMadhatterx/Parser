@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using static ContractReaderV2.Concrete.Enum.GlobalEnum;
 
 namespace ContractReaderV2
@@ -17,10 +18,17 @@ namespace ContractReaderV2
         private string _documentPath;
         private string _tempDocumentPath;
         private List<Contract> _lineList;
-        private const string CONTRACTOR_WILL = "the contractor will";
-        private const string CONTRACTOR_SHALL = "the contractor shall";
+        private const string CONTRACTOR_WILL = "contractor will";
+        private const string CONTRACTOR_SHALL = "contractor shall";
+        private const string CONTRACTORS_SHALL = "contractors shall";
         private const string GOV_WILL = "the government will";
         private const string GOV_SHALL = "the government shall";
+        private string _lastSectionId;
+        private string _parseHitReplace = "My company name";
+
+
+
+
         public Reader(string documentPath,string tempPath,DocumentType documentType)
         {
            if(!string.IsNullOrWhiteSpace(documentPath) && !string.IsNullOrWhiteSpace(tempPath))
@@ -138,7 +146,10 @@ namespace ContractReaderV2
                     lineData = lineData.Replace("\t", "");
                 }
                 var section = GetDocumentSection(lineData);
-                
+                if(!string.IsNullOrWhiteSpace(section))
+                {
+                    _lastSectionId = section;
+                }
                
                     if (section != string.Empty)
                     {
@@ -148,7 +159,7 @@ namespace ContractReaderV2
                 if (lines[lineCount].ToLower().Contains(GOV_SHALL))
                 {
                     contract.Data = lineData;
-                    contract.DocumentSection = section;
+                    contract.DocumentSection = _lastSectionId;
                     contract.DataType = LineType.Government;
                     _lineList.Add(contract);
                     WriteText(lines, lineCount + 1, lineAmount, LineType.Government);
@@ -156,27 +167,36 @@ namespace ContractReaderV2
                 else if (lines[lineCount].ToLower().Contains(GOV_WILL))
                 {
                     contract.Data = lineData;
-                    contract.DocumentSection = section;
+                    contract.DocumentSection = _lastSectionId;
                     contract.DataType = LineType.Government;
                     _lineList.Add(contract);
                     WriteText(lines, lineCount + 1, lineAmount, LineType.Contractor);
                 }
                 else if (lines[lineCount].ToLower().Contains(CONTRACTOR_SHALL))
                 {
-                    
-
-                    var index = lineData.IndexOf(CONTRACTOR_SHALL,StringComparison.OrdinalIgnoreCase);
-                    lineData = lineData.Remove(0, index + CONTRACTOR_SHALL.Length);
+                    lineData = Regex.Replace(lineData, CONTRACTOR_SHALL,_parseHitReplace,RegexOptions.IgnoreCase);
                     contract.Data = lineData;
-                    contract.DocumentSection = section;
+                    contract.DocumentSection = _lastSectionId;
+                    contract.DataType = LineType.Contractor;
+                    _lineList.Add(contract);
+                    WriteText(lines, lineCount + 1, lineAmount, LineType.Contractor);
+                }
+                else if (lines[lineCount].ToLower().Contains(CONTRACTORS_SHALL))
+                {
+
+
+                    lineData = Regex.Replace(lineData, CONTRACTORS_SHALL, _parseHitReplace, RegexOptions.IgnoreCase);
+                    contract.Data = lineData;
+                    contract.DocumentSection = _lastSectionId;
                     contract.DataType = LineType.Contractor;
                     _lineList.Add(contract);
                     WriteText(lines, lineCount + 1, lineAmount, LineType.Contractor);
                 }
                 else if (lines[lineCount].ToLower().Contains(CONTRACTOR_WILL))
                 {
+                    lineData = Regex.Replace(lineData, CONTRACTOR_WILL, _parseHitReplace, RegexOptions.IgnoreCase);
                     contract.Data = lineData;
-                    contract.DocumentSection = section;
+                    contract.DocumentSection = _lastSectionId;
                     contract.DataType = LineType.Contractor;
                     _lineList.Add(contract);
                     WriteText(lines, lineCount + 1, lineAmount, LineType.Contractor);
@@ -185,7 +205,7 @@ namespace ContractReaderV2
                 {
 
                     contract.Data = lineData;
-                    contract.DocumentSection = section;
+                    contract.DocumentSection = _lastSectionId;
                     contract.DataType = LineType.Generic;
                     //_lineList.Add(contract);
                     WriteText(lines, lineCount + 1, lineAmount, LineType.Generic);
