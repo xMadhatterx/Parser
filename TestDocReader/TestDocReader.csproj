@@ -59,7 +59,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Logic\FileExportHandler.cs" />
-    <Compile Include="Logic\FileExtentionHandler.cs" />
+    <Compile Include="Logic\FileExtensionHandler.cs" />
     <Compile Include="Logic\KeywordConfigHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
