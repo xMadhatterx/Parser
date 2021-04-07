@@ -93,13 +93,13 @@ namespace ContractReaderV2
                     textList.Add(reader.ReadLine());
                     lineCounter++;
                 }
-                WriteText(textList, 0, lineCounter);
+                FirstPass(textList, 0, lineCounter);
             }
             File.Delete(_tempDocumentPath);
             
         }
 
-        public void WriteText(List<string> lines, int lineCount, int lineAmount, LineType lineType = LineType.Generic)
+        public void FirstPass(List<string> lines, int lineCount, int lineAmount, LineType lineType = LineType.Generic)
         {
 
             if (lineCount < lineAmount)
@@ -162,7 +162,7 @@ namespace ContractReaderV2
                     contract.DocumentSection = _lastSectionId;
                     contract.DataType = LineType.Government;
                     _lineList.Add(contract);
-                    WriteText(lines, lineCount + 1, lineAmount, LineType.Government);
+                    FirstPass(lines, lineCount + 1, lineAmount, LineType.Government);
                 }
                 else if (lines[lineCount].ToLower().Contains(GOV_WILL))
                 {
@@ -170,7 +170,7 @@ namespace ContractReaderV2
                     contract.DocumentSection = _lastSectionId;
                     contract.DataType = LineType.Government;
                     _lineList.Add(contract);
-                    WriteText(lines, lineCount + 1, lineAmount, LineType.Contractor);
+                    FirstPass(lines, lineCount + 1, lineAmount, LineType.Contractor);
                 }
                 else if (lines[lineCount].ToLower().Contains(CONTRACTOR_SHALL))
                 {
@@ -179,7 +179,7 @@ namespace ContractReaderV2
                     contract.DocumentSection = _lastSectionId;
                     contract.DataType = LineType.Contractor;
                     _lineList.Add(contract);
-                    WriteText(lines, lineCount + 1, lineAmount, LineType.Contractor);
+                    FirstPass(lines, lineCount + 1, lineAmount, LineType.Contractor);
                 }
                 else if (lines[lineCount].ToLower().Contains(CONTRACTORS_SHALL))
                 {
@@ -190,7 +190,7 @@ namespace ContractReaderV2
                     contract.DocumentSection = _lastSectionId;
                     contract.DataType = LineType.Contractor;
                     _lineList.Add(contract);
-                    WriteText(lines, lineCount + 1, lineAmount, LineType.Contractor);
+                    FirstPass(lines, lineCount + 1, lineAmount, LineType.Contractor);
                 }
                 else if (lines[lineCount].ToLower().Contains(CONTRACTOR_WILL))
                 {
@@ -199,7 +199,7 @@ namespace ContractReaderV2
                     contract.DocumentSection = _lastSectionId;
                     contract.DataType = LineType.Contractor;
                     _lineList.Add(contract);
-                    WriteText(lines, lineCount + 1, lineAmount, LineType.Contractor);
+                    FirstPass(lines, lineCount + 1, lineAmount, LineType.Contractor);
                 }
                 else
                 {
@@ -208,7 +208,7 @@ namespace ContractReaderV2
                     contract.DocumentSection = _lastSectionId;
                     contract.DataType = LineType.Generic;
                     //_lineList.Add(contract);
-                    WriteText(lines, lineCount + 1, lineAmount, LineType.Generic);
+                    FirstPass(lines, lineCount + 1, lineAmount, LineType.Generic);
                 }
 
 
