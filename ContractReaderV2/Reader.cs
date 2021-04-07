@@ -89,7 +89,6 @@ namespace ContractReaderV2
             while (true)
             {
                 if (lineCount >= lineAmount) return;
-                var contract = new Contract();
                 var lineData = lines[lineCount];
 
                 //Remove \t from doc
@@ -122,14 +121,21 @@ namespace ContractReaderV2
                         {
                            lineData= lineData.Remove(0, i);
                         }
-                        contract.Data = lineData;
-                        contract.DocumentSection = _lastSectionId;
-                        contract.DataType = LineType.Contractor;
-                        _lineList.Add(contract);
-                        
-                        lineType = LineType.Contractor;
+                        string[] sentences = Regex.Split(lineData, @"(?<=[\.!\?])\s+");
+                        foreach (var sentence in sentences)
+                        {
+                            if (sentence.ToLower().Contains(ContractorShall))
+                            {
+                                var contract = new Contract();
+                                var newSentence = Regex.Replace(sentence, "contractor", _parseHitReplace, RegexOptions.IgnoreCase);
+                                contract.Data = newSentence;
+                                contract.DocumentSection = _lastSectionId;
+                                contract.DataType = LineType.Contractor;
+                                _lineList.Add(contract);
+                                lineType = LineType.Contractor;
+                            }
+                        }
                     }
-                  
                 }
                 lineCount = lineCount + 1;
 
