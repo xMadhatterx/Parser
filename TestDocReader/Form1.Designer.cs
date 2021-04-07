@@ -36,14 +36,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.btnOutput = new System.Windows.Forms.Button();
-            this.ofdDocument = new System.Windows.Forms.OpenFileDialog();
-            this.lstKeyword = new System.Windows.Forms.ListBox();
             this.documentSectionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contractBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.btnOutput = new System.Windows.Forms.Button();
+            this.ofdDocument = new System.Windows.Forms.OpenFileDialog();
+            this.lstKeyword = new System.Windows.Forms.ListBox();
             this.tbKeyword = new System.Windows.Forms.TextBox();
             this.btnAddToList = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
@@ -139,7 +139,31 @@
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(1016, 563);
             this.dataGridView1.TabIndex = 5;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            // 
+            // documentSectionDataGridViewTextBoxColumn
+            // 
+            this.documentSectionDataGridViewTextBoxColumn.DataPropertyName = "DocumentSection";
+            this.documentSectionDataGridViewTextBoxColumn.FillWeight = 27.41117F;
+            this.documentSectionDataGridViewTextBoxColumn.HeaderText = "DocumentSection";
+            this.documentSectionDataGridViewTextBoxColumn.Name = "documentSectionDataGridViewTextBoxColumn";
+            // 
+            // dataTypeDataGridViewTextBoxColumn
+            // 
+            this.dataTypeDataGridViewTextBoxColumn.DataPropertyName = "DataType";
+            this.dataTypeDataGridViewTextBoxColumn.FillWeight = 33.16705F;
+            this.dataTypeDataGridViewTextBoxColumn.HeaderText = "DataType";
+            this.dataTypeDataGridViewTextBoxColumn.Name = "dataTypeDataGridViewTextBoxColumn";
+            // 
+            // dataDataGridViewTextBoxColumn
+            // 
+            this.dataDataGridViewTextBoxColumn.DataPropertyName = "Data";
+            this.dataDataGridViewTextBoxColumn.FillWeight = 239.4218F;
+            this.dataDataGridViewTextBoxColumn.HeaderText = "Data";
+            this.dataDataGridViewTextBoxColumn.Name = "dataDataGridViewTextBoxColumn";
+            // 
+            // contractBindingSource
+            // 
+            this.contractBindingSource.DataSource = typeof(ContractReaderV2.Concrete.Contract);
             // 
             // btnOutput
             // 
@@ -166,32 +190,6 @@
             this.lstKeyword.Name = "lstKeyword";
             this.lstKeyword.Size = new System.Drawing.Size(234, 264);
             this.lstKeyword.TabIndex = 8;
-            this.lstKeyword.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
-            // 
-            // documentSectionDataGridViewTextBoxColumn
-            // 
-            this.documentSectionDataGridViewTextBoxColumn.DataPropertyName = "DocumentSection";
-            this.documentSectionDataGridViewTextBoxColumn.FillWeight = 27.41117F;
-            this.documentSectionDataGridViewTextBoxColumn.HeaderText = "DocumentSection";
-            this.documentSectionDataGridViewTextBoxColumn.Name = "documentSectionDataGridViewTextBoxColumn";
-            // 
-            // dataTypeDataGridViewTextBoxColumn
-            // 
-            this.dataTypeDataGridViewTextBoxColumn.DataPropertyName = "DataType";
-            this.dataTypeDataGridViewTextBoxColumn.FillWeight = 33.16705F;
-            this.dataTypeDataGridViewTextBoxColumn.HeaderText = "DataType";
-            this.dataTypeDataGridViewTextBoxColumn.Name = "dataTypeDataGridViewTextBoxColumn";
-            // 
-            // dataDataGridViewTextBoxColumn
-            // 
-            this.dataDataGridViewTextBoxColumn.DataPropertyName = "Data";
-            this.dataDataGridViewTextBoxColumn.FillWeight = 239.4218F;
-            this.dataDataGridViewTextBoxColumn.HeaderText = "Data";
-            this.dataDataGridViewTextBoxColumn.Name = "dataDataGridViewTextBoxColumn";
-            // 
-            // contractBindingSource
-            // 
-            this.contractBindingSource.DataSource = typeof(ContractReaderV2.Concrete.Contract);
             // 
             // tbKeyword
             // 

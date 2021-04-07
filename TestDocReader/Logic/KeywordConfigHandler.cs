@@ -15,16 +15,22 @@ namespace TestDocReader.Logic
 
       
 
-        public void Import()
+        public KeywordDictionary Import()
         {
-
+            var jsonText= System.IO.File.ReadAllText("./Configs/Keywords.json");
+            var keywords = JsonConvert.DeserializeObject<KeywordDictionary>(jsonText);
+            return keywords;
+            
         }
 
         public void Export(KeywordDictionary keywordDictionary)
         {
             string jsonString =JsonConvert.SerializeObject(keywordDictionary);
 
-            System.IO.File.WriteAllText("./Configs/Keywords.json", jsonString);
+            if (!string.IsNullOrEmpty(jsonString))
+            {
+                System.IO.File.WriteAllText("./Configs/Keywords.json", jsonString);
+            }
         }
     }
 }

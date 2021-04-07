@@ -9,16 +9,15 @@ namespace TestDocReader
         private readonly string _documentPath = System.Configuration.ConfigurationManager.AppSettings.Get("DocumentPath");
         private const string TemporaryFileName = "Temp_Output.txt";
         private readonly string _outputDocumentPath = $"{System.Configuration.ConfigurationManager.AppSettings.Get("OutputDocumentPath")}output.html";
-        
         private string _currentDocument;
-        
         private List<ContractReaderV2.Concrete.Contract> _documentLines;
+
         public Form1()
         {
             InitializeComponent();
             _documentLines = new List<ContractReaderV2.Concrete.Contract>();
+            LoadKeywords();
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
            
@@ -56,12 +55,6 @@ namespace TestDocReader
             label2.Text = _currentDocument;
 
         }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
         private void btnOutput_Click(object sender, EventArgs e)
         {
             if (_documentLines != null)
@@ -81,28 +74,21 @@ namespace TestDocReader
                 MessageBox.Show(@"Please load a document first");
             }
         }
-
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnAddToList_Click(object sender, EventArgs e)
         {
             if(!string.IsNullOrWhiteSpace(tbKeyword.Text))
             {
                 lstKeyword.Items.Add(tbKeyword.Text);
                 ModifyKeywordList();
+                tbKeyword.Text = string.Empty;
 
             }
         }
-
         private void btnRemove_Click(object sender, EventArgs e)
         {
             lstKeyword.Items.Remove(lstKeyword.SelectedItem);
             ModifyKeywordList();
         }
-
         private void ModifyKeywordList()
         {
             var keywordList = new List<string>();
@@ -110,6 +96,14 @@ namespace TestDocReader
             {
                 keywordList.Add(item.ToString());
                 new Logic.KeywordConfigHandler().Add(keywordList);
+            }
+        }
+        private void LoadKeywords()
+        {
+            var keywords = new Logic.KeywordConfigHandler().Import();
+            foreach(var keyword in keywords.Keywords)
+            {
+                lstKeyword.Items.Add(keyword);
             }
         }
     }
