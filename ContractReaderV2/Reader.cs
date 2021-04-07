@@ -32,16 +32,16 @@ namespace ContractReaderV2
             _lineList = new List<Contract>();
         }
 
-        public List<Contract> ParseWordDocument()
+        public List<Contract> ParseWordDocument(List<string> keywords)
         {
             var extractor = new TextExtractor(_documentPath);
             var docText = extractor.ExtractText();
             File.WriteAllText(_tempDocumentPath, docText);
-            ParseTempDocument();
+            ParseTempDocument(keywords);
             return _lineList;
 
         }
-        public List<Contract> ParsePdfDocument()
+        public List<Contract> ParsePdfDocument(List<string> keywords)
         {
             var wordList2 = new List<string>();
             if (File.Exists(_documentPath))
@@ -63,11 +63,11 @@ namespace ContractReaderV2
                 pdfReader.Close();
                 File.AppendAllLines(_tempDocumentPath, wordList2);
             }
-            ParseTempDocument();
+            ParseTempDocument(keywords);
             return _lineList;
         }
 
-        public void ParseTempDocument()
+        public void ParseTempDocument(List<string> keywords)
         {
             var textList = new List<string>();
             var lineCounter = 0;
@@ -78,13 +78,13 @@ namespace ContractReaderV2
                     textList.Add(reader.ReadLine());
                     lineCounter++;
                 }
-                FirstPass(textList, 0, lineCounter);
+                FirstPass(textList, 0, lineCounter,keywords);
             }
             File.Delete(_tempDocumentPath);
             
         }
 
-        public void FirstPass(List<string> lines, int lineCount, int lineAmount, LineType lineType = LineType.Generic)
+        public void FirstPass(List<string> lines, int lineCount, int lineAmount, List<string> keywords, LineType lineType = LineType.Generic)
         {
             while (true)
             {
@@ -113,63 +113,90 @@ namespace ContractReaderV2
                     lineData = lineData.Remove(0, section.Length);
                 }
 
-                //Look for keywords
-                if (lines[lineCount].ToLower().Contains(GovShall))
+                foreach(var keyword in keywords)
                 {
-                    contract.Data = lineData;
-                    contract.DocumentSection = _lastSectionId;
-                    contract.DataType = LineType.Government;
-                    _lineList.Add(contract);
-                    lineCount = lineCount + 1;
-                    lineType = LineType.Government;
+                    if(lines[lineCount].ToLower().Contains(keyword.ToLower()))
+                    {
+                        var i = lineData.ToLower().IndexOf(keyword.ToLower());
+                        if (i > 0)
+                        {
+                           lineData= lineData.Remove(0, i);
+                        }
+                        contract.Data = lineData;
+                        contract.DocumentSection = _lastSectionId;
+                        contract.DataType = LineType.Contractor;
+                        _lineList.Add(contract);
+                        
+                        lineType = LineType.Contractor;
+                    }
+                  
                 }
-                else if (lines[lineCount].ToLower().Contains(GovWill))
-                {
-                    contract.Data = lineData;
-                    contract.DocumentSection = _lastSectionId;
-                    contract.DataType = LineType.Government;
-                    _lineList.Add(contract);
-                    lineCount = lineCount + 1;
-                    lineType = LineType.Contractor;
-                }
-                else if (lines[lineCount].ToLower().Contains(ContractorShall))
-                {
-                    lineData = Regex.Replace(lineData, ContractorShall, _parseHitReplace, RegexOptions.IgnoreCase);
-                    contract.Data = lineData;
-                    contract.DocumentSection = _lastSectionId;
-                    contract.DataType = LineType.Contractor;
-                    _lineList.Add(contract);
-                    lineCount = lineCount + 1;
-                    lineType = LineType.Contractor;
-                }
-                else if (lines[lineCount].ToLower().Contains(ContractorsShall))
-                {
-                    lineData = Regex.Replace(lineData, ContractorsShall, _parseHitReplace, RegexOptions.IgnoreCase);
-                    contract.Data = lineData;
-                    contract.DocumentSection = _lastSectionId;
-                    contract.DataType = LineType.Contractor;
-                    _lineList.Add(contract);
-                    lineCount = lineCount + 1;
-                    lineType = LineType.Contractor;
-                }
-                else if (lines[lineCount].ToLower().Contains(ContractorWill))
-                {
-                    lineData = Regex.Replace(lineData, ContractorWill, _parseHitReplace, RegexOptions.IgnoreCase);
-                    contract.Data = lineData;
-                    contract.DocumentSection = _lastSectionId;
-                    contract.DataType = LineType.Contractor;
-                    _lineList.Add(contract);
-                    lineCount = lineCount + 1;
-                    lineType = LineType.Contractor;
-                }
-                else
-                {
-                    contract.Data = lineData;
-                    contract.DocumentSection = _lastSectionId;
-                    contract.DataType = LineType.Generic;
-                    lineCount = lineCount + 1;
-                    lineType = LineType.Generic;
-                }
+                lineCount = lineCount + 1;
+
+
+
+
+
+
+
+
+                ////Look for keywords
+                //if (lines[lineCount].ToLower().Contains(GovShall))
+                //{
+                //    contract.Data = lineData;
+                //    contract.DocumentSection = _lastSectionId;
+                //    contract.DataType = LineType.Government;
+                //    _lineList.Add(contract);
+                //    lineCount = lineCount + 1;
+                //    lineType = LineType.Government;
+                //}
+                //else if (lines[lineCount].ToLower().Contains(GovWill))
+                //{
+                //    contract.Data = lineData;
+                //    contract.DocumentSection = _lastSectionId;
+                //    contract.DataType = LineType.Government;
+                //    _lineList.Add(contract);
+                //    lineCount = lineCount + 1;
+                //    lineType = LineType.Contractor;
+                //}
+                //else if (lines[lineCount].ToLower().Contains(ContractorShall))
+                //{
+                //    lineData = Regex.Replace(lineData, ContractorShall, _parseHitReplace, RegexOptions.IgnoreCase);
+                //    contract.Data = lineData;
+                //    contract.DocumentSection = _lastSectionId;
+                //    contract.DataType = LineType.Contractor;
+                //    _lineList.Add(contract);
+                //    lineCount = lineCount + 1;
+                //    lineType = LineType.Contractor;
+                //}
+                //else if (lines[lineCount].ToLower().Contains(ContractorsShall))
+                //{
+                //    lineData = Regex.Replace(lineData, ContractorsShall, _parseHitReplace, RegexOptions.IgnoreCase);
+                //    contract.Data = lineData;
+                //    contract.DocumentSection = _lastSectionId;
+                //    contract.DataType = LineType.Contractor;
+                //    _lineList.Add(contract);
+                //    lineCount = lineCount + 1;
+                //    lineType = LineType.Contractor;
+                //}
+                //else if (lines[lineCount].ToLower().Contains(ContractorWill))
+                //{
+                //    lineData = Regex.Replace(lineData, ContractorWill, _parseHitReplace, RegexOptions.IgnoreCase);
+                //    contract.Data = lineData;
+                //    contract.DocumentSection = _lastSectionId;
+                //    contract.DataType = LineType.Contractor;
+                //    _lineList.Add(contract);
+                //    lineCount = lineCount + 1;
+                //    lineType = LineType.Contractor;
+                //}
+                //else
+                //{
+                //    contract.Data = lineData;
+                //    contract.DocumentSection = _lastSectionId;
+                //    contract.DataType = LineType.Generic;
+                //    lineCount = lineCount + 1;
+                //    lineType = LineType.Generic;
+                //}
             }
         }
 

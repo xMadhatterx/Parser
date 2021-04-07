@@ -11,11 +11,13 @@ namespace TestDocReader
         private readonly string _outputDocumentPath = $"{System.Configuration.ConfigurationManager.AppSettings.Get("OutputDocumentPath")}output.html";
         private string _currentDocument;
         private List<ContractReaderV2.Concrete.Contract> _documentLines;
+        private List<string> _keywords;
 
         public Form1()
         {
             InitializeComponent();
             _documentLines = new List<ContractReaderV2.Concrete.Contract>();
+            _keywords = new List<string>();
             LoadKeywords();
         }
         private void button1_Click(object sender, EventArgs e)
@@ -35,11 +37,11 @@ namespace TestDocReader
             var fileType = new Logic.FileExtensionHandler().GetDocumentType(_currentDocument);
             if(fileType == Logic.FileExtensionHandler.FileType.WordDoc)
             {
-                _documentLines = contract.ParseWordDocument();
+                _documentLines = contract.ParseWordDocument(_keywords);
             }
             else if(fileType == Logic.FileExtensionHandler.FileType.Pdf)
             {
-                _documentLines = contract.ParsePdfDocument();
+                _documentLines = contract.ParsePdfDocument(_keywords);
             }
             else
             {
@@ -79,29 +81,28 @@ namespace TestDocReader
             if(!string.IsNullOrWhiteSpace(tbKeyword.Text))
             {
                 lstKeyword.Items.Add(tbKeyword.Text);
-                ModifyKeywordList();
+                _keywords.Add(tbKeyword.Text);
                 tbKeyword.Text = string.Empty;
-
+                ModifyKeywordList();
             }
         }
         private void btnRemove_Click(object sender, EventArgs e)
         {
+            _keywords.Remove(lstKeyword.SelectedItem.ToString());
             lstKeyword.Items.Remove(lstKeyword.SelectedItem);
+            
             ModifyKeywordList();
         }
         private void ModifyKeywordList()
         {
-            var keywordList = new List<string>();
-            foreach (var item in lstKeyword.Items)
-            {
-                keywordList.Add(item.ToString());
-                new Logic.KeywordConfigHandler().Add(keywordList);
-            }
+            new Logic.KeywordConfigHandler().Add(_keywords);
+
         }
         private void LoadKeywords()
         {
-            var keywords = new Logic.KeywordConfigHandler().Import();
-            foreach(var keyword in keywords.Keywords)
+            lstKeyword.Items.Clear();
+             _keywords = new Logic.KeywordConfigHandler().Import().Keywords;
+            foreach(var keyword in _keywords)
             {
                 lstKeyword.Items.Add(keyword);
             }
