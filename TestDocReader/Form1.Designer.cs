@@ -36,14 +36,17 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.btnOutput = new System.Windows.Forms.Button();
+            this.ofdDocument = new System.Windows.Forms.OpenFileDialog();
+            this.lstKeyword = new System.Windows.Forms.ListBox();
             this.documentSectionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contractBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.btnOutput = new System.Windows.Forms.Button();
-            this.ofdDocument = new System.Windows.Forms.OpenFileDialog();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.tbKeyword = new System.Windows.Forms.TextBox();
+            this.btnAddToList = new System.Windows.Forms.Button();
+            this.btnRemove = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.contractBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -138,6 +141,33 @@
             this.dataGridView1.TabIndex = 5;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
+            // btnOutput
+            // 
+            this.btnOutput.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnOutput.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOutput.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnOutput.ForeColor = System.Drawing.Color.DarkTurquoise;
+            this.btnOutput.Location = new System.Drawing.Point(112, 12);
+            this.btnOutput.Name = "btnOutput";
+            this.btnOutput.Size = new System.Drawing.Size(94, 45);
+            this.btnOutput.TabIndex = 7;
+            this.btnOutput.Text = "Export";
+            this.btnOutput.UseVisualStyleBackColor = false;
+            this.btnOutput.Click += new System.EventHandler(this.btnOutput_Click);
+            // 
+            // ofdDocument
+            // 
+            this.ofdDocument.FileName = "openFileDialog1";
+            // 
+            // lstKeyword
+            // 
+            this.lstKeyword.FormattingEnabled = true;
+            this.lstKeyword.Location = new System.Drawing.Point(1035, 90);
+            this.lstKeyword.Name = "lstKeyword";
+            this.lstKeyword.Size = new System.Drawing.Size(234, 264);
+            this.lstKeyword.TabIndex = 8;
+            this.lstKeyword.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            // 
             // documentSectionDataGridViewTextBoxColumn
             // 
             this.documentSectionDataGridViewTextBoxColumn.DataPropertyName = "DocumentSection";
@@ -163,33 +193,32 @@
             // 
             this.contractBindingSource.DataSource = typeof(ContractReaderV2.Concrete.Contract);
             // 
-            // btnOutput
+            // tbKeyword
             // 
-            this.btnOutput.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.btnOutput.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOutput.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOutput.ForeColor = System.Drawing.Color.DarkTurquoise;
-            this.btnOutput.Location = new System.Drawing.Point(112, 12);
-            this.btnOutput.Name = "btnOutput";
-            this.btnOutput.Size = new System.Drawing.Size(94, 45);
-            this.btnOutput.TabIndex = 7;
-            this.btnOutput.Text = "Export";
-            this.btnOutput.UseVisualStyleBackColor = false;
-            this.btnOutput.Click += new System.EventHandler(this.btnOutput_Click);
+            this.tbKeyword.Location = new System.Drawing.Point(1036, 64);
+            this.tbKeyword.Name = "tbKeyword";
+            this.tbKeyword.Size = new System.Drawing.Size(161, 20);
+            this.tbKeyword.TabIndex = 9;
             // 
-            // ofdDocument
+            // btnAddToList
             // 
-            this.ofdDocument.FileName = "openFileDialog1";
+            this.btnAddToList.Location = new System.Drawing.Point(1203, 62);
+            this.btnAddToList.Name = "btnAddToList";
+            this.btnAddToList.Size = new System.Drawing.Size(66, 23);
+            this.btnAddToList.TabIndex = 10;
+            this.btnAddToList.Text = "Add";
+            this.btnAddToList.UseVisualStyleBackColor = true;
+            this.btnAddToList.Click += new System.EventHandler(this.btnAddToList_Click);
             // 
-            // listBox1
+            // btnRemove
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Items.AddRange(new object[] {
-            "Contractor shall"});
-            this.listBox1.Location = new System.Drawing.Point(1035, 64);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(234, 264);
-            this.listBox1.TabIndex = 8;
+            this.btnRemove.Location = new System.Drawing.Point(1035, 361);
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.Size = new System.Drawing.Size(234, 23);
+            this.btnRemove.TabIndex = 11;
+            this.btnRemove.Text = "Remove Keyword";
+            this.btnRemove.UseVisualStyleBackColor = true;
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
             // Form1
             // 
@@ -197,7 +226,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1281, 639);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.btnRemove);
+            this.Controls.Add(this.btnAddToList);
+            this.Controls.Add(this.tbKeyword);
+            this.Controls.Add(this.lstKeyword);
             this.Controls.Add(this.btnOutput);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.label2);
@@ -225,7 +257,10 @@
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Button btnOutput;
         private System.Windows.Forms.OpenFileDialog ofdDocument;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox lstKeyword;
+        private System.Windows.Forms.TextBox tbKeyword;
+        private System.Windows.Forms.Button btnAddToList;
+        private System.Windows.Forms.Button btnRemove;
     }
 }
 

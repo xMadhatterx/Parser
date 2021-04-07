@@ -89,6 +89,36 @@ namespace TestDocReader
                 MessageBox.Show("Please load a document first");
             }
         }
-       
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnAddToList_Click(object sender, EventArgs e)
+        {
+            if(!string.IsNullOrWhiteSpace(tbKeyword.Text))
+            {
+                lstKeyword.Items.Add(tbKeyword.Text);
+                ModifyKeywordList();
+
+            }
+        }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            lstKeyword.Items.Remove(lstKeyword.SelectedItem);
+            ModifyKeywordList();
+        }
+
+        private void ModifyKeywordList()
+        {
+            var keywordList = new List<string>();
+            foreach (var item in lstKeyword.Items)
+            {
+                keywordList.Add(item.ToString());
+                new Logic.KeywordConfigHandler().Add(keywordList);
+            }
+        }
     }
 }
