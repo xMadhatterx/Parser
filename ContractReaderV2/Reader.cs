@@ -32,16 +32,16 @@ namespace ContractReaderV2
             _lineList = new List<Contract>();
         }
 
-        public List<Contract> ParseWordDocument(List<string> keywords)
+        public List<Contract> ParseWordDocument(List<string> keywords, List<string> replacements)
         {
             var extractor = new TextExtractor(_documentPath);
             var docText = extractor.ExtractText();
             File.WriteAllText(_tempDocumentPath, docText);
-            ParseTempDocument(keywords);
+            ParseTempDocument(keywords, replacements);
             return _lineList;
 
         }
-        public List<Contract> ParsePdfDocument(List<string> keywords)
+        public List<Contract> ParsePdfDocument(List<string> keywords, List<string> replacements)
         {
             var wordList2 = new List<string>();
             if (File.Exists(_documentPath))
@@ -63,11 +63,11 @@ namespace ContractReaderV2
                 pdfReader.Close();
                 File.AppendAllLines(_tempDocumentPath, wordList2);
             }
-            ParseTempDocument(keywords);
+            ParseTempDocument(keywords, replacements);
             return _lineList;
         }
 
-        public void ParseTempDocument(List<string> keywords)
+        public void ParseTempDocument(List<string> keywords, List<string> replacements)
         {
             var textList = new List<string>();
             var lineCounter = 0;
@@ -78,13 +78,13 @@ namespace ContractReaderV2
                     textList.Add(reader.ReadLine());
                     lineCounter++;
                 }
-                FirstPass(textList, 0, lineCounter,keywords);
+                FirstPass(textList, 0, lineCounter,keywords, replacements);
             }
             File.Delete(_tempDocumentPath);
             
         }
 
-        public void FirstPass(List<string> lines, int lineCount, int lineAmount, List<string> keywords, LineType lineType = LineType.Generic)
+        public void FirstPass(List<string> lines, int lineCount, int lineAmount, List<string> keywords, List<string> replacements, LineType lineType = LineType.Generic)
         {
             while (true)
             {
@@ -127,8 +127,24 @@ namespace ContractReaderV2
                             if (sentence.ToLower().Contains(ContractorShall))
                             {
                                 var contract = new Contract();
-                                var newSentence = Regex.Replace(sentence, "contractor", _parseHitReplace, RegexOptions.IgnoreCase);
-                                contract.Data = newSentence;
+                                var newSentence = string.Empty;
+                                foreach (var replacement in replacements)
+                                {
+                                    if (sentence.ToLower().Contains(replacement))
+                                    {
+                                        newSentence = Regex.Replace(sentence, replacement, _parseHitReplace, RegexOptions.IgnoreCase);
+                                    }
+                                }
+
+                                if (!string.IsNullOrEmpty(newSentence))
+                                {
+                                    contract.Data = newSentence;
+                                }
+                                else
+                                {
+                                    contract.Data = sentence;
+                                }
+
                                 contract.DocumentSection = _lastSectionId;
                                 contract.DataType = LineType.Contractor;
                                 _lineList.Add(contract);
