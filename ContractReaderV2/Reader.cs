@@ -232,25 +232,42 @@ namespace ContractReaderV2
         public string GetDocumentSection(string line)
         {
             string section = string.Empty;
-         
-            for(var k = 0; k < line.Length;k++)
+            bool match = false;
+            var sectionChecker = new Regex(@"(?m)^\d+(?:\.\d+)*[ \t]+\S.*$");
+            var sectionCheckerAlt = new Regex(@"(?m)^\d+(?:\.\d+)*\S[ \t]+\S.*$");
+            if (sectionChecker.IsMatch(line))
+            {
+                match = true;
+            } 
+            else if (sectionCheckerAlt.IsMatch(line))
+            {
+                match = true;
+            }
+
+            if (!match) return section;
+            for (var k = 0; k < line.Length; k++)
             {
                 var isNumber = int.TryParse(line[k].ToString(), out _);
-                if(k == 0 && !isNumber)
+                if (k == 0 && !isNumber)
                 {
                     return string.Empty;
                 }
-                else
+
+                if (line[k].ToString() == " ")
                 {
-                    if(isNumber || line[k].ToString()=="." )
-                    {
-                        section += line[k].ToString();
-                    }
-                    else
-                    {
-                        return section;
-                    }
+                    return section;
                 }
+                section += line[k].ToString();
+
+                //if (isNumber || line[k].ToString() == ".")
+                //{
+                //    section += line[k].ToString();
+                //}
+                //else
+                //{
+                //    return section;
+                //}
+                
             }
             return section;
         }
