@@ -106,6 +106,12 @@ namespace ContractReaderV2
                     lineData = lineData.Replace("\t", "");
                 }
 
+                //Second check to replace any mid line tabs with spaces.
+                if (lineData.Contains("\t"))
+                {
+                    lineData = lineData.Replace("\t", " ");
+                }
+
                 //Grab the section number if this line contains one
                 var section = GetDocumentSection(lineData);
 
@@ -167,107 +173,52 @@ namespace ContractReaderV2
                 }
                 
                 lineCount = lineCount + 1;
-
-
-                ////Look for keywords
-                //if (lines[lineCount].ToLower().Contains(GovShall))
-                //{
-                //    contract.Data = lineData;
-                //    contract.DocumentSection = _lastSectionId;
-                //    contract.DataType = LineType.Government;
-                //    _lineList.Add(contract);
-                //    lineCount = lineCount + 1;
-                //    lineType = LineType.Government;
-                //}
-                //else if (lines[lineCount].ToLower().Contains(GovWill))
-                //{
-                //    contract.Data = lineData;
-                //    contract.DocumentSection = _lastSectionId;
-                //    contract.DataType = LineType.Government;
-                //    _lineList.Add(contract);
-                //    lineCount = lineCount + 1;
-                //    lineType = LineType.Contractor;
-                //}
-                //else if (lines[lineCount].ToLower().Contains(ContractorShall))
-                //{
-                //    lineData = Regex.Replace(lineData, ContractorShall, _parseHitReplace, RegexOptions.IgnoreCase);
-                //    contract.Data = lineData;
-                //    contract.DocumentSection = _lastSectionId;
-                //    contract.DataType = LineType.Contractor;
-                //    _lineList.Add(contract);
-                //    lineCount = lineCount + 1;
-                //    lineType = LineType.Contractor;
-                //}
-                //else if (lines[lineCount].ToLower().Contains(ContractorsShall))
-                //{
-                //    lineData = Regex.Replace(lineData, ContractorsShall, _parseHitReplace, RegexOptions.IgnoreCase);
-                //    contract.Data = lineData;
-                //    contract.DocumentSection = _lastSectionId;
-                //    contract.DataType = LineType.Contractor;
-                //    _lineList.Add(contract);
-                //    lineCount = lineCount + 1;
-                //    lineType = LineType.Contractor;
-                //}
-                //else if (lines[lineCount].ToLower().Contains(ContractorWill))
-                //{
-                //    lineData = Regex.Replace(lineData, ContractorWill, _parseHitReplace, RegexOptions.IgnoreCase);
-                //    contract.Data = lineData;
-                //    contract.DocumentSection = _lastSectionId;
-                //    contract.DataType = LineType.Contractor;
-                //    _lineList.Add(contract);
-                //    lineCount = lineCount + 1;
-                //    lineType = LineType.Contractor;
-                //}
-                //else
-                //{
-                //    contract.Data = lineData;
-                //    contract.DocumentSection = _lastSectionId;
-                //    contract.DataType = LineType.Generic;
-                //    lineCount = lineCount + 1;
-                //    lineType = LineType.Generic;
-                //}
             }
         }
 
         public string GetDocumentSection(string line)
         {
-            string section = string.Empty;
-            bool match = false;
+            var section = string.Empty;
+            var match = false;
+            var leadingLetter = false;
             var sectionChecker = new Regex(@"(?m)^\d+(?:\.\d+)*[ \t]+\S.*$");
-            var sectionCheckerAlt = new Regex(@"(?m)^\d+(?:\.\d+)*\S[ \t]+\S.*$");
+            var sectionCheckerTrailing = new Regex(@"(?m)^\d+(?:\.\d+)*\S[ \t]+\S.*$");
+            var sectionCheckerLeading = new Regex(@"(?m)^\S.\d+(?:\.\d+)*[ \t]+\S.*$");
+
             if (sectionChecker.IsMatch(line))
             {
                 match = true;
             } 
-            else if (sectionCheckerAlt.IsMatch(line))
+            else if (sectionCheckerTrailing.IsMatch(line))
             {
                 match = true;
+            }
+            else if (sectionCheckerLeading.IsMatch(line))
+            {
+                match = true;
+                leadingLetter = true;
             }
 
             if (!match) return section;
             for (var k = 0; k < line.Length; k++)
             {
-                var isNumber = int.TryParse(line[k].ToString(), out _);
-                if (k == 0 && !isNumber)
+                if (leadingLetter)
                 {
-                    return string.Empty;
+                    section += line[k].ToString();
+                    leadingLetter = false;
                 }
-
-                if (line[k].ToString() == " ")
+                else
                 {
-                    return section;
+                    if (line[k].ToString() == " ")
+                    {
+                        return section;
+                    }
+                    var isNumber = int.TryParse(line[k].ToString(), out _);
+                    if (isNumber || line[k].ToString() == ".")
+                    {
+                        section += line[k].ToString();
+                    }
                 }
-                section += line[k].ToString();
-
-                //if (isNumber || line[k].ToString() == ".")
-                //{
-                //    section += line[k].ToString();
-                //}
-                //else
-                //{
-                //    return section;
-                //}
-                
             }
             return section;
         }
