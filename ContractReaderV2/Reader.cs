@@ -103,7 +103,7 @@ namespace ContractReaderV2
                 }
 
                 //Grab the section number if this line contains one
-                var section = GetDocumentSection(lineData);
+                var section = GetDocumentSection2(lineData);
 
                 //Set current section if we were able to find one.
                 if (!string.IsNullOrWhiteSpace(section))
@@ -319,6 +319,16 @@ namespace ContractReaderV2
                 }
             }
             return section;
+        }
+
+        public string GetDocumentSection2(string line)
+        {
+            var t = Regex.Match(line, @"^[A-Z0-9][\w-]*(?:\.[\w-]+)*");
+            if (t != null && t.Success)
+            {
+                return t.Value;
+            }
+            return string.Empty;
         }
 
     }
