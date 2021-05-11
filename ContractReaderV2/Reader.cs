@@ -1,4 +1,5 @@
-﻿using Code7248.word_reader;
+﻿using System;
+using Code7248.word_reader;
 using ContractReaderV2.Concrete;
 using System.Collections.Generic;
 using System.IO;
@@ -15,11 +16,6 @@ namespace ContractReaderV2
         private readonly string _documentPath;
         private readonly string _tempDocumentPath;
         private readonly List<Contract> _lineList;
-        private const string ContractorWill = "contractor will";
-        private const string ContractorShall = "contractor shall";
-        private const string ContractorsShall = "contractors shall";
-        private const string GovWill = "the government will";
-        private const string GovShall = "the government shall";
         private string _lastSectionId;
         private string _parseHitReplace = "My company name";
 
@@ -33,12 +29,18 @@ namespace ContractReaderV2
 
         public List<Contract> ParseWordDocument(List<string> keywords, List<string> replacements)
         {
-            var extractor = new TextExtractor(_documentPath);
-            var docText = extractor.ExtractText();
-            File.WriteAllText(_tempDocumentPath, docText);
-            ParseTempDocument(keywords, replacements);
-            return _lineList;
-
+            try
+            {
+                var extractor = new TextExtractor(_documentPath);
+                var docText = extractor.ExtractText();
+                File.WriteAllText(_tempDocumentPath, docText);
+                ParseTempDocument(keywords, replacements);
+                return _lineList;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public List<Contract> ParsePdfDocument(List<string> keywords, List<string> replacements)
@@ -138,37 +140,42 @@ namespace ContractReaderV2
                             lineData = lineData.Remove(0, i);
                         }
 
-                        string[] sentences = Regex.Split(lineData, @"(?<=[\.!\?])\s+");
-                        foreach (var sentence in sentences)
+                        //string[] sentences = Regex.Split(lineData, @"(?<=[\.!\?])\s+");
+                        //foreach (var sentence in sentences)
+                        //{
+                        //if (sentence.ToLower().Contains(keyword))
+                        if (lineData.ToLower().Contains(keyword))
                         {
-                            if (sentence.ToLower().Contains(ContractorShall))
+                            var contract = new Contract();
+                            var newSentence = string.Empty;
+                            foreach (var replacement in replacements)
                             {
-                                var contract = new Contract();
-                                var newSentence = string.Empty;
-                                foreach (var replacement in replacements)
+                                //if (sentence.ToLower().Contains(replacement))
+                                if (lineData.ToLower().Contains(replacement))
                                 {
-                                    if (sentence.ToLower().Contains(replacement))
-                                    {
-                                        newSentence = Regex.Replace(sentence, replacement, _parseHitReplace,
-                                            RegexOptions.IgnoreCase);
-                                    }
+                                    //newSentence = Regex.Replace(sentence, replacement, _parseHitReplace,
+                                    //    RegexOptions.IgnoreCase);
+                                    newSentence = Regex.Replace(lineData, replacement, _parseHitReplace,
+                                        RegexOptions.IgnoreCase);
                                 }
-
-                                if (!string.IsNullOrEmpty(newSentence))
-                                {
-                                    contract.Data = newSentence;
-                                }
-                                else
-                                {
-                                    contract.Data = sentence;
-                                }
-
-                                contract.DocumentSection = _lastSectionId;
-                                contract.DataType = LineType.Contractor;
-                                _lineList.Add(contract);
-                                lineType = LineType.Contractor;
                             }
+
+                            if (!string.IsNullOrEmpty(newSentence))
+                            {
+                                contract.Data = newSentence;
+                            }
+                            else
+                            {
+                                //contract.Data = sentence;
+                                contract.Data = lineData;
+                            }
+
+                            contract.DocumentSection = _lastSectionId;
+                            contract.DataType = LineType.Contractor;
+                            _lineList.Add(contract);
+                            lineType = LineType.Contractor;
                         }
+                        //}
                     }
                 }
                 
@@ -188,7 +195,7 @@ namespace ContractReaderV2
             if (sectionChecker.IsMatch(line))
             {
                 match = true;
-            } 
+            }
             else if (sectionCheckerTrailing.IsMatch(line))
             {
                 match = true;

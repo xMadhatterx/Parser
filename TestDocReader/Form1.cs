@@ -46,25 +46,32 @@ namespace TestDocReader
             var fullTempPath = $"{_documentPath}{TemporaryFileName}";
             var contract = new ContractReaderV2.Reader(_currentDocument, fullTempPath);//, ContractReaderV2.Concrete.Enum.GlobalEnum.DocumentType.doc);
             var fileType = new Logic.FileExtensionHandler().GetDocumentType(_currentDocument);
-            if(fileType == Logic.FileExtensionHandler.FileType.WordDoc)
+            switch (fileType)
             {
-                _documentLines = contract.ParseWordDocument(_keywords, _replacements);
+                case Logic.FileExtensionHandler.FileType.WordDoc:
+                    _documentLines = contract.ParseWordDocument(_keywords, _replacements);
+                    break;
+                case Logic.FileExtensionHandler.FileType.Pdf:
+                    _documentLines = contract.ParsePdfDocument(_keywords, _replacements);
+                    break;
+                default:
+                    MessageBox.Show($@"Error => Error occured while deriving file type{Environment.NewLine}Either file was not found or the file type was unsupported", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    _documentLines = null;
+                    break;
             }
-            else if(fileType == Logic.FileExtensionHandler.FileType.Pdf)
+            if (_documentLines == null)
             {
-                _documentLines = contract.ParsePdfDocument(_keywords, _replacements);
+                MessageBox.Show($@"Error => Error opening document{Environment.NewLine}Please make sure the document is not already open.", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
-                MessageBox.Show($@"Error => Error occured while deriving file type {Environment.NewLine} Either file was not found or tye file type was unsupported");
+                dataGridView1.DataSource = _documentLines;
+                dataGridView1.Columns[0].DefaultCellStyle.ForeColor = Color.Green;
+                dataGridView1.Columns[1].DefaultCellStyle.BackColor = Color.Yellow;
+                dataGridView1.Columns[1].DefaultCellStyle.ForeColor = Color.Black;
+
+                label2.Text = _currentDocument;
             }
-
-            dataGridView1.DataSource = _documentLines;
-            dataGridView1.Columns[0].DefaultCellStyle.ForeColor = Color.Green;
-            dataGridView1.Columns[1].DefaultCellStyle.BackColor = Color.Yellow;
-            dataGridView1.Columns[1].DefaultCellStyle.ForeColor = Color.Black;
-
-            label2.Text = _currentDocument;
         }
 
         private void btnOutput_Click(object sender, EventArgs e)
