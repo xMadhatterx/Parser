@@ -1,7 +1,9 @@
-﻿using Code7248.word_reader;
+﻿using System;
+using Code7248.word_reader;
 using ContractReaderV2.Concrete;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 using ContractReaderV2.Concrete.Enum;
 using org.apache.pdfbox.pdmodel;
@@ -15,11 +17,6 @@ namespace ContractReaderV2
         private readonly string _documentPath;
         private readonly string _tempDocumentPath;
         private readonly List<Contract> _lineList;
-        private const string ContractorWill = "contractor will";
-        private const string ContractorShall = "contractor shall";
-        private const string ContractorsShall = "contractors shall";
-        private const string GovWill = "the government will";
-        private const string GovShall = "the government shall";
         private string _lastSectionId;
         private string _parseHitReplace = "My company name";
 
@@ -33,12 +30,18 @@ namespace ContractReaderV2
 
         public List<Contract> ParseWordDocument(List<string> keywords, List<string> replacements)
         {
-            var extractor = new TextExtractor(_documentPath);
-            var docText = extractor.ExtractText();
-            File.WriteAllText(_tempDocumentPath, docText);
-            ParseTempDocument(keywords, replacements);
-            return _lineList;
-
+            try
+            {
+                var extractor = new TextExtractor(_documentPath);
+                var docText = extractor.ExtractText();
+                File.WriteAllText(_tempDocumentPath, docText);
+                ParseTempDocument(keywords, replacements);
+                return _lineList;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public List<Contract> ParsePdfDocument(List<string> keywords, List<string> replacements)
@@ -94,6 +97,7 @@ namespace ContractReaderV2
         public void FirstPass(List<string> lines, int lineCount, int lineAmount, List<string> keywords, List<string> replacements, LineType lineType = LineType.Generic)
         {
             var firstLine = string.Empty;
+            var keyWordHit = false;
 
             while (true)
             {
@@ -106,13 +110,27 @@ namespace ContractReaderV2
                     lineData = lineData.Replace("\t", "");
                 }
 
+                //Second check to replace any mid line tabs with spaces.
+                if (lineData.Contains("\t"))
+                {
+                    lineData = lineData.Replace("\t", " ");
+                }
+
                 //Grab the section number if this line contains one
                 var section = GetDocumentSection2(lineData);
 
                 //Set current section if we were able to find one.
                 if (!string.IsNullOrWhiteSpace(section))
                 {
-                    _lastSectionId = section;
+                    if (keyWordHit && _lastSectionId == section)
+                    {
+                        _lastSectionId = section;
+                    }
+                    else
+                    {
+                        keyWordHit = false;
+                        _lastSectionId = section;
+                    }
                 }
 
                 //Remove Section from current line
@@ -124,150 +142,103 @@ namespace ContractReaderV2
                 
                 foreach (var keyword in keywords)
                 {
-                    if (lines[lineCount].ToLower().Contains(keyword.ToLower()))
+                    if (lines[lineCount].ToLower().Contains(keyword.ToLower()) || keyWordHit)
                     {
+                        //Keyword hit
+                        keyWordHit = true;
+
                         var i = lineData.ToLower().IndexOf(keyword.ToLower());
                         if (i > 0)
                         {
                             lineData = lineData.Remove(0, i);
                         }
 
-                        string[] sentences = Regex.Split(lineData, @"(?<=[\.!\?])\s+");
-                        foreach (var sentence in sentences)
+                        //string[] sentences = Regex.Split(lineData, @"(?<=[\.!\?])\s+");
+                        //foreach (var sentence in sentences)
+                        //{
+                        //if (sentence.ToLower().Contains(keyword))
+                        if (lineData.ToLower().Contains(keyword))
                         {
-                            if (sentence.ToLower().Contains(ContractorShall))
+                            var contract = new Contract();
+                            var newSentence = string.Empty;
+                            foreach (var replacement in replacements)
                             {
-                                var contract = new Contract();
-                                var newSentence = string.Empty;
-                                foreach (var replacement in replacements)
+                                //if (sentence.ToLower().Contains(replacement))
+                                if (lineData.ToLower().Contains(replacement))
                                 {
-                                    if (sentence.ToLower().Contains(replacement))
-                                    {
-                                        newSentence = Regex.Replace(sentence, replacement, _parseHitReplace,
-                                            RegexOptions.IgnoreCase);
-                                    }
+                                    //newSentence = Regex.Replace(sentence, replacement, _parseHitReplace,
+                                    //    RegexOptions.IgnoreCase);
+                                    newSentence = Regex.Replace(lineData, replacement, _parseHitReplace,
+                                        RegexOptions.IgnoreCase);
                                 }
-
-                                if (!string.IsNullOrEmpty(newSentence))
-                                {
-                                    contract.Data = newSentence;
-                                }
-                                else
-                                {
-                                    contract.Data = sentence;
-                                }
-
-                                contract.DocumentSection = _lastSectionId;
-                                contract.DataType = LineType.Contractor;
-                                _lineList.Add(contract);
-                                lineType = LineType.Contractor;
                             }
+
+                            if (!string.IsNullOrEmpty(newSentence))
+                            {
+                                contract.Data = newSentence;
+                            }
+                            else
+                            {
+                                //contract.Data = sentence;
+                                contract.Data = lineData;
+                            }
+
+                            contract.DocumentSection = _lastSectionId;
+                            contract.DataType = LineType.Contractor;
+                            _lineList.Add(contract);
+                            lineType = LineType.Contractor;
                         }
+                        //}
                     }
                 }
                 
                 lineCount = lineCount + 1;
-
-
-                ////Look for keywords
-                //if (lines[lineCount].ToLower().Contains(GovShall))
-                //{
-                //    contract.Data = lineData;
-                //    contract.DocumentSection = _lastSectionId;
-                //    contract.DataType = LineType.Government;
-                //    _lineList.Add(contract);
-                //    lineCount = lineCount + 1;
-                //    lineType = LineType.Government;
-                //}
-                //else if (lines[lineCount].ToLower().Contains(GovWill))
-                //{
-                //    contract.Data = lineData;
-                //    contract.DocumentSection = _lastSectionId;
-                //    contract.DataType = LineType.Government;
-                //    _lineList.Add(contract);
-                //    lineCount = lineCount + 1;
-                //    lineType = LineType.Contractor;
-                //}
-                //else if (lines[lineCount].ToLower().Contains(ContractorShall))
-                //{
-                //    lineData = Regex.Replace(lineData, ContractorShall, _parseHitReplace, RegexOptions.IgnoreCase);
-                //    contract.Data = lineData;
-                //    contract.DocumentSection = _lastSectionId;
-                //    contract.DataType = LineType.Contractor;
-                //    _lineList.Add(contract);
-                //    lineCount = lineCount + 1;
-                //    lineType = LineType.Contractor;
-                //}
-                //else if (lines[lineCount].ToLower().Contains(ContractorsShall))
-                //{
-                //    lineData = Regex.Replace(lineData, ContractorsShall, _parseHitReplace, RegexOptions.IgnoreCase);
-                //    contract.Data = lineData;
-                //    contract.DocumentSection = _lastSectionId;
-                //    contract.DataType = LineType.Contractor;
-                //    _lineList.Add(contract);
-                //    lineCount = lineCount + 1;
-                //    lineType = LineType.Contractor;
-                //}
-                //else if (lines[lineCount].ToLower().Contains(ContractorWill))
-                //{
-                //    lineData = Regex.Replace(lineData, ContractorWill, _parseHitReplace, RegexOptions.IgnoreCase);
-                //    contract.Data = lineData;
-                //    contract.DocumentSection = _lastSectionId;
-                //    contract.DataType = LineType.Contractor;
-                //    _lineList.Add(contract);
-                //    lineCount = lineCount + 1;
-                //    lineType = LineType.Contractor;
-                //}
-                //else
-                //{
-                //    contract.Data = lineData;
-                //    contract.DocumentSection = _lastSectionId;
-                //    contract.DataType = LineType.Generic;
-                //    lineCount = lineCount + 1;
-                //    lineType = LineType.Generic;
-                //}
             }
         }
 
         public string GetDocumentSection(string line)
         {
-            string section = string.Empty;
-            bool match = false;
+            var section = string.Empty;
+            var match = false;
+            var leadingLetter = false;
             var sectionChecker = new Regex(@"(?m)^\d+(?:\.\d+)*[ \t]+\S.*$");
-            var sectionCheckerAlt = new Regex(@"(?m)^\d+(?:\.\d+)*\S[ \t]+\S.*$");
+            var sectionCheckerTrailing = new Regex(@"(?m)^\d+(?:\.\d+)*\S[ \t]+\S.*$");
+            var sectionCheckerLeading = new Regex(@"(?m)^\S.\d+(?:\.\d+)*[ \t]+\S.*$");
+
             if (sectionChecker.IsMatch(line))
             {
                 match = true;
-            } 
-            else if (sectionCheckerAlt.IsMatch(line))
+            }
+            else if (sectionCheckerTrailing.IsMatch(line))
             {
                 match = true;
+            }
+            else if (sectionCheckerLeading.IsMatch(line))
+            {
+                match = true;
+                leadingLetter = true;
             }
 
             if (!match) return section;
             for (var k = 0; k < line.Length; k++)
             {
-                var isNumber = int.TryParse(line[k].ToString(), out _);
-                if (k == 0 && !isNumber)
+                if (leadingLetter)
                 {
-                    return string.Empty;
+                    section += line[k].ToString();
+                    leadingLetter = false;
                 }
-
-                if (line[k].ToString() == " ")
+                else
                 {
-                    return section;
+                    if (line[k].ToString() == " ")
+                    {
+                        return section;
+                    }
+                    var isNumber = int.TryParse(line[k].ToString(), out _);
+                    if (isNumber || line[k].ToString() == ".")
+                    {
+                        section += line[k].ToString();
+                    }
                 }
-                section += line[k].ToString();
-
-                //if (isNumber || line[k].ToString() == ".")
-                //{
-                //    section += line[k].ToString();
-                //}
-                //else
-                //{
-                //    return section;
-                //}
-                
             }
             return section;
         }
