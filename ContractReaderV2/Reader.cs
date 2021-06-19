@@ -3,6 +3,7 @@ using Code7248.word_reader;
 using ContractReaderV2.Concrete;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 using ContractReaderV2.Concrete.Enum;
 using org.apache.pdfbox.pdmodel;
@@ -19,7 +20,7 @@ namespace ContractReaderV2
         private string _lastSectionId;
         private string _parseHitReplace = "My company name";
 
-        public Reader(string documentPath,string tempPath)//,DocumentType documentType)
+        public Reader(string documentPath, string tempPath)//,DocumentType documentType)
         {
             if (string.IsNullOrWhiteSpace(documentPath) || string.IsNullOrWhiteSpace(tempPath)) return;
             _documentPath = documentPath;
@@ -87,15 +88,16 @@ namespace ContractReaderV2
                     textList.Add(reader.ReadLine());
                     lineCounter++;
                 }
-                FirstPass(textList, 0, lineCounter,keywords, replacements);
+                FirstPass(textList, 0, lineCounter, keywords, replacements);
             }
             File.Delete(_tempDocumentPath);
-            
+
         }
 
         public void FirstPass(List<string> lines, int lineCount, int lineAmount, List<string> keywords, List<string> replacements, LineType lineType = LineType.Generic)
         {
             var firstLine = string.Empty;
+            var keyWordHit = false;
 
             while (true)
             {
@@ -115,12 +117,20 @@ namespace ContractReaderV2
                 }
 
                 //Grab the section number if this line contains one
-                var section = GetDocumentSection2(lineData);
+                var section = GetDocumentSection(lineData);
 
                 //Set current section if we were able to find one.
                 if (!string.IsNullOrWhiteSpace(section))
                 {
-                    _lastSectionId = section;
+                    if (keyWordHit && _lastSectionId == section)
+                    {
+                        _lastSectionId = section;
+                    }
+                    else
+                    {
+                        keyWordHit = false;
+                        _lastSectionId = section;
+                    }
                 }
 
                 //Remove Section from current line
@@ -129,11 +139,14 @@ namespace ContractReaderV2
                     lineData = lineData.Remove(0, section.Length);
                 }
 
-                
+
                 foreach (var keyword in keywords)
                 {
-                    if (lines[lineCount].ToLower().Contains(keyword.ToLower()))
+                    if (lines[lineCount].ToLower().Contains(keyword.ToLower()) || keyWordHit)
                     {
+                        //Keyword hit
+                        keyWordHit = true;
+
                         var i = lineData.ToLower().IndexOf(keyword.ToLower());
                         if (i > 0)
                         {
@@ -178,7 +191,7 @@ namespace ContractReaderV2
                         //}
                     }
                 }
-                
+
                 lineCount = lineCount + 1;
             }
         }
@@ -228,16 +241,6 @@ namespace ContractReaderV2
                 }
             }
             return section;
-        }
-
-        public string GetDocumentSection2(string line)
-        {
-            var t = Regex.Match(line, @"^[A-Z0-9][\w-]*(?:\.[\w-]+)*");
-            if (t != null && t.Success)
-            {
-                return t.Value;
-            }
-            return string.Empty;
         }
 
     }
