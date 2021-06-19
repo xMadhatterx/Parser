@@ -34,6 +34,8 @@ namespace TestDocReader
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            LoadKeywords();
+            LoadReplacements();
             var result = ofdDocument.ShowDialog();
             if(result == DialogResult.OK)
             {
@@ -93,25 +95,14 @@ namespace TestDocReader
                 MessageBox.Show(@"Please load a document first");
             }
         }
-
-        private void btnAddToList_Click(object sender, EventArgs e)
+        private void btnSettings_Click(object sender, EventArgs e)
         {
-            if(!string.IsNullOrWhiteSpace(tbKeyword.Text))
-            {
-                lstKeyword.Items.Add(tbKeyword.Text);
-                _keywords.Add(tbKeyword.Text);
-                tbKeyword.Text = string.Empty;
-                ModifyKeywordList();
-            }
+            var frm = new frmSettings();
+            frm.StartPosition = FormStartPosition.CenterParent;
+            frm.ShowDialog();
         }
 
-        private void btnRemove_Click(object sender, EventArgs e)
-        {
-            _keywords.Remove(lstKeyword.SelectedItem.ToString());
-            lstKeyword.Items.Remove(lstKeyword.SelectedItem);
-            
-            ModifyKeywordList();
-        }
+        
 
         private void ModifyKeywordList()
         {
@@ -120,12 +111,9 @@ namespace TestDocReader
 
         private void LoadKeywords()
         {
-            lstKeyword.Items.Clear();
+     
             _keywords = new Logic.KeywordConfigHandler().Import().Keywords;
-            foreach(var keyword in _keywords)
-            {
-                lstKeyword.Items.Add(keyword);
-            }
+
         }
 
         private void LoadReplacements()
@@ -149,10 +137,73 @@ namespace TestDocReader
         }
 
 
-
+        #region Menu MouseOver
         private void btnMinimize_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
         }
+
+        private void pnlImport_MouseEnter(object sender, EventArgs e)
+        {
+            pnlImport.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        private void pnlImport_MouseLeave(object sender, EventArgs e)
+        {
+            pnlImport.BorderStyle = BorderStyle.None;
+        }
+
+        private void btnLoadDocument_MouseEnter(object sender, EventArgs e)
+        {
+            pnlImport.BorderStyle = BorderStyle.FixedSingle;
+            //btnLoadDocument.BackColor = Color.FromArgb(37, 46, 59);
+        }
+
+        private void btnLoadDocument_MouseLeave(object sender, EventArgs e)
+        {
+            pnlImport.BorderStyle = BorderStyle.None;
+        }
+
+        private void pnlExport_MouseEnter(object sender, EventArgs e)
+        {
+            pnlExport.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        private void pnlExport_MouseLeave(object sender, EventArgs e)
+        {
+            pnlExport.BorderStyle = BorderStyle.None;
+        }
+
+        private void btnOutput_MouseEnter(object sender, EventArgs e)
+        {
+            pnlExport.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        private void btnOutput_MouseLeave(object sender, EventArgs e)
+        {
+            pnlExport.BorderStyle = BorderStyle.None;
+        }
+        private void pnlSettings_MouseEnter(object sender, EventArgs e)
+        {
+            pnlSettings.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        private void pnlSettings_MouseLeave(object sender, EventArgs e)
+        {
+            pnlSettings.BorderStyle = BorderStyle.None;
+        }
+
+        private void btnSettings_MouseEnter(object sender, EventArgs e)
+        {
+            pnlSettings.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        private void btnSettings_MouseLeave(object sender, EventArgs e)
+        {
+            pnlSettings.BorderStyle = BorderStyle.None;
+        }
+
+
+        #endregion
     }
 }

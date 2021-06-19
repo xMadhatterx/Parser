@@ -1,0 +1,20 @@
+﻿{
+   "Keywords":[
+      {
+         "Keyword":"contractor shall",
+         "Replacement":"My Company Name"
+      },
+      {
+         "Keyword":"contractors shall",
+         "Replacement":"My Company Name"
+      },
+      {
+         "Keyword":"contractor will",
+         "Replacement":"My Company Name"
+      },
+      {
+         "Keyword":"contractors will",
+         "Replacement":"My Company Name"
+      }
+   ]
+}

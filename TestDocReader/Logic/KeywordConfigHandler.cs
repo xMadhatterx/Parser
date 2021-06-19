@@ -23,6 +23,14 @@ namespace TestDocReader.Logic
             
         }
 
+        public Root ImportV2()
+        {
+            var jsonText = System.IO.File.ReadAllText("./Configs/KeywordsV2.json");
+            var keywords = JsonConvert.DeserializeObject<Root>(jsonText);
+            return keywords;
+
+        }
+
         public void Export(KeywordDictionary keywordDictionary)
         {
             string jsonString =JsonConvert.SerializeObject(keywordDictionary);

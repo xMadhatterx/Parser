@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Concrete\KeywordDictionary.cs" />
+    <Compile Include="Concrete\KeywordV2.cs" />
     <Compile Include="Concrete\ReplacementDictionary.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -94,12 +95,18 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="Configs\KeywordsV2.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Configs\Replacements.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\ContractReaderV2.Concrete.Contract.datasource" />
+    <None Include="Properties\DataSources\TestDocReader.Concrete.Root.datasource" />
+    <None Include="Properties\DataSources\TestDocReader.Concrete.Word.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -126,6 +133,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Logo2.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
