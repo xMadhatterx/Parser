@@ -134,6 +134,7 @@
     <Compile Include="Reader.cs" />
     <Compile Include="Concrete\Enum\GlobalEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReaderV2.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\" />

@@ -12,8 +12,8 @@ namespace TestDocReader
         private readonly string _outputDocumentPath = $"{System.Configuration.ConfigurationManager.AppSettings.Get("OutputDocumentPath")}output.html";
         private string _currentDocument;
         private List<ContractReaderV2.Concrete.Contract> _documentLines;
-        private List<string> _keywords;
-        private List<string> _replacements;
+        //private List<string> _keywords;
+        //private List<string> _replacements;
 
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
@@ -27,15 +27,15 @@ namespace TestDocReader
         {
             InitializeComponent();
             _documentLines = new List<ContractReaderV2.Concrete.Contract>();
-            _keywords = new List<string>();
-            _replacements = new List<string>();
-            LoadKeywords();
-            LoadReplacements();
+            //_keywords = new List<string>();
+            //_replacements = new List<string>();
+            //LoadKeywords();
+            //LoadReplacements();
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            LoadKeywords();
-            LoadReplacements();
+            //LoadKeywords();
+            //LoadReplacements();
             var result = ofdDocument.ShowDialog();
             if(result == DialogResult.OK)
             {
@@ -46,15 +46,18 @@ namespace TestDocReader
             }
             
             var fullTempPath = $"{_documentPath}{TemporaryFileName}";
-            var contract = new ContractReaderV2.Reader(_currentDocument, fullTempPath);//, ContractReaderV2.Concrete.Enum.GlobalEnum.DocumentType.doc);
+            //var contract = new ContractReaderV2.Reader(_currentDocument, fullTempPath);
+            var contract = new ContractReaderV2.ReaderV2(_currentDocument, fullTempPath);
             var fileType = new Logic.FileExtensionHandler().GetDocumentType(_currentDocument);
             switch (fileType)
             {
                 case Logic.FileExtensionHandler.FileType.WordDoc:
-                    _documentLines = contract.ParseWordDocument(_keywords, _replacements);
+                    //_documentLines = contract.ParseWordDocument(_keywords, _replacements);
+                    _documentLines = contract.ParseWordDocument();
                     break;
                 case Logic.FileExtensionHandler.FileType.Pdf:
-                    _documentLines = contract.ParsePdfDocument(_keywords, _replacements);
+                    //_documentLines = contract.ParsePdfDocument(_keywords, _replacements);
+                    _documentLines = contract.ParsePdfDocument();
                     break;
                 default:
                     MessageBox.Show($@"Error => Error occured while deriving file type{Environment.NewLine}Either file was not found or the file type was unsupported", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -104,22 +107,22 @@ namespace TestDocReader
 
         
 
-        private void ModifyKeywordList()
-        {
-            new Logic.KeywordConfigHandler().Add(_keywords);
-        }
+        //private void ModifyKeywordList()
+        //{
+            //new Logic.KeywordConfigHandler().Add(_keywords);
+        //}
 
-        private void LoadKeywords()
-        {
+        //private void LoadKeywords()
+        //{
      
-            _keywords = new Logic.KeywordConfigHandler().Import().Keywords;
+            //_keywords = new Logic.KeywordConfigHandler().Import().Keywords;
 
-        }
+        //}
 
-        private void LoadReplacements()
-        {
-            _replacements = new Logic.ReplacementWordConfigHandler().Import().ReplaceWords;
-        }
+        //private void LoadReplacements()
+        //{
+            //_replacements = new Logic.ReplacementWordConfigHandler().Import().ReplaceWords;
+        //}
 
         private void Form1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
