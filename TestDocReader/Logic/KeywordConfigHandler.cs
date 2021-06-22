@@ -40,5 +40,14 @@ namespace TestDocReader.Logic
                 System.IO.File.WriteAllText("./Configs/Keywords.json", jsonString);
             }
         }
+        public void ExportV2(Root keywordDictionary)
+        {
+            string jsonString = JsonConvert.SerializeObject(keywordDictionary);
+
+            if (!string.IsNullOrEmpty(jsonString))
+            {
+                System.IO.File.WriteAllText("./Configs/KeywordsV2.json", jsonString);
+            }
+        }
     }
 }

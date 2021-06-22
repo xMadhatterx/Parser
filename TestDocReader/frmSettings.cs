@@ -45,38 +45,38 @@ namespace TestDocReader
 
         private void LoadKeywords()
         {
-            lstKeyword.Items.Clear();
-            _keywords = new Logic.KeywordConfigHandler().Import().Keywords;
+            //lstKeyword.Items.Clear();
+            //_keywords = new Logic.KeywordConfigHandler().Import().Keywords;
             _keywordsV2 = new Logic.KeywordConfigHandler().ImportV2().Keywords;
             dgvKeywords.DataSource = _keywordsV2;
-            foreach (var keyword in _keywords)
-            {
-                lstKeyword.Items.Add(keyword);
-            }
+            //foreach (var keyword in _keywords)
+            //{
+            //    lstKeyword.Items.Add(keyword);
+            //}
         }
         private void LoadReplacements()
         {
             _replacements = new Logic.ReplacementWordConfigHandler().Import().ReplaceWords;
         }
 
-        private void btnAddToList_Click_1(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(tbKeyword.Text))
-            {
-                lstKeyword.Items.Add(tbKeyword.Text);
-                _keywords.Add(tbKeyword.Text);
-                tbKeyword.Text = string.Empty;
-                ModifyKeywordList();
-            }
-        }
+        //private void btnAddToList_Click_1(object sender, EventArgs e)
+        //{
+        //    if (!string.IsNullOrWhiteSpace(tbKeyword.Text))
+        //    {
+        //        lstKeyword.Items.Add(tbKeyword.Text);
+        //        _keywords.Add(tbKeyword.Text);
+        //        tbKeyword.Text = string.Empty;
+        //        ModifyKeywordList();
+        //    }
+        //}
 
-        private void btnRemove_Click_1(object sender, EventArgs e)
-        {
-            _keywords.Remove(lstKeyword.SelectedItem.ToString());
-            lstKeyword.Items.Remove(lstKeyword.SelectedItem);
+        //private void btnRemove_Click_1(object sender, EventArgs e)
+        //{
+        //    _keywords.Remove(lstKeyword.SelectedItem.ToString());
+        //    lstKeyword.Items.Remove(lstKeyword.SelectedItem);
 
-            ModifyKeywordList();
-        }
+        //    ModifyKeywordList();
+        //}
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -84,6 +84,14 @@ namespace TestDocReader
             dgvKeywords.DataSource = null;
             dgvKeywords.DataSource = _keywordsV2;
             //dgvKeywords.Rows.Add();
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            var r = new Root();
+            r.Keywords = new List<Word>();
+            r.Keywords.AddRange(_keywordsV2);
+            new TestDocReader.Logic.KeywordConfigHandler().ExportV2(r);
         }
     }
 }
