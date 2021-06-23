@@ -34,8 +34,6 @@ namespace TestDocReader
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            //LoadKeywords();
-            //LoadReplacements();
             var result = ofdDocument.ShowDialog();
             if(result == DialogResult.OK)
             {

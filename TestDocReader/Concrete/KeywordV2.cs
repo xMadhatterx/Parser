@@ -14,6 +14,7 @@ namespace TestDocReader.Concrete
     {
         public string Keyword { get; set; }
         public string Replacement { get; set; }
+        public bool Split { get; set; }
     }
 
     
