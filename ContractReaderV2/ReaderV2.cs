@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using ContractReaderV2.Concrete;
 using Code7248.word_reader;
 using System.IO;
@@ -35,7 +31,6 @@ namespace ContractReaderV2
             File.WriteAllText(_tempDocumentPath, docText);
             ParseDocument();
             return _lineList;
-
         }
 
         public List<Contract> ParsePdfDocument()
@@ -70,7 +65,7 @@ namespace ContractReaderV2
 
         public void CycleThrough(List<string> lines, int lineAmount)
         {
-            int lineCount = 0;
+            var lineCount = 0;
             while (true)
             {
                 if (lineCount >= lineAmount) return;
@@ -106,14 +101,7 @@ namespace ContractReaderV2
                 var contract = new Contract();
                 var newSentence = string.Empty;
 
-                if (!string.IsNullOrEmpty(newSentence))
-                {
-                    contract.Data = newSentence;
-                }
-                else
-                {
-                    contract.Data = lineData;
-                }
+                contract.Data = !string.IsNullOrEmpty(newSentence) ? newSentence : lineData;
 
                 contract.DocumentSection = _lastSectionId;
                 contract.DataType = LineType.Contractor;
@@ -149,23 +137,23 @@ namespace ContractReaderV2
             }
 
             if (!match) return section;
-            for (var k = 0; k < line.Length; k++)
+            foreach (var t in line)
             {
                 if (leadingLetter)
                 {
-                    section += line[k].ToString();
+                    section += t.ToString();
                     leadingLetter = false;
                 }
                 else
                 {
-                    if (line[k].ToString() == " ")
+                    if (t.ToString() == " ")
                     {
                         return section;
                     }
-                    var isNumber = int.TryParse(line[k].ToString(), out _);
-                    if (isNumber || line[k].ToString() == ".")
+                    var isNumber = int.TryParse(t.ToString(), out _);
+                    if (isNumber || t.ToString() == ".")
                     {
-                        section += line[k].ToString();
+                        section += t.ToString();
                     }
                 }
             }
