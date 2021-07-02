@@ -10,7 +10,8 @@ using System.Text.RegularExpressions;
 using static ContractReaderV2.Concrete.Enum.GlobalEnum;
 using org.apache.pdfbox.pdmodel;
 using org.apache.pdfbox.util;
-
+using iTextSharp.text.pdf;
+using iTextSharp.text.pdf.parser;
 namespace ContractReaderV2
 {
     public class ReaderV2
@@ -43,6 +44,7 @@ namespace ContractReaderV2
             if (File.Exists(_documentPath))
             {
                 var doc = PDDocument.load(_documentPath);
+              
                 var textStrip = new PDFTextStripper();
                 var strPdfText = textStrip.getText(doc);
                 doc.close();
@@ -51,6 +53,42 @@ namespace ContractReaderV2
             ParseDocument();
             return _lineList;
         }
+
+        //public void ParsePage()
+        //{
+        //    using (PdfReader reader = new PdfReader(_documentPath))
+        //    {
+
+        //        List<string> page1 = new List<string>();
+        //        List<string> page2 = new List<string>();
+        //        var strText=PdfTextExtractor.GetTextFromPage(reader, 2);
+        //        strText = Encoding.UTF8.GetString(ASCIIEncoding.Convert(Encoding.Default, Encoding.UTF8, Encoding.Default.GetBytes(strText)));
+        //        string[] lines = strText.Split('\n');
+        //        foreach(var line in lines)
+        //        {
+        //            if (!string.IsNullOrWhiteSpace(line))
+        //            {
+        //                page1.Add(line);
+        //            }
+        //        }
+        //        var headerPage1 = page1[0];
+        //        var footerPage1 = page1[page1.Count()-1];
+
+        //        var strText2 = PdfTextExtractor.GetTextFromPage(reader, 5);
+        //        strText2 = Encoding.UTF8.GetString(ASCIIEncoding.Convert(Encoding.Default, Encoding.UTF8, Encoding.Default.GetBytes(strText2)));
+        //        string[] lines2 = strText2.Split('\n');
+        //        foreach (var line in lines2)
+        //        {
+        //            if (!string.IsNullOrWhiteSpace(line))
+        //            {
+        //                page2.Add(line);
+        //            }
+        //        }
+        //        var headerPage2 = page2[0];
+        //        var footerPage2 = page2[page2.Count()-1];
+
+        //    }
+        //}
 
         public void ParseDocument()
         {
