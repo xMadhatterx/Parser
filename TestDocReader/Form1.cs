@@ -58,11 +58,11 @@ namespace TestDocReader
                     {
                         case Logic.FileExtensionHandler.FileType.WordDoc:
                             //_documentLines = contract.ParseWordDocument(_keywords, _replacements);
-                            _documentLines = contract.ParseWordDocument();
+                            _documentLines = contract.ParseWordDocument(_keywords);
                             break;
                         case Logic.FileExtensionHandler.FileType.Pdf:
                             //_documentLines = contract.ParsePdfDocument(_keywords, _replacements);
-                            _documentLines = contract.ParsePdfDocument();
+                            _documentLines = contract.ParsePdfDocument(_keywords);
                             break;
                         default:
                             MessageBox.Show($@"Error => Error occured while deriving file type{Environment.NewLine}Either file was not found or the file type was unsupported", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
