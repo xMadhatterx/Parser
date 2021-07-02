@@ -34,50 +34,55 @@ namespace TestDocReader
         }
         private void button1_Click(object sender, EventArgs e)
         {
-           //var msbResult= MessageBox.Show("Some text about headers","A Caption",MessageBoxButtons.OKCancel)
+            var msbResult = MessageBox.Show("Some text about headers", "A Caption", MessageBoxButtons.OKCancel);
 
-           
-
-            var result = ofdDocument.ShowDialog();
-            if(result == DialogResult.OK)
+            if (msbResult == DialogResult.OK)
             {
-                if(!string.IsNullOrWhiteSpace(ofdDocument.FileName))
+
+
+
+                var result = ofdDocument.ShowDialog();
+                if (result == DialogResult.OK)
                 {
-                    _currentDocument = ofdDocument.FileName;
-                }
-            }
-            
-            var fullTempPath = $"{_documentPath}{TemporaryFileName}";
-            //var contract = new ContractReaderV2.Reader(_currentDocument, fullTempPath);
-            var contract = new ContractReaderV2.ReaderV2(_currentDocument, fullTempPath);
-            var fileType = new Logic.FileExtensionHandler().GetDocumentType(_currentDocument);
-            switch (fileType)
-            {
-                case Logic.FileExtensionHandler.FileType.WordDoc:
-                    //_documentLines = contract.ParseWordDocument(_keywords, _replacements);
-                    _documentLines = contract.ParseWordDocument();
-                    break;
-                case Logic.FileExtensionHandler.FileType.Pdf:
-                    //_documentLines = contract.ParsePdfDocument(_keywords, _replacements);
-                    _documentLines = contract.ParsePdfDocument();
-                    break;
-                default:
-                    MessageBox.Show($@"Error => Error occured while deriving file type{Environment.NewLine}Either file was not found or the file type was unsupported", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    _documentLines = null;
-                    break;
-            }
-            if (_documentLines == null)
-            {
-                MessageBox.Show($@"Error => Error opening document{Environment.NewLine}Please make sure the document is not already open.", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-                dataGridView1.DataSource = _documentLines;
-                dataGridView1.Columns[0].DefaultCellStyle.ForeColor = Color.Green;
-                dataGridView1.Columns[1].DefaultCellStyle.BackColor = Color.Yellow;
-                dataGridView1.Columns[1].DefaultCellStyle.ForeColor = Color.Black;
+                    if (!string.IsNullOrWhiteSpace(ofdDocument.FileName))
+                    {
+                        _currentDocument = ofdDocument.FileName;
+                    }
 
-                label2.Text = _currentDocument;
+
+                    var fullTempPath = $"{_documentPath}{TemporaryFileName}";
+                    //var contract = new ContractReaderV2.Reader(_currentDocument, fullTempPath);
+                    var contract = new ContractReaderV2.ReaderV2(_currentDocument, fullTempPath);
+                    var fileType = new Logic.FileExtensionHandler().GetDocumentType(_currentDocument);
+                    switch (fileType)
+                    {
+                        case Logic.FileExtensionHandler.FileType.WordDoc:
+                            //_documentLines = contract.ParseWordDocument(_keywords, _replacements);
+                            _documentLines = contract.ParseWordDocument();
+                            break;
+                        case Logic.FileExtensionHandler.FileType.Pdf:
+                            //_documentLines = contract.ParsePdfDocument(_keywords, _replacements);
+                            _documentLines = contract.ParsePdfDocument();
+                            break;
+                        default:
+                            MessageBox.Show($@"Error => Error occured while deriving file type{Environment.NewLine}Either file was not found or the file type was unsupported", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            _documentLines = null;
+                            break;
+                    }
+                    if (_documentLines == null)
+                    {
+                        MessageBox.Show($@"Error => Error opening document{Environment.NewLine}Please make sure the document is not already open.", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        dataGridView1.DataSource = _documentLines;
+                        dataGridView1.Columns[0].DefaultCellStyle.ForeColor = Color.Green;
+                        dataGridView1.Columns[1].DefaultCellStyle.BackColor = Color.Yellow;
+                        dataGridView1.Columns[1].DefaultCellStyle.ForeColor = Color.Black;
+
+                        label2.Text = _currentDocument;
+                    }
+                }
             }
         }
 
