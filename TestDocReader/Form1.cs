@@ -34,6 +34,10 @@ namespace TestDocReader
         }
         private void button1_Click(object sender, EventArgs e)
         {
+           //var msbResult= MessageBox.Show("Some text about headers","A Caption",MessageBoxButtons.OKCancel)
+
+           
+
             var result = ofdDocument.ShowDialog();
             if(result == DialogResult.OK)
             {
