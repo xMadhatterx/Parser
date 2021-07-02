@@ -25,16 +25,16 @@ namespace ContractReaderV2
             _lineList = new List<Contract>();
         }
 
-        public List<Contract> ParseWordDocument()
+        public List<Contract> ParseWordDocument(List<string> keywords)
         {
             var extractor = new TextExtractor(_documentPath);
             var docText = extractor.ExtractText();
             File.WriteAllText(_tempDocumentPath, docText);
-            ParseDocument();
+            ParseDocument(keywords);
             return _lineList;
         }
 
-        public List<Contract> ParsePdfDocument()
+        public List<Contract> ParsePdfDocument(List<string> keywords)
         {
             if (File.Exists(_documentPath))
             {
@@ -45,7 +45,7 @@ namespace ContractReaderV2
                 doc.close();
                 File.WriteAllText(_tempDocumentPath, strPdfText);
             }
-            ParseDocument();
+            ParseDocument(keywords);
             return _lineList;
         }
 
@@ -85,7 +85,7 @@ namespace ContractReaderV2
         //    }
         //}
 
-        public void ParseDocument()
+        public void ParseDocument(List<string> keywords)
         {
             var textList = new List<string>();
             var lineCounter = 0;
@@ -96,12 +96,12 @@ namespace ContractReaderV2
                     textList.Add(reader.ReadLine());
                     lineCounter++;
                 }
-                CycleThrough(textList, lineCounter);
+                CycleThrough(textList, lineCounter, keywords);
             }
             File.Delete(_tempDocumentPath);
         }
 
-        public void CycleThrough(List<string> lines, int lineAmount)
+        public void CycleThrough(List<string> lines, int lineAmount, List<string> keywords)
         {
             var lineCount = 0;
             while (true)
@@ -145,7 +145,14 @@ namespace ContractReaderV2
                 contract.DataType = LineType.Contractor;
                 if (!string.IsNullOrEmpty(contract.Data.Trim()))
                 {
-                    _lineList.Add(contract);
+                    foreach(string keyword in keywords)
+                    {
+                        if (contract.Data.Contains(keyword))
+                        {
+                            _lineList.Add(contract);
+                            break;
+                        }
+                    }
                 }
                 lineCount++;
             }
