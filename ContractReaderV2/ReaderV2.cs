@@ -8,6 +8,7 @@ using org.apache.pdfbox.pdmodel;
 using org.apache.pdfbox.util;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
+
 namespace ContractReaderV2
 {
     public class ReaderV2
@@ -25,7 +26,7 @@ namespace ContractReaderV2
             _lineList = new List<Contract>();
         }
 
-        public List<Contract> ParseWordDocument(List<string> keywords)
+        public List<Contract> ParseWordDocument(List<Word> keywords)
         {
             var extractor = new TextExtractor(_documentPath);
             var docText = extractor.ExtractText();
@@ -34,7 +35,7 @@ namespace ContractReaderV2
             return _lineList;
         }
 
-        public List<Contract> ParsePdfDocument(List<string> keywords)
+        public List<Contract> ParsePdfDocument(List<Word> keywords)
         {
             if (File.Exists(_documentPath))
             {
@@ -49,43 +50,7 @@ namespace ContractReaderV2
             return _lineList;
         }
 
-        //public void ParsePage()
-        //{
-        //    using (PdfReader reader = new PdfReader(_documentPath))
-        //    {
-
-        //        List<string> page1 = new List<string>();
-        //        List<string> page2 = new List<string>();
-        //        var strText=PdfTextExtractor.GetTextFromPage(reader, 2);
-        //        strText = Encoding.UTF8.GetString(ASCIIEncoding.Convert(Encoding.Default, Encoding.UTF8, Encoding.Default.GetBytes(strText)));
-        //        string[] lines = strText.Split('\n');
-        //        foreach(var line in lines)
-        //        {
-        //            if (!string.IsNullOrWhiteSpace(line))
-        //            {
-        //                page1.Add(line);
-        //            }
-        //        }
-        //        var headerPage1 = page1[0];
-        //        var footerPage1 = page1[page1.Count()-1];
-
-        //        var strText2 = PdfTextExtractor.GetTextFromPage(reader, 5);
-        //        strText2 = Encoding.UTF8.GetString(ASCIIEncoding.Convert(Encoding.Default, Encoding.UTF8, Encoding.Default.GetBytes(strText2)));
-        //        string[] lines2 = strText2.Split('\n');
-        //        foreach (var line in lines2)
-        //        {
-        //            if (!string.IsNullOrWhiteSpace(line))
-        //            {
-        //                page2.Add(line);
-        //            }
-        //        }
-        //        var headerPage2 = page2[0];
-        //        var footerPage2 = page2[page2.Count()-1];
-
-        //    }
-        //}
-
-        public void ParseDocument(List<string> keywords)
+        public void ParseDocument(List<Word> keywords)
         {
             var textList = new List<string>();
             var lineCounter = 0;
@@ -101,7 +66,7 @@ namespace ContractReaderV2
             File.Delete(_tempDocumentPath);
         }
 
-        public void CycleThrough(List<string> lines, int lineAmount, List<string> keywords)
+        public void CycleThrough(List<string> lines, int lineAmount, List<Word> keywords)
         {
             var lineCount = 0;
             while (true)
@@ -145,10 +110,13 @@ namespace ContractReaderV2
                 contract.DataType = LineType.Contractor;
                 if (!string.IsNullOrEmpty(contract.Data.Trim()))
                 {
-                    foreach(string keyword in keywords)
+                    foreach(Word keyword in keywords)
                     {
-                        if (contract.Data.Contains(keyword))
+                        //Check for keyword
+                        if (contract.Data.Contains(keyword.Keyword))
                         {
+                            //Replace keywords with replacement words
+                            contract.Data = contract.Data.Replace(keyword.Keyword, keyword.Replacement);
                             _lineList.Add(contract);
                             break;
                         }

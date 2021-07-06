@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TestDocReader.Concrete;
+using ContractReaderV2.Concrete;
 using Newtonsoft.Json;
 namespace TestDocReader.Logic
 {

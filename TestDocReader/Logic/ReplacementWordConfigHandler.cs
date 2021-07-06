@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using TestDocReader.Concrete;
+using ContractReaderV2.Concrete;
 
 namespace TestDocReader.Logic
 {

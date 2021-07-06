@@ -131,6 +131,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Concrete\Contract.cs" />
+    <Compile Include="Concrete\Keyword.cs" />
+    <Compile Include="Concrete\KeywordDictionary.cs" />
+    <Compile Include="Concrete\ReplacementDictionary.cs" />
     <Compile Include="Reader.cs" />
     <Compile Include="Concrete\Enum\GlobalEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

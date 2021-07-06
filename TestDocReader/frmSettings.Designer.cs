@@ -124,7 +124,7 @@
             // 
             // wordBindingSource
             // 
-            this.wordBindingSource.DataSource = typeof(TestDocReader.Concrete.Word);
+            this.wordBindingSource.DataSource = typeof(ContractReaderV2.Concrete.Word);
             // 
             // frmSettings
             // 

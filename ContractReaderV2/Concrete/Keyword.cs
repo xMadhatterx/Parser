@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestDocReader.Concrete
+namespace ContractReaderV2.Concrete
 {
     public class Root
     {
@@ -16,6 +16,4 @@ namespace TestDocReader.Concrete
         public string Replacement { get; set; }
         public bool Split { get; set; }
     }
-
-    
 }

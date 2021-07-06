@@ -60,9 +60,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Concrete\KeywordDictionary.cs" />
-    <Compile Include="Concrete\KeywordV2.cs" />
-    <Compile Include="Concrete\ReplacementDictionary.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

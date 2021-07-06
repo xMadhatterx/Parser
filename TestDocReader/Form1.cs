@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using ContractReaderV2.Concrete;
+
 namespace TestDocReader
 {
     public partial class Form1 : Form
@@ -11,8 +13,8 @@ namespace TestDocReader
         private const string TemporaryFileName = "Temp_Output.txt";
         private readonly string _outputDocumentPath = $"{System.Configuration.ConfigurationManager.AppSettings.Get("OutputDocumentPath")}output.html";
         private string _currentDocument;
-        private List<ContractReaderV2.Concrete.Contract> _documentLines;
-        private List<string> _keywords;
+        private List<Contract> _documentLines;
+        private List<Word> _keywords;
         //private List<string> _replacements;
 
         public const int WM_NCLBUTTONDOWN = 0xA1;
@@ -26,15 +28,12 @@ namespace TestDocReader
         public Form1()
         {
             InitializeComponent();
-            _documentLines = new List<ContractReaderV2.Concrete.Contract>();
-            _keywords = new List<string>();
-            //_replacements = new List<string>();
+            _documentLines = new List<Contract>();
+            _keywords = new List<Word>();
             LoadKeywords();
-            //LoadReplacements();
         }
         private void button1_Click(object sender, EventArgs e)
         {
-           //var msbResult= MessageBox.Show("Some text about headers","A Caption",MessageBoxButtons.OKCancel)
             var result = ofdDocument.ShowDialog();
             if(result == DialogResult.OK)
             {
@@ -45,17 +44,14 @@ namespace TestDocReader
             }
             
             var fullTempPath = $"{_documentPath}{TemporaryFileName}";
-            //var contract = new ContractReaderV2.Reader(_currentDocument, fullTempPath);
             var contract = new ContractReaderV2.ReaderV2(_currentDocument, fullTempPath);
             var fileType = new Logic.FileExtensionHandler().GetDocumentType(_currentDocument);
             switch (fileType)
             {
                 case Logic.FileExtensionHandler.FileType.WordDoc:
-                    //_documentLines = contract.ParseWordDocument(_keywords, _replacements);
                     _documentLines = contract.ParseWordDocument(_keywords);
                     break;
                 case Logic.FileExtensionHandler.FileType.Pdf:
-                    //_documentLines = contract.ParsePdfDocument(_keywords, _replacements);
                     _documentLines = contract.ParsePdfDocument(_keywords);
                     break;
                 default:
@@ -104,22 +100,10 @@ namespace TestDocReader
             frm.ShowDialog();
         }
 
-
-
-        private void ModifyKeywordList()
-        {
-            new Logic.KeywordConfigHandler().Add(_keywords);
-        }
-
         private void LoadKeywords()
         {
-            _keywords = new Logic.KeywordConfigHandler().Import().Keywords;
+            _keywords = new Logic.KeywordConfigHandler().ImportV2().Keywords;
         }
-
-        //private void LoadReplacements()
-        //{
-        //_replacements = new Logic.ReplacementWordConfigHandler().Import().ReplaceWords;
-        //}
 
         private void Form1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
