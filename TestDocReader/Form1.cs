@@ -38,9 +38,6 @@ namespace TestDocReader
 
             if (msbResult == DialogResult.OK)
             {
-
-
-
                 var result = ofdDocument.ShowDialog();
                 if (result == DialogResult.OK)
                 {
@@ -49,19 +46,15 @@ namespace TestDocReader
                         _currentDocument = ofdDocument.FileName;
                     }
 
-
                     var fullTempPath = $"{_documentPath}{TemporaryFileName}";
-                    //var contract = new ContractReaderV2.Reader(_currentDocument, fullTempPath);
                     var contract = new ContractReaderV2.ReaderV2(_currentDocument, fullTempPath);
                     var fileType = new Logic.FileExtensionHandler().GetDocumentType(_currentDocument);
                     switch (fileType)
                     {
                         case Logic.FileExtensionHandler.FileType.WordDoc:
-                            //_documentLines = contract.ParseWordDocument(_keywords, _replacements);
                             _documentLines = contract.ParseWordDocument(_keywords);
                             break;
                         case Logic.FileExtensionHandler.FileType.Pdf:
-                            //_documentLines = contract.ParsePdfDocument(_keywords, _replacements);
                             _documentLines = contract.ParsePdfDocument(_keywords);
                             break;
                         default:
@@ -129,9 +122,7 @@ namespace TestDocReader
         private void btnCloseFrm_Click(object sender, EventArgs e)
         {
             this.Close();
-            
         }
-
 
         #region Menu MouseOver
         private void btnMinimize_Click(object sender, EventArgs e)
