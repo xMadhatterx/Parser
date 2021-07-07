@@ -15,7 +15,6 @@ namespace TestDocReader
         private string _currentDocument;
         private List<Contract> _documentLines;
         private List<Word> _keywords;
-        //private List<string> _replacements;
 
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
