@@ -115,13 +115,6 @@ namespace ContractReaderV2
                         //Check for keyword
                         if (contract.Data.ToLower().Contains(keyword.Keyword.ToLower()))
                         {
-                            //Remove text leading up to the keyword
-                            var i = contract.Data.ToLower().IndexOf(keyword.Keyword.ToLower());
-                            if (i > 0)
-                            {
-                                contract.Data = contract.Data.Remove(0, i);
-                            }
-
                             //Replace keywords with replacement words
                             contract.Data = contract.Data.Replace(keyword.Keyword, keyword.Replacement);
 
