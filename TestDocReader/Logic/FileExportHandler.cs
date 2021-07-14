@@ -12,7 +12,7 @@ namespace TestDocReader.Logic
             {
                 var htmlString = new StringBuilder();
                 htmlString.Append("<html><head>");
-                htmlString.Append("<style>table{border-collapse:collapse;}tr{border-bottom-color:darkturquoise;border-bottom-style:solid;border-bottom-width:3pt;" +
+                htmlString.Append("<style>table{border-collapse:collapse;}td{border-right-color:black;border-right-style:solid;border-bottom-width:1.5pt;}tr{border-bottom-color:black;border-bottom-style:solid;border-bottom-width:1.5pt;" +
                     "height:40px;background-color:white;color:black;}th{ text-align:left; background-color:darkturquoise; color:black;font-weight:bold;" +
                     " height: 40px; padding-left:5px}td{ padding-left:5px; }</style> ");
                 htmlString.Append("<body>");
