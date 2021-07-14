@@ -101,6 +101,7 @@
             this.dgvKeywords.Name = "dgvKeywords";
             this.dgvKeywords.Size = new System.Drawing.Size(776, 221);
             this.dgvKeywords.TabIndex = 15;
+            this.dgvKeywords.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvKeywords_CellContentClick);
             // 
             // btnAddRow
             // 

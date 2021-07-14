@@ -49,7 +49,7 @@ namespace TestDocReader
             //lstKeyword.Items.Clear();
             //_keywords = new Logic.KeywordConfigHandler().Import().Keywords;
             _keywordsV2 = new Logic.KeywordConfigHandler().ImportV2().Keywords;
-            dgvKeywords.DataSource = _keywordsV2;
+            BuildGrid();
             //foreach (var keyword in _keywords)
             //{
             //    lstKeyword.Items.Add(keyword);
@@ -82,8 +82,9 @@ namespace TestDocReader
         private void button1_Click(object sender, EventArgs e)
         {
             _keywordsV2.Add(new Word() { Keyword = string.Empty, Replacement = string.Empty });
-            dgvKeywords.DataSource = null;
-            dgvKeywords.DataSource = _keywordsV2;
+            BuildGrid();
+            //dgvKeywords.DataSource = null;
+            //dgvKeywords.DataSource = _keywordsV2;
             //dgvKeywords.Rows.Add();
         }
 
@@ -93,6 +94,38 @@ namespace TestDocReader
             r.Keywords = new List<Word>();
             r.Keywords.AddRange(_keywordsV2);
             new TestDocReader.Logic.KeywordConfigHandler().ExportV2(r);
+        }
+
+
+        private void BuildGrid()
+        {
+            dgvKeywords.DataSource = null;
+            dgvKeywords.DataSource = _keywordsV2;
+            var i = dgvKeywords.ColumnCount;
+            if (i < 4)
+            {
+                var col = new DataGridViewButtonColumn();
+                col.UseColumnTextForButtonValue = true;
+                col.Text = "X";
+                col.HeaderText = "Delete";
+                col.FlatStyle = FlatStyle.Popup;
+                
+                //col.DefaultCellStyle.ForeColor = Color.Red;
+                
+                col.Name = "btnDeleteRow";
+                dgvKeywords.Columns.Add(col);
+            }
+            dgvKeywords.Columns["btnDeleteRow"].DisplayIndex = 3;
+        }
+
+        private void dgvKeywords_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var grid = (DataGridView)sender;
+            if (grid.Columns[e.ColumnIndex] is DataGridViewButtonColumn &&e.RowIndex >= 0)
+            {
+                _keywordsV2.RemoveAt(e.RowIndex);
+                BuildGrid();
+            }
         }
     }
 }
