@@ -94,6 +94,7 @@ namespace TestDocReader
             r.Keywords = new List<Word>();
             r.Keywords.AddRange(_keywordsV2);
             new TestDocReader.Logic.KeywordConfigHandler().ExportV2(r);
+            this.Close();
         }
 
 

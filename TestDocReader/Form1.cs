@@ -33,7 +33,14 @@ namespace TestDocReader
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            var msbResult = MessageBox.Show("Some text about headers", "A Caption", MessageBoxButtons.OKCancel);
+            var strBuilder = new System.Text.StringBuilder();
+            //strBuilder.Append("Please remove all document headers and footers \r \r");
+            strBuilder.Append("Removing PDF headers and footers \r");
+            strBuilder.Append("\t1.Open the edit navigation bar \r");
+            strBuilder.Append("\t2.Click on 'Pull-Down' and select 'Remove'\r");
+            strBuilder.Append("\t3.Click 'Yes' when prompted, then SAVE document\r");
+            strBuilder.Append("\t4.Import your PDF document with headers and footers removed\r");
+            var msbResult = MessageBox.Show(strBuilder.ToString(), "Please remove all document headers and footers", MessageBoxButtons.OKCancel);
 
             if (msbResult == DialogResult.OK)
             {

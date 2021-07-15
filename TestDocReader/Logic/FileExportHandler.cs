@@ -12,9 +12,12 @@ namespace TestDocReader.Logic
             {
                 var htmlString = new StringBuilder();
                 htmlString.Append("<html><head>");
-                htmlString.Append("<style>table{border-collapse:collapse;}td{border-right-color:black;border-right-style:solid;border-bottom-width:1.5pt;}tr{border-bottom-color:black;border-bottom-style:solid;border-bottom-width:1.5pt;" +
-                    "height:40px;background-color:white;color:black;}th{ text-align:left; background-color:darkturquoise; color:black;font-weight:bold;" +
-                    " height: 40px; padding-left:5px}td{ padding-left:5px; }</style> ");
+                //htmlString.Append("<style>table{border-collapse:collapse;}th{border-right-color:black;border-right-style:solid;border-bottom-width:1.5pt;}td{border-right-color:black;border-right-style:solid;border-bottom-width:1.5pt;}tr{border-bottom-color:black;border-bottom-style:solid;border-bottom-width:1.5pt;" +
+                //    "height:40px;background-color:white;color:black;}th{ text-align:left; background-color:White; color:black;font-weight:bold;" +
+                //    " height: 40px; padding-left:5px}td{ padding-left:5px; }</style> ");
+                htmlString.Append("<style>table{border-collapse:collapse;}th{border-color:black;border-style:solid;border-width:1.5pt;}td{border-color:black;border-style:solid;border-width:1.5pt;}tr{" +
+                                "height:40px;background-color:white;color:black;}th{ text-align:center; background-color:White; color:black;font-weight:bold;" +
+                                " height: 40px; padding-left:5px}td{ padding-left:5px; }</style> ");
                 htmlString.Append("<body>");
                 htmlString.Append("<table style='width:100%'><tr><th>Document Section</th><th>Line Type</th><th>Line</th><th>Y/N</th><th>If yes, provide descriminator/past performance</th></tr>");
                 foreach (var line in lines)
