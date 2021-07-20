@@ -69,6 +69,10 @@ namespace ContractReaderV2
         public void CycleThrough(List<string> lines, int lineAmount, List<Word> keywords)
         {
             var lineCount = 0;
+            var contract = new Contract();
+            bool keyWordHit = false;
+            bool sameSection = false;
+
             while (true)
             {
                 if (lineCount >= lineAmount) return;
@@ -88,24 +92,59 @@ namespace ContractReaderV2
 
                 //Grab the section number if this line contains one
                 var section = GetDocumentSection(lineData);
+                
 
                 //Set current section if we were able to find one.
                 if (!string.IsNullOrWhiteSpace(section))
                 {
-                    _lastSectionId = section;
+                    if (section == _lastSectionId)
+                    {
+                        //We are in the same section
+                        sameSection = true;
+                    } 
+                    else
+                    {
+                        if(contract.Data != "" && keyWordHit)
+                        {
+                            _lineList.Add(contract);
+                            contract = new Contract();
+                            keyWordHit = false;
+                        }
+                        _lastSectionId = section;
+                        sameSection = false;
+                    }
+                } else
+                {
+                    if (!string.IsNullOrEmpty(_lastSectionId))
+                    {
+                        section = _lastSectionId;
+                        sameSection = false;
+                        if (contract.Data != "" && keyWordHit)
+                        {
+                            _lineList.Add(contract);
+                            contract = new Contract();
+                            keyWordHit = false;
+                        }
+                        _lastSectionId = section;
+                        sameSection = false;
+                    }
                 }
 
                 //Remove Section from current line
-                if (!string.IsNullOrEmpty(section))
+                if (!string.IsNullOrEmpty(section) && !string.IsNullOrEmpty(lineData) && lineData.Contains(section))
                 {
                     lineData = lineData.Remove(0, section.Length + 1);
                 }
 
-                var contract = new Contract();
-                var newSentence = string.Empty;
-
-                contract.Data = !string.IsNullOrEmpty(newSentence) ? newSentence : lineData;
-
+                if(sameSection)
+                {
+                    contract.Data = contract.Data + lineData;
+                } else
+                {
+                    var newSentence = string.Empty;
+                    contract.Data = !string.IsNullOrEmpty(newSentence) ? newSentence : lineData;
+                }
+                
                 contract.DocumentSection = _lastSectionId;
                 contract.DataType = LineType.Contractor;
                 if (!string.IsNullOrEmpty(contract.Data.Trim()))
@@ -117,9 +156,7 @@ namespace ContractReaderV2
                         {
                             //Replace keywords with replacement words
                             contract.Data = contract.Data.Replace(keyword.Keyword, keyword.Replacement);
-
-                            //Add to linelist and break
-                            _lineList.Add(contract);
+                            keyWordHit = true;
                             break;
                         }
                     }
