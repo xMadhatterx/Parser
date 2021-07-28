@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using ContractReaderV2.Concrete;
+using Portable.Licensing;
 
 namespace TestDocReader
 {
@@ -27,10 +28,17 @@ namespace TestDocReader
         public Form1()
         {
             InitializeComponent();
+            //CheckLicense();
             _documentLines = new List<Contract>();
             _keywords = new List<Word>();
             LoadKeywords();
         }
+
+        private void CheckLicense()
+        {
+            //var license = License.Load();
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             var strBuilder = new System.Text.StringBuilder();
