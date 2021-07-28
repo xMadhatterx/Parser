@@ -95,7 +95,7 @@ namespace ContractReaderV2
                 
 
                 //Set current section if we were able to find one.
-                if (!string.IsNullOrWhiteSpace(section))
+                if (!string.IsNullOrWhiteSpace(section.Trim()))
                 {
                     if (section == _lastSectionId)
                     {
@@ -118,6 +118,9 @@ namespace ContractReaderV2
                     if (!string.IsNullOrEmpty(_lastSectionId))
                     {
                         section = _lastSectionId;
+                        sameSection = true;
+                    } else
+                    {
                         sameSection = false;
                         if (contract.Data != "" && keyWordHit)
                         {
@@ -125,8 +128,6 @@ namespace ContractReaderV2
                             contract = new Contract();
                             keyWordHit = false;
                         }
-                        _lastSectionId = section;
-                        sameSection = false;
                     }
                 }
 
@@ -155,7 +156,10 @@ namespace ContractReaderV2
                         if (contract.Data.ToLower().Contains(keyword.Keyword.ToLower()))
                         {
                             //Replace keywords with replacement words
-                            contract.Data = contract.Data.Replace(keyword.Keyword, keyword.Replacement);
+                            if (keyword.Replacement != "")
+                            {
+                                contract.Data = contract.Data.Replace(keyword.Keyword, keyword.Replacement);
+                            }
                             keyWordHit = true;
                             break;
                         }
