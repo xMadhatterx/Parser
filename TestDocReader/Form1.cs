@@ -41,14 +41,20 @@ namespace TestDocReader
 
         private void button1_Click(object sender, EventArgs e)
         {
+            
             var strBuilder = new System.Text.StringBuilder();
             //strBuilder.Append("Please remove all document headers and footers \r \r");
-            strBuilder.Append("Removing PDF headers and footers \r");
-            strBuilder.Append("\t1.Open the edit navigation bar \r");
-            strBuilder.Append("\t2.Click on 'Pull-Down' and select 'Remove'\r");
-            strBuilder.Append("\t3.Click 'Yes' when prompted, then SAVE document\r");
-            strBuilder.Append("\t4.Import your PDF document with headers and footers removed\r");
-            var msbResult = MessageBox.Show(strBuilder.ToString(), "Please remove all document headers and footers", MessageBoxButtons.OKCancel);
+            //strBuilder.Append("Removing PDF headers and footers \r");
+            //strBuilder.Append("\t1.Open the edit navigation bar \r");
+            //strBuilder.Append("\t2.Click on 'Pull-Down' and select 'Remove'\r");
+            //strBuilder.Append("\t3.Click 'Yes' when prompted, then SAVE document\r");
+            //strBuilder.Append("\t4.Import your PDF document with headers and footers removed\r");
+            //strBuilder.Append("For help with removing headers and footers with Microsoft Word please see: \r");
+            //strBuilder.Append("https://support.microsoft.com/en-us/office/remove-all-headers-and-footers-953e158d-425d-47b0-bf56-b02cb34772aa \r");
+            //strBuilder.Append("For help with removing headers and footers with Adobe please see (half way down the page): \r");
+            //strBuilder.Append("https://helpx.adobe.com/acrobat/using/add-headers-footers-pdfs.html");
+            //var msbResult = MessageBox.Show(strBuilder.ToString(), "Please remove all document headers and footers", MessageBoxButtons.OKCancel);
+            var msbResult = new frmMessageBox().ShowDialog();
 
             if (msbResult == DialogResult.OK)
             {
