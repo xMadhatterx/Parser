@@ -25,8 +25,16 @@ namespace TestDocReader.Logic
 
         public Root ImportV2()
         {
-            var jsonText = System.IO.File.ReadAllText("./Configs/KeywordsV2.json");
-            var keywords = JsonConvert.DeserializeObject<Root>(jsonText);
+            var keywords = new Root();
+            if (System.IO.File.Exists("./Configs/KeywordsV2.json"))
+            {
+                var jsonText = System.IO.File.ReadAllText("./Configs/KeywordsV2.json");
+                keywords = JsonConvert.DeserializeObject<Root>(jsonText);
+            }
+            else
+            {
+                throw new System.Exception("Can not find Keyword file");
+            }
             return keywords;
 
         }
