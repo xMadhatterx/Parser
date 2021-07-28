@@ -53,7 +53,7 @@ Source: "E:\code\Windows Apps\Parser\TestDocReader\bin\Debug\Newtonsoft.Json.xml
 Source: "E:\code\Windows Apps\Parser\TestDocReader\bin\Debug\SimTrixx.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "E:\code\Windows Apps\Parser\TestDocReader\bin\Debug\SimTrixx.exe.config"; DestDir: "{app}"; Flags: ignoreversion
 Source: "E:\code\Windows Apps\Parser\TestDocReader\bin\Debug\SimTrixx.pdb"; DestDir: "{app}"; Flags: ignoreversion
-Source: "E:\code\Windows Apps\Parser\packages\NDP461-KB3102436-x86-x64-AllOS-ENU.exe"; DestDir: {tmp}; Flags: deleteafterinstall; AfterInstall: InstallFramework; Check: FrameworkIsNotInstalled
+Source: "E:\code\Windows Apps\Parser\TestDocReader\NDP461-KB3102436-x86-x64-AllOS-ENU.exe"; DestDir: {tmp}; Flags: deleteafterinstall; AfterInstall: InstallFramework; Check: FrameworkIsNotInstalled
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Registry]
