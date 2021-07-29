@@ -5,14 +5,15 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using ContractReaderV2.Concrete;
 using Portable.Licensing;
-
+using System.IO;
 namespace TestDocReader
 {
     public partial class Form1 : Form
     {
-        private readonly string _documentPath = System.Configuration.ConfigurationManager.AppSettings.Get("DocumentPath");
-        private const string TemporaryFileName = "Temp_Output.txt";
-        private readonly string _outputDocumentPath = $"{System.Configuration.ConfigurationManager.AppSettings.Get("OutputDocumentPath")}output.html";
+        //private readonly string _documentPath = System.Configuration.ConfigurationManager.AppSettings.Get("DocumentPath");
+        private string tempfile = Path.GetTempFileName();
+        //private const string TemporaryFileName = "Temp_Output.txt";
+        //private readonly string _outputDocumentPath = $"{System.Configuration.ConfigurationManager.AppSettings.Get("OutputDocumentPath")}output.html";
         private string _currentDocument;
         private List<Contract> _documentLines;
         private List<Word> _keywords;
@@ -66,8 +67,9 @@ namespace TestDocReader
                         _currentDocument = ofdDocument.FileName;
                     }
 
-                    var fullTempPath = $"{_documentPath}{TemporaryFileName}";
-                    var contract = new ContractReaderV2.ReaderV2(_currentDocument, fullTempPath);
+                    //var fullTempPath = $"{_documentPath}{TemporaryFileName}";
+                    //var fullTempPath = $@"C:\temp\{TemporaryFileName}";
+                    var contract = new ContractReaderV2.ReaderV2(_currentDocument, tempfile);
                     var fileType = new Logic.FileExtensionHandler().GetDocumentType(_currentDocument);
                     switch (fileType)
                     {
@@ -105,8 +107,15 @@ namespace TestDocReader
             {
                 try
                 {
-                    new Logic.FileExportHandler().LinesToDoc(_documentLines,_outputDocumentPath);
-                    MessageBox.Show($@"Export complete {Environment.NewLine} File saved to {_outputDocumentPath}");
+                    var doc =new Logic.FileExportHandler().LinesToDoc(_documentLines);
+                    SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                    saveFileDialog1.InitialDirectory = @"C:\";
+                    if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                    {
+                        var t = saveFileDialog1.FileName;
+                        System.IO.File.AppendAllText(saveFileDialog1.FileName, doc);
+                    }
+                    MessageBox.Show($@"Export complete {Environment.NewLine} File saved to {saveFileDialog1.FileName}");
                 }
                 catch(Exception ex)
                 {

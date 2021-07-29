@@ -7,7 +7,7 @@ namespace TestDocReader.Logic
    public class FileExportHandler
     {
         private List<Word> _keywordsV2;
-        public void LinesToDoc(List<ContractReaderV2.Concrete.Contract> lines,string outputDocumentPath)
+        public string LinesToDoc(List<ContractReaderV2.Concrete.Contract> lines)
         {
             try
             {
@@ -44,11 +44,12 @@ namespace TestDocReader.Logic
 
                 }
                 htmlString.Append("</table></body></head></html>");
-                if (System.IO.File.Exists(outputDocumentPath))
-                {
-                    System.IO.File.Delete(outputDocumentPath);
-                }
-                System.IO.File.AppendAllText(outputDocumentPath, htmlString.ToString());
+                return htmlString.ToString();
+                //if (System.IO.File.Exists(outputDocumentPath))
+                //{
+                //    System.IO.File.Delete(outputDocumentPath);
+                //}
+                //System.IO.File.AppendAllText(outputDocumentPath, htmlString.ToString());
                
             }
             catch (Exception ex)
