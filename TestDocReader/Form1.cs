@@ -109,13 +109,18 @@ namespace TestDocReader
                 {
                     var doc =new Logic.FileExportHandler().LinesToDoc(_documentLines);
                     SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-                    saveFileDialog1.InitialDirectory = @"C:\";
+                    saveFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                     if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                     {
                         var t = saveFileDialog1.FileName;
                         System.IO.File.AppendAllText(saveFileDialog1.FileName, doc);
+                        MessageBox.Show($@"Export complete {Environment.NewLine} File saved to {saveFileDialog1.FileName}");
                     }
-                    MessageBox.Show($@"Export complete {Environment.NewLine} File saved to {saveFileDialog1.FileName}");
+                    else
+                    {
+                        MessageBox.Show($@"Export operation has been canceled");
+                    }
+                    
                 }
                 catch(Exception ex)
                 {

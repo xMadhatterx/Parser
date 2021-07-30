@@ -42,17 +42,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 Source: "E:\code\Windows Apps\Parser\TestDocReader\bin\Debug\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "E:\code\Windows Apps\Parser\TestDocReader\bin\Debug\Configs\*"; DestDir: "{app}\Configs"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "E:\code\Windows Apps\Parser\TestDocReader\bin\Debug\BouncyCastle.Crypto.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "E:\code\Windows Apps\Parser\TestDocReader\bin\Debug\Code7248.word_reader.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "E:\code\Windows Apps\Parser\TestDocReader\bin\Debug\ContractReaderV2.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "E:\code\Windows Apps\Parser\TestDocReader\bin\Debug\ContractReaderV2.pdb"; DestDir: "{app}"; Flags: ignoreversion
-Source: "E:\code\Windows Apps\Parser\TestDocReader\bin\Debug\itextsharp.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "E:\code\Windows Apps\Parser\TestDocReader\bin\Debug\itextsharp.xml"; DestDir: "{app}"; Flags: ignoreversion
-Source: "E:\code\Windows Apps\Parser\TestDocReader\bin\Debug\Newtonsoft.Json.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "E:\code\Windows Apps\Parser\TestDocReader\bin\Debug\Newtonsoft.Json.xml"; DestDir: "{app}"; Flags: ignoreversion
-Source: "E:\code\Windows Apps\Parser\TestDocReader\bin\Debug\SimTrixx.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "E:\code\Windows Apps\Parser\TestDocReader\bin\Debug\SimTrixx.exe.config"; DestDir: "{app}"; Flags: ignoreversion
-Source: "E:\code\Windows Apps\Parser\TestDocReader\bin\Debug\SimTrixx.pdb"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\code\Windows Apps\Parser\TestDocReader\bin\Debug\*"; DestDir: "{app}"; Flags: ignoreversion
 Source: "E:\code\Windows Apps\Parser\TestDocReader\NDP461-KB3102436-x86-x64-AllOS-ENU.exe"; DestDir: {tmp}; Flags: deleteafterinstall; AfterInstall: InstallFramework; Check: FrameworkIsNotInstalled
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 

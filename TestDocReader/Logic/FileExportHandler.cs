@@ -21,7 +21,7 @@ namespace TestDocReader.Logic
                                 "height:40px;background-color:white;color:black;}th{ text-align:center; background-color:White; color:black;font-weight:bold;" +
                                 " height: 40px; padding-left:5px}td{ padding-left:5px; }</style> ");
                 htmlString.Append("<body>");
-                htmlString.Append("<table style='width:100%'><tr><th>Document Section</th><th>Line</th><th>Y/N</th><th>If yes, provide descriminator/past performance</th></tr>");
+                htmlString.Append("<table style='width:100%'><tr><th>Document Section</th><th>Line</th><th>Y/N</th><th>If yes, provide discriminator/past performance</th></tr>");
                 foreach (var line in lines)
                 {
                     var section = string.IsNullOrWhiteSpace(line.DocumentSection) ? "Empty" : line.DocumentSection;
@@ -37,7 +37,7 @@ namespace TestDocReader.Logic
                             lineContent = lineContent.ToLower().Replace(keyword.Keyword.ToLower(), $"<span style = 'background-color: #FFFF00'>{keyword.Keyword.ToLower()}</span>");
                         }
                     }
-                    htmlString.Append($"<td style='width:60%'>{lineContent}</td>");
+                    htmlString.Append($"<td style='width:70%'>{lineContent}</td>");
                     htmlString.Append($"<td style='width:5%'></td>");//Y/N column
                     htmlString.Append($"<td style='width:15%'></td>");//if yes column
                     htmlString.Append("</tr>");
