@@ -6,6 +6,8 @@ using System.Windows.Forms;
 using ContractReaderV2.Concrete;
 using Portable.Licensing;
 using System.IO;
+using AutoUpdaterDotNET;
+
 namespace TestDocReader
 {
     public partial class Form1 : Form
@@ -30,6 +32,7 @@ namespace TestDocReader
         {
             InitializeComponent();
             //CheckLicense();
+            CheckUpdate();
             _documentLines = new List<Contract>();
             _keywords = new List<Word>();
             LoadKeywords();
@@ -38,6 +41,11 @@ namespace TestDocReader
         private void CheckLicense()
         {
             //var license = License.Load();
+        }
+
+        private void CheckUpdate()
+        {
+            AutoUpdater.Start("https://simtrixx.blob.core.windows.net/install/Update.xml");
         }
 
         private void button1_Click(object sender, EventArgs e)
