@@ -37,7 +37,7 @@ namespace TestDocReader.Logic
                             lineContent = lineContent.ToLower().Replace(keyword.Keyword.ToLower(), $"<span style = 'background-color: #FFFF00'>{keyword.Keyword.ToLower()}</span>");
                         }
                     }
-                    htmlString.Append($"<td style='width:60%'>{lineContent}</td>");
+                    htmlString.Append($"<td style='width:70%'>{lineContent}</td>");
                     htmlString.Append($"<td style='width:5%'></td>");//Y/N column
                     htmlString.Append($"<td style='width:15%'></td>");//if yes column
                     htmlString.Append("</tr>");
