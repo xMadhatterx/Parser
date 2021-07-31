@@ -5,8 +5,10 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using ContractReaderV2.Concrete;
 using Portable.Licensing;
+using Portable.Licensing.Validation;
 using System.IO;
 using AutoUpdaterDotNET;
+using Portable.Licensing.Security.Cryptography;
 
 namespace TestDocReader
 {
@@ -37,10 +39,18 @@ namespace TestDocReader
             _keywords = new List<Word>();
             LoadKeywords();
         }
-
         private void CheckLicense()
         {
-            //var license = License.Load();
+            var keyGenerator = Portable.Licensing.Security.Cryptography.KeyGenerator.Create();
+            var keyPair = keyGenerator.GenerateKeyPair();
+            var publicKey = keyPair.ToPublicKeyString();
+            var license = License.Load(@"E:\code\Windows Apps\Parser\TestDocReader\bin\Debug\License.lic");
+            var validationFailures = license.Validate().ExpirationDate().And().Signature(publicKey).AssertValidLicense();
+
+            foreach(var failure in  validationFailures)
+            {
+                MessageBox.Show(failure.GetType().Name + ": " + failure.Message + " - " + failure.HowToResolve);
+            }
         }
 
         private void CheckUpdate()

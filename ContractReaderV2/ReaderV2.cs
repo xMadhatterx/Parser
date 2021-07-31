@@ -102,7 +102,7 @@ namespace ContractReaderV2
                                             _lineList2.Add(newContract);
                                         }
                                     }
-                                    if (sentence.ToLower().Contains(word.Keyword.ToLower()))
+                                    else if (sentence.ToLower().Contains(word.Keyword.ToLower()))
                                     {
                                         sentenceHit = true;
                                         //If this sentence has a keyword create a new contract and add it to our new list
