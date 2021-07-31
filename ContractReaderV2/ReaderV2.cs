@@ -90,31 +90,35 @@ namespace ContractReaderV2
                                 //Split data into sentences
                                 string[] sentences = Regex.Split(contract.Data, @"(?<=[\.!\?])\s+");
                                 bool sentenceHit = false;
+                                Contract newContract = new Contract();
+                                newContract.DocumentSection = contract.DocumentSection;
+
                                 foreach (var sentence in sentences)
                                 {
-                                    if(sentenceHit)
+                                    if (!string.IsNullOrEmpty(sentence.Trim()))
                                     {
-                                        if (sentence != "" && sentence.Length >= 3)
+                                        if(sentence.ToLower().Contains(word.Keyword.ToLower()))
                                         {
-                                            Contract newContract = new Contract();
-                                            newContract.Data = sentence;
-                                            newContract.DocumentSection = contract.DocumentSection;
-                                            _lineList2.Add(newContract);
+                                            //new section begins, close old one and start new
+                                            sentenceHit = true;
+                                            if(!string.IsNullOrEmpty(newContract.Data)) {
+                                                _lineList2.Add(newContract);
+                                                newContract = new Contract();
+                                                newContract.Data = sentence;
+                                                newContract.DocumentSection = contract.DocumentSection;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            //add to previous section
+                                            sentenceHit = false;
+                                            newContract.Data += sentence;
                                         }
                                     }
-                                    else if (sentence.ToLower().Contains(word.Keyword.ToLower()))
-                                    {
-                                        sentenceHit = true;
-                                        //If this sentence has a keyword create a new contract and add it to our new list
-                                        Contract newContract = new Contract();
-                                        newContract.Data = sentence;
-                                        newContract.DocumentSection = contract.DocumentSection;
-                                        _lineList2.Add(newContract);
-                                    }
-                                } 
+                                }                              
                             }
                             else 
-                            { 
+                            {
                                 //No splitting? Lets just add it to the new list.
                                 _lineList2.Add(contract);
                                 break;
