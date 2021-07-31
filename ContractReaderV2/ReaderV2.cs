@@ -89,10 +89,22 @@ namespace ContractReaderV2
                             {
                                 //Split data into sentences
                                 string[] sentences = Regex.Split(contract.Data, @"(?<=[\.!\?])\s+");
+                                bool sentenceHit = false;
                                 foreach (var sentence in sentences)
                                 {
+                                    if(sentenceHit)
+                                    {
+                                        if (sentence != "" && sentence.Length >= 3)
+                                        {
+                                            Contract newContract = new Contract();
+                                            newContract.Data = sentence;
+                                            newContract.DocumentSection = contract.DocumentSection;
+                                            _lineList2.Add(newContract);
+                                        }
+                                    }
                                     if (sentence.ToLower().Contains(word.Keyword.ToLower()))
                                     {
+                                        sentenceHit = true;
                                         //If this sentence has a keyword create a new contract and add it to our new list
                                         Contract newContract = new Contract();
                                         newContract.Data = sentence;
