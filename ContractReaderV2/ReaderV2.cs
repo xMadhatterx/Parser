@@ -89,7 +89,6 @@ namespace ContractReaderV2
                             {
                                 //Split data into sentences
                                 string[] sentences = Regex.Split(contract.Data, @"(?<=[\.!\?])\s+");
-                                bool sentenceHit = false;
                                 Contract newContract = new Contract();
                                 newContract.DocumentSection = contract.DocumentSection;
 
@@ -100,18 +99,16 @@ namespace ContractReaderV2
                                         if(sentence.ToLower().Contains(word.Keyword.ToLower()))
                                         {
                                             //new section begins, close old one and start new
-                                            sentenceHit = true;
                                             if(!string.IsNullOrEmpty(newContract.Data)) {
+                                                newContract.Data += sentence;
                                                 _lineList2.Add(newContract);
                                                 newContract = new Contract();
-                                                newContract.Data = sentence;
                                                 newContract.DocumentSection = contract.DocumentSection;
                                             }
                                         }
                                         else
                                         {
                                             //add to previous section
-                                            sentenceHit = false;
                                             newContract.Data += sentence;
                                         }
                                     }
