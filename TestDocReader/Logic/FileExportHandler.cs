@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using ContractReaderV2.Concrete;
+using Microsoft.Office.Interop.Word;
 namespace TestDocReader.Logic
 {
    public class FileExportHandler
@@ -57,6 +58,123 @@ namespace TestDocReader.Logic
 
                 throw new Exception($"Error => Error while exporting information {Environment.NewLine} {ex.Message}");
             }
+
+        }
+
+        public void CreateWordDoc(List<ContractReaderV2.Concrete.Contract> lines)
+        {
+            var winword = new Microsoft.Office.Interop.Word.Application();
+            winword.ShowAnimation = false;
+
+            //Set status for word application is to be visible or not.  
+            winword.Visible = false;
+
+            //Create a missing variable for missing value  
+            object missing = System.Reflection.Missing.Value;
+            Microsoft.Office.Interop.Word.Document document = winword.Documents.Add(ref missing, ref missing, ref missing, ref missing);
+            document.Content.SetRange(0, 0);
+            
+            Table firstTable = document.Tables.Add(document.Range(0,0),lines.Count-1, 4, ref missing, ref missing);
+            firstTable.PreferredWidthType = WdPreferredWidthType.wdPreferredWidthAuto;
+            firstTable.PreferredWidth = 100;
+            //firstTable.Columns[1].PreferredWidthType = WdPreferredWidthType.wdPreferredWidthPercent;
+            //firstTable.Columns[1].PreferredWidth = 10;
+
+            //firstTable.Columns[2].PreferredWidthType = WdPreferredWidthType.wdPreferredWidthPercent;
+            //firstTable.Columns[2].PreferredWidth = 70;
+
+            //firstTable.Columns[3].PreferredWidthType = WdPreferredWidthType.wdPreferredWidthPercent;
+            //firstTable.Columns[3].PreferredWidth = 5;
+
+            //firstTable.Columns[4].PreferredWidthType = WdPreferredWidthType.wdPreferredWidthPercent;
+            //firstTable.Columns[4].PreferredWidth = 15;
+
+           
+            //firstTable.PreferredWidthType = WdPreferredWidthType.wdPreferredWidthAuto;
+            firstTable.PreferredWidth = document.PageSetup.PageWidth - (document.PageSetup.LeftMargin + document.PageSetup.RightMargin);
+            firstTable.Borders.Enable = 1;
+            foreach (Row row in firstTable.Rows)
+            {
+
+                foreach (Cell cell in row.Cells)
+                {
+                    cell.WordWrap = true;
+                    //cell.PreferredWidthType = WdPreferredWidthType.wdPreferredWidthAuto;
+                    if (cell.RowIndex == 1)
+                    {
+
+                        cell.Range.Font.Bold = 1;
+
+                        if (cell.ColumnIndex == 1)
+                        {
+                            cell.PreferredWidthType = WdPreferredWidthType.wdPreferredWidthPercent;
+                            cell.PreferredWidth = 10;
+                            cell.Range.Text = "Document Section";
+                        }
+                        if (cell.ColumnIndex == 2)
+                        {
+                            cell.PreferredWidthType = WdPreferredWidthType.wdPreferredWidthPercent;
+                            cell.PreferredWidth = 70;
+                            cell.Range.Text = "Contents";
+                        }
+                        if (cell.ColumnIndex == 3)
+                        {
+                            cell.PreferredWidthType = WdPreferredWidthType.wdPreferredWidthPercent;
+                            cell.PreferredWidth = 5;
+                            cell.Range.Text = "Y/N";
+                        }
+                        if (cell.ColumnIndex == 4)
+                        {
+                            cell.PreferredWidthType = WdPreferredWidthType.wdPreferredWidthPercent;
+                            cell.PreferredWidth = 15;
+                            cell.Range.Text = "If yes, provide discriminator/past performance";
+                        }
+
+                    }
+                    else
+                    {
+
+
+                        if (cell.ColumnIndex == 1)
+                        {
+                            //if(cell.RowIndex>2)
+                            //{
+                            //    if (lines[row.Index].DocumentSection < lines[row.Index - 1].DocumentSection)
+                            //    {
+
+                            //    }
+                            //}
+                            cell.Range.Text = string.IsNullOrWhiteSpace(lines[row.Index].DocumentSection) ? "Empty" : lines[row.Index].DocumentSection;
+                            cell.PreferredWidthType = WdPreferredWidthType.wdPreferredWidthPercent;
+                            cell.PreferredWidth = 10;
+
+                        }
+                        if (cell.ColumnIndex == 2)
+                        {
+                            cell.Range.Text = lines[row.Index].Data;
+                            cell.PreferredWidthType = WdPreferredWidthType.wdPreferredWidthPercent;
+                            cell.PreferredWidth = 70;
+                        }
+                        if (cell.ColumnIndex == 3)
+                        {
+                            cell.PreferredWidthType = WdPreferredWidthType.wdPreferredWidthPercent;
+                            cell.PreferredWidth = 5;
+                        }
+                        if (cell.ColumnIndex == 4)
+                        {
+                            cell.PreferredWidthType = WdPreferredWidthType.wdPreferredWidthPercent;
+                            cell.PreferredWidth = 15;
+                        }
+                    }
+                }
+            }
+
+            object filename = $@"C:\temp\temp1.docx";
+            document.SaveAs2(ref filename);
+            document.Close(ref missing, ref missing, ref missing);
+            document = null;
+            winword.Quit(ref missing, ref missing, ref missing);
+            winword = null;
 
         }
     }

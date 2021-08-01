@@ -70,6 +70,7 @@ namespace TestDocReader
                 var result = ofdDocument.ShowDialog();
                 if (result == DialogResult.OK)
                 {
+                    LoadKeywords();
                     if (!string.IsNullOrWhiteSpace(ofdDocument.FileName))
                     {
                         _currentDocument = ofdDocument.FileName;
@@ -116,6 +117,7 @@ namespace TestDocReader
                 try
                 {
                     var doc =new Logic.FileExportHandler().LinesToDoc(_documentLines);
+                    new Logic.FileExportHandler().CreateWordDoc(_documentLines);
                     SaveFileDialog saveFileDialog1 = new SaveFileDialog();
                     saveFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                     if (saveFileDialog1.ShowDialog() == DialogResult.OK)
