@@ -9,6 +9,8 @@ using org.apache.pdfbox.util;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
 using System.Text;
+using com.sun.corba.se.spi.orbutil.threadpool;
+using System.Linq;
 
 namespace ContractReaderV2
 {
@@ -77,73 +79,64 @@ namespace ContractReaderV2
             //Cycle through list of contracts we built after seperating and combining sections
             foreach(Contract contract in _lineList)
             {
-                //Cycle through Keywords
-                foreach(Word word in keywords)
+                if (!string.IsNullOrEmpty(contract.Data))
                 {
-                    if (!string.IsNullOrEmpty(contract.Data))
+                    string[] sentences = Regex.Split(contract.Data, @"(?<=[\.!\?])\s+");
+                    Contract newContract = new Contract();
+                    newContract.DocumentSection = contract.DocumentSection;
+
+                    var sbSentence = new StringBuilder();
+
+                    int sentenceCount = sentences.Length;
+                    int currentCount = 0;
+                    bool firstKeyword = false;
+
+                    List<string> keys = new List<string>();
+                    //Put keywords into string array
+                    foreach(Word word in keywords)
                     {
-                        //If this section contains a keyword move on.
-                        if (contract.Data.ToLower().Contains(word.Keyword.ToLower()))
-                        {
-                            //Change this to if split once we are done testing
-                            if (word.Split)
+                        keys.Add(word.ToString());
+                    }
+
+                    foreach (var sentence in sentences)
+                    {
+                        currentCount++;
+                        if (!string.IsNullOrEmpty(sentence.Trim()))
+                        { 
+                            //Check to see if this sentence has a keyword in it
+                            bool keywordHit = keywords.Any(k => sentence.ToLower().Contains(k.Keyword.ToLower()));
+                            if (keywordHit)
                             {
-                                //Split data into sentences
-                                string[] sentences = Regex.Split(contract.Data, @"(?<=[\.!\?])\s+");
-                                Contract newContract = new Contract();
-                                newContract.DocumentSection = contract.DocumentSection;
-
-                                var sbSentence = new StringBuilder();
-
-                                int sentenceCount = sentences.Length;
-                                int currentCount =  0;
-                                bool firstKeyword = false;
-                                foreach (var sentence in sentences)
+                                //Remove previous sentences if this is the first keyword hit
+                                if (!firstKeyword)
                                 {
-                                    currentCount++;
-                                    if (!string.IsNullOrEmpty(sentence.Trim()))
-                                    {
-                                        if(sentence.ToLower().Contains(word.Keyword.ToLower()))
-                                        {
-                                            //Remove previous sentences if this is the first keyword hit
-                                            if(!firstKeyword)
-                                            {
-                                                sbSentence = new StringBuilder();
-                                                firstKeyword = true;
-                                            }
-                                            //new section begins, close old one and start new
-                                            if(sbSentence.Length != 0)
-                                            {
-                                                newContract.Data = sbSentence.ToString();
-                                                _lineList2.Add(newContract);
-                                                newContract = new Contract();
-                                                newContract.DocumentSection = contract.DocumentSection;
-                                            }
-                                            sbSentence = new StringBuilder();
-                                            sbSentence.Append(sentence);
-                                        }
-                                        else
-                                        {
-                                            //add to previous section
-                                            sbSentence.Append(sentence);
-                                        }
-                                    }
-                                    //Add what we have left if we hit here and still have data in out stringbuilder
-                                    if(currentCount == sentenceCount && sbSentence.Length != 0)
-                                    {
-                                        newContract.Data = sbSentence.ToString();
-                                        _lineList2.Add(newContract);
-                                        newContract = new Contract();
-                                        newContract.DocumentSection = contract.DocumentSection;
-                                    }
+                                    sbSentence = new StringBuilder();
+                                    firstKeyword = true;
                                 }
+                                //new section begins, close old one and start new
+                                if (sbSentence.Length != 0)
+                                {
+                                    newContract.Data = sbSentence.ToString();
+                                    _lineList2.Add(newContract);
+                                    newContract = new Contract();
+                                    newContract.DocumentSection = contract.DocumentSection;
+                                }
+                                sbSentence = new StringBuilder();
+                                sbSentence.Append(sentence);
                             }
-                            else 
+                            else
                             {
-                                //No splitting? Lets just add it to the new list.
-                                _lineList2.Add(contract);
-                                break;
+                                //add to previous section
+                                sbSentence.Append(sentence);
                             }
+                        }
+                        //Add what we have left if we hit here and still have data in out stringbuilder
+                        if (currentCount == sentenceCount && sbSentence.Length != 0)
+                        {
+                            newContract.Data = sbSentence.ToString();
+                            _lineList2.Add(newContract);
+                            newContract = new Contract();
+                            newContract.DocumentSection = contract.DocumentSection;
                         }
                     }
                 }
