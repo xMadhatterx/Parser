@@ -8,6 +8,7 @@ using org.apache.pdfbox.pdmodel;
 using org.apache.pdfbox.util;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
+using System.Text;
 
 namespace ContractReaderV2
 {
@@ -65,7 +66,7 @@ namespace ContractReaderV2
                     textList.Add(reader.ReadLine());
                     lineCounter++;
                 }
-                CycleThrough(textList, lineCounter);//, keywords);
+                CycleThrough(textList, lineCounter, keywords);
                 SecondPass(keywords);
             }
             File.Delete(_tempDocumentPath);
@@ -89,32 +90,56 @@ namespace ContractReaderV2
                             {
                                 //Split data into sentences
                                 string[] sentences = Regex.Split(contract.Data, @"(?<=[\.!\?])\s+");
-                                bool sentenceHit = false;
+                                Contract newContract = new Contract();
+                                newContract.DocumentSection = contract.DocumentSection;
+
+                                var sbSentence = new StringBuilder();
+
+                                int sentenceCount = sentences.Length;
+                                int currentCount =  0;
+                                bool firstKeyword = false;
                                 foreach (var sentence in sentences)
                                 {
-                                    if(sentenceHit)
+                                    currentCount++;
+                                    if (!string.IsNullOrEmpty(sentence.Trim()))
                                     {
-                                        if (sentence != "" && sentence.Length >= 3)
+                                        if(sentence.ToLower().Contains(word.Keyword.ToLower()))
                                         {
-                                            Contract newContract = new Contract();
-                                            newContract.Data = sentence;
-                                            newContract.DocumentSection = contract.DocumentSection;
-                                            _lineList2.Add(newContract);
+                                            //Remove previous sentences if this is the first keyword hit
+                                            if(!firstKeyword)
+                                            {
+                                                sbSentence = new StringBuilder();
+                                                firstKeyword = true;
+                                            }
+                                            //new section begins, close old one and start new
+                                            if(sbSentence.Length != 0)
+                                            {
+                                                newContract.Data = sbSentence.ToString();
+                                                _lineList2.Add(newContract);
+                                                newContract = new Contract();
+                                                newContract.DocumentSection = contract.DocumentSection;
+                                            }
+                                            sbSentence = new StringBuilder();
+                                            sbSentence.Append(sentence);
+                                        }
+                                        else
+                                        {
+                                            //add to previous section
+                                            sbSentence.Append(sentence);
                                         }
                                     }
-                                    if (sentence.ToLower().Contains(word.Keyword.ToLower()))
+                                    //Add what we have left if we hit here and still have data in out stringbuilder
+                                    if(currentCount == sentenceCount && sbSentence.Length != 0)
                                     {
-                                        sentenceHit = true;
-                                        //If this sentence has a keyword create a new contract and add it to our new list
-                                        Contract newContract = new Contract();
-                                        newContract.Data = sentence;
-                                        newContract.DocumentSection = contract.DocumentSection;
+                                        newContract.Data = sbSentence.ToString();
                                         _lineList2.Add(newContract);
+                                        newContract = new Contract();
+                                        newContract.DocumentSection = contract.DocumentSection;
                                     }
-                                } 
+                                }
                             }
                             else 
-                            { 
+                            {
                                 //No splitting? Lets just add it to the new list.
                                 _lineList2.Add(contract);
                                 break;
@@ -125,11 +150,11 @@ namespace ContractReaderV2
             }
         }
 
-        public void CycleThrough(List<string> lines, int lineAmount)//, List<Word> keywords)
+        public void CycleThrough(List<string> lines, int lineAmount, List<Word> keywords)
         {
             var lineCount = 0;
             var contract = new Contract();
-            //bool keyWordHit = false;
+            bool keyWordHit = false;
             bool sameSection = false;
 
             while (true)
@@ -162,11 +187,11 @@ namespace ContractReaderV2
                     } 
                     else
                     {
-                        if(contract.Data != "")// && keyWordHit)
+                        if(contract.Data != "" && keyWordHit)
                         {
                             _lineList.Add(contract);
                             contract = new Contract();
-                            //keyWordHit = false;
+                            keyWordHit = false;
                         }
                         _lastSectionId = section;
                         sameSection = false;
@@ -180,11 +205,11 @@ namespace ContractReaderV2
                     } else
                     {
                         sameSection = false;
-                        if (contract.Data != "")// && keyWordHit)
+                        if (contract.Data != "" && keyWordHit)
                         {
                             _lineList.Add(contract);
                             contract = new Contract();
-                            //keyWordHit = false;
+                            keyWordHit = false;
                         }
                     }
                 }
@@ -204,23 +229,23 @@ namespace ContractReaderV2
                 }
                 
                 contract.DocumentSection = _lastSectionId;
-                //if (!string.IsNullOrEmpty(contract.Data.Trim()))
-                //{
-                //    foreach (Word keyword in keywords)
-                //    {
-                //        //Check for keyword
-                //        if (contract.Data.ToLower().Contains(keyword.Keyword.ToLower()))
-                //        {
-                //            //Replace keywords with replacement words
-                //            if (keyword.Replacement != "")
-                //            {
-                //                contract.Data = contract.Data.Replace(keyword.Keyword, keyword.Replacement);
-                //            }
-                //            keyWordHit = true;
-                //            break;
-                //        }
-                //    }
-                //}
+                if (!string.IsNullOrEmpty(contract.Data.Trim()))
+                {
+                    foreach (Word keyword in keywords)
+                    {
+                        //Check for keyword
+                        if (contract.Data.ToLower().Contains(keyword.Keyword.ToLower()))
+                        {
+                            //Replace keywords with replacement words
+                            if (keyword.Replacement != "")
+                            {
+                                contract.Data = contract.Data.Replace(keyword.Keyword, keyword.Replacement);
+                            }
+                            keyWordHit = true;
+                            break;
+                        }
+                    }
+                }
                 lineCount++;
             }
         }
