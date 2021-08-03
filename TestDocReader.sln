@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31512.422
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDocReader", "TestDocReader\TestDocReader.csproj", "{6529E310-2B35-43AC-A119-3A215C4E73F8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContractReaderV2", "ContractReaderV2\ContractReaderV2.csproj", "{5B9F720A-4DE5-41FF-91A4-A741B9104497}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimTrixx.Data", "SimTrixx.Data\SimTrixx.Data.csproj", "{E9E30E50-C7AD-49BA-A679-8CF7290C874F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimTrixx.Common", "SimTrixx.Common\SimTrixx.Common.csproj", "{613D1F86-6912-4A39-AA1D-A5D23328F0B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{5B9F720A-4DE5-41FF-91A4-A741B9104497}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B9F720A-4DE5-41FF-91A4-A741B9104497}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B9F720A-4DE5-41FF-91A4-A741B9104497}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9E30E50-C7AD-49BA-A679-8CF7290C874F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9E30E50-C7AD-49BA-A679-8CF7290C874F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9E30E50-C7AD-49BA-A679-8CF7290C874F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9E30E50-C7AD-49BA-A679-8CF7290C874F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{613D1F86-6912-4A39-AA1D-A5D23328F0B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{613D1F86-6912-4A39-AA1D-A5D23328F0B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{613D1F86-6912-4A39-AA1D-A5D23328F0B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{613D1F86-6912-4A39-AA1D-A5D23328F0B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

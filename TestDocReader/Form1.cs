@@ -9,6 +9,8 @@ using Portable.Licensing.Validation;
 using System.IO;
 using AutoUpdaterDotNET;
 using Portable.Licensing.Security.Cryptography;
+using SimTrixx.Data.Interfaces;
+using SimTrixx.Data.Repos;
 
 namespace TestDocReader
 {
@@ -41,15 +43,41 @@ namespace TestDocReader
         }
         private void CheckLicense()
         {
-            var keyGenerator = Portable.Licensing.Security.Cryptography.KeyGenerator.Create();
+            var keyGenerator = KeyGenerator.Create();
             var keyPair = keyGenerator.GenerateKeyPair();
             var publicKey = keyPair.ToPublicKeyString();
             var license = License.Load(@"E:\code\Windows Apps\Parser\TestDocReader\bin\Debug\License.lic");
             var validationFailures = license.Validate().ExpirationDate().And().Signature(publicKey).AssertValidLicense();
-
-            foreach(var failure in  validationFailures)
+            foreach (var failure in validationFailures)
             {
                 MessageBox.Show(failure.GetType().Name + ": " + failure.Message + " - " + failure.HowToResolve);
+            }
+
+            var lic = new LicenseRepo().GetLicense(license.Id.ToString());
+            bool validLicense = false;
+            if(lic != null)
+            {
+                if(lic.Expiration == license.Expiration && lic.Expiration > DateTime.UtcNow)
+                {
+                    //license Success
+                    validLicense = true;
+
+                } else
+                {
+                    //license fail
+                    validLicense = false;
+                }
+            } 
+            else
+            {
+                //license fail
+                validLicense = false;
+            }
+
+            if(!validLicense)
+            {
+                MessageBox.Show("License Invalid");
+                this.Close();
             }
         }
 
