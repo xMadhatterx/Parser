@@ -127,13 +127,22 @@ namespace TestDocReader
                 try
                 {
                     var doc =new Logic.FileExportHandler().LinesToDoc(_documentLines);
-                    new Logic.FileExportHandler().CreateWordDoc(_documentLines);
+                    
                     SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                    saveFileDialog1.Filter = "Word Document |*.docx|Legacy Word Doc|*.doc|Excel|*.xlsx";
+                    saveFileDialog1.DefaultExt = ".docx";
                     saveFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                     if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                     {
-                        var t = saveFileDialog1.FileName;
-                        System.IO.File.AppendAllText(saveFileDialog1.FileName, doc);
+                        if (saveFileDialog1.FilterIndex == 1)
+                        {
+                            new Logic.FileExportHandler().CreateWordDoc(_documentLines, saveFileDialog1.FileName);
+                        }
+                        else if (saveFileDialog1.FilterIndex == 2)
+                        {
+                            System.IO.File.AppendAllText(saveFileDialog1.FileName, doc);
+                        }
+                        
                         MessageBox.Show($@"Export complete {Environment.NewLine} File saved to {saveFileDialog1.FileName}");
                     }
                     else
