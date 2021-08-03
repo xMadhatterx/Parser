@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ContractReaderV2.Concrete
 {
-    public class KeywordDictionary
-    {
-        public List<string> Keywords { get; set; }
-    }
+    //public class KeywordDictionary
+    //{
+    //    public List<string> Keywords { get; set; }
+    //}
 }

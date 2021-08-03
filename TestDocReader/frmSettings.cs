@@ -19,6 +19,7 @@ namespace TestDocReader
         private List<string> _replacements;
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
+        private RadioButton selectedRb;
 
         [DllImportAttribute("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
@@ -39,62 +40,67 @@ namespace TestDocReader
             this.Close();
         }
 
-        private void ModifyKeywordList()
-        {
-            new Logic.KeywordConfigHandler().Add(_keywords);
-        }
+        //private void ModifyKeywordList()
+        //{
+        //    new Logic.KeywordConfigHandler().Add(_keywords);
+        //}
 
         private void LoadKeywords()
         {
-            //lstKeyword.Items.Clear();
-            //_keywords = new Logic.KeywordConfigHandler().Import().Keywords;
             _keywordsV2 = new Logic.KeywordConfigHandler().ImportV2().Keywords;
             BuildGrid();
-            //foreach (var keyword in _keywords)
-            //{
-            //    lstKeyword.Items.Add(keyword);
-            //}
         }
         private void LoadReplacements()
         {
             _replacements = new Logic.ReplacementWordConfigHandler().Import().ReplaceWords;
         }
-
-        //private void btnAddToList_Click_1(object sender, EventArgs e)
-        //{
-        //    if (!string.IsNullOrWhiteSpace(tbKeyword.Text))
-        //    {
-        //        lstKeyword.Items.Add(tbKeyword.Text);
-        //        _keywords.Add(tbKeyword.Text);
-        //        tbKeyword.Text = string.Empty;
-        //        ModifyKeywordList();
-        //    }
-        //}
-
-        //private void btnRemove_Click_1(object sender, EventArgs e)
-        //{
-        //    _keywords.Remove(lstKeyword.SelectedItem.ToString());
-        //    lstKeyword.Items.Remove(lstKeyword.SelectedItem);
-
-        //    ModifyKeywordList();
-        //}
-
         private void button1_Click(object sender, EventArgs e)
         {
             _keywordsV2.Add(new Word() { Keyword = string.Empty, Replacement = string.Empty });
             BuildGrid();
-            //dgvKeywords.DataSource = null;
-            //dgvKeywords.DataSource = _keywordsV2;
-            //dgvKeywords.Rows.Add();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
             var r = new Root();
             r.Keywords = new List<Word>();
-            r.Keywords.AddRange(_keywordsV2);
+            //r.Settings = new CustomSettings();
+            //r.Keywords.AddRange(_keywordsV2);
+            //if(selectedRb.Text.ToLower() == "word doc")
+            //{
+            //    r.Settings.FileExportType = "1";
+            //}
+            //else if(selectedRb.Text.ToLower()=="legacy word doc")
+            //{
+            //    r.Settings.FileExportType = "2";
+            //}
+            //else
+            //{
+            //    r.Settings.FileExportType = "3";
+            //}
+       
             new TestDocReader.Logic.KeywordConfigHandler().ExportV2(r);
             this.Close();
+        }
+
+        private void radioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton rb = sender as RadioButton;
+
+            if (rb == null)
+            {
+                MessageBox.Show("Sender is not a RadioButton");
+                return;
+            }
+
+            // Ensure that the RadioButton.Checked property
+            // changed to true.
+            if (rb.Checked)
+            {
+                // Keep track of the selected RadioButton by saving a reference
+                // to it.
+                selectedRb = rb;
+            }
         }
 
 

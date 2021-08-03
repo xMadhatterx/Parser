@@ -5,23 +5,23 @@ namespace TestDocReader.Logic
 {
     public class KeywordConfigHandler
     {
-        public void Add(List<string> keywords)
-        {
-            var keywordDictionary = new KeywordDictionary();
-            keywordDictionary.Keywords = new List<string>();
-            keywordDictionary.Keywords.AddRange(keywords);
-            Export(keywordDictionary);
-        }
+        //public void Add(List<string> keywords)
+        //{
+        //    var keywordDictionary = new KeywordDictionary();
+        //    keywordDictionary.Keywords = new List<string>();
+        //    keywordDictionary.Keywords.AddRange(keywords);
+        //    Export(keywordDictionary);
+        //}
 
-      
 
-        public KeywordDictionary Import()
-        {
-            var jsonText= System.IO.File.ReadAllText("./Configs/Keywords.json");
-            var keywords = JsonConvert.DeserializeObject<KeywordDictionary>(jsonText);
-            return keywords;
-            
-        }
+
+        //public KeywordDictionary Import()
+        //{
+        //    var jsonText= System.IO.File.ReadAllText("./Configs/Keywords.json");
+        //    var keywords = JsonConvert.DeserializeObject<KeywordDictionary>(jsonText);
+        //    return keywords;
+
+        //}
 
         public Root ImportV2()
         {
@@ -39,15 +39,15 @@ namespace TestDocReader.Logic
 
         }
 
-        public void Export(KeywordDictionary keywordDictionary)
-        {
-            string jsonString =JsonConvert.SerializeObject(keywordDictionary);
+        //public void Export(KeywordDictionary keywordDictionary)
+        //{
+        //    string jsonString = JsonConvert.SerializeObject(keywordDictionary);
 
-            if (!string.IsNullOrEmpty(jsonString))
-            {
-                System.IO.File.WriteAllText("./Configs/Keywords.json", jsonString);
-            }
-        }
+        //    if (!string.IsNullOrEmpty(jsonString))
+        //    {
+        //        System.IO.File.WriteAllText("./Configs/Keywords.json", jsonString);
+        //    }
+        //}
         public void ExportV2(Root keywordDictionary)
         {
             string jsonString = JsonConvert.SerializeObject(keywordDictionary);

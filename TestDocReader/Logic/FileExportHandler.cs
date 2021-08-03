@@ -61,7 +61,7 @@ namespace TestDocReader.Logic
 
         }
 
-        public void CreateWordDoc(List<ContractReaderV2.Concrete.Contract> lines)
+        public void CreateWordDoc(List<ContractReaderV2.Concrete.Contract> lines,string filepath)
         {
             var winword = new Microsoft.Office.Interop.Word.Application();
             winword.ShowAnimation = false;
@@ -74,7 +74,7 @@ namespace TestDocReader.Logic
             Microsoft.Office.Interop.Word.Document document = winword.Documents.Add(ref missing, ref missing, ref missing, ref missing);
             document.Content.SetRange(0, 0);
             
-            Table firstTable = document.Tables.Add(document.Range(0,0),lines.Count-1, 4, ref missing, ref missing);
+            Table firstTable = document.Tables.Add(document.Range(0,0),lines.Count +1, 4, ref missing, ref missing);
             firstTable.PreferredWidthType = WdPreferredWidthType.wdPreferredWidthAuto;
             firstTable.PreferredWidth = 100;
             //firstTable.Columns[1].PreferredWidthType = WdPreferredWidthType.wdPreferredWidthPercent;
@@ -144,14 +144,14 @@ namespace TestDocReader.Logic
 
                             //    }
                             //}
-                            cell.Range.Text = string.IsNullOrWhiteSpace(lines[row.Index].DocumentSection) ? "Empty" : lines[row.Index].DocumentSection;
+                            cell.Range.Text = string.IsNullOrWhiteSpace(lines[row.Index -2].DocumentSection) ? "Empty" : lines[row.Index-2].DocumentSection;
                             cell.PreferredWidthType = WdPreferredWidthType.wdPreferredWidthPercent;
                             cell.PreferredWidth = 10;
 
                         }
                         if (cell.ColumnIndex == 2)
                         {
-                            cell.Range.Text = lines[row.Index].Data;
+                            cell.Range.Text = lines[row.Index-2].Data;
                             cell.PreferredWidthType = WdPreferredWidthType.wdPreferredWidthPercent;
                             cell.PreferredWidth = 70;
                         }
@@ -169,7 +169,7 @@ namespace TestDocReader.Logic
                 }
             }
 
-            object filename = $@"C:\temp\temp1.docx";
+            object filename = filepath;
             document.SaveAs2(ref filename);
             document.Close(ref missing, ref missing, ref missing);
             document = null;
