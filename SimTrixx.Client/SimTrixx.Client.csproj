@@ -158,7 +158,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ContractReaderV2\ContractReaderV2.csproj">
+    <ProjectReference Include="..\SimTrixx.Reader\SimTrixx.Reader.csproj">
       <Project>{5b9f720a-4de5-41ff-91a4-a741b9104497}</Project>
       <Name>ContractReaderV2</Name>
     </ProjectReference>
