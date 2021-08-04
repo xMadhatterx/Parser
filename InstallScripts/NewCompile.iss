@@ -40,10 +40,10 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "E:\code\Windows Apps\Parser\TestDocReader\bin\Debug\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "E:\code\Windows Apps\Parser\TestDocReader\bin\Debug\Configs\*"; DestDir: "{app}\Configs"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "E:\code\Windows Apps\Parser\TestDocReader\bin\Debug\*"; DestDir: "{app}"; Flags: ignoreversion
-Source: "E:\code\Windows Apps\Parser\TestDocReader\NDP461-KB3102436-x86-x64-AllOS-ENU.exe"; DestDir: {tmp}; Flags: deleteafterinstall; AfterInstall: InstallFramework; Check: FrameworkIsNotInstalled
+Source: "E:\code\Windows Apps\Parser\SimTrixx.Client\bin\Debug\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\code\Windows Apps\Parser\SimTrixx.Client\bin\Debug\Configs\*"; DestDir: "{app}\Configs"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "E:\code\Windows Apps\Parser\SimTrixx.Client\bin\Debug\*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\code\Windows Apps\Parser\SimTrixx.Client\NDP461-KB3102436-x86-x64-AllOS-ENU.exe"; DestDir: {tmp}; Flags: deleteafterinstall; AfterInstall: InstallFramework; Check: FrameworkIsNotInstalled
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Registry]
