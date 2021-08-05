@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using ContractReaderV2.Concrete;
+using SimTrixx.Reader.Concrete;
 using Microsoft.Office.Interop.Word;
 namespace TestDocReader.Logic
 {
    public class FileExportHandler
     {
         private List<Word> _keywordsV2;
-        public string LinesToDoc(List<ContractReaderV2.Concrete.Contract> lines)
+        public string LinesToDoc(List<SimTrixx.Reader.Concrete.Contract> lines)
         {
             try
             {
@@ -61,7 +61,7 @@ namespace TestDocReader.Logic
 
         }
 
-        public void CreateWordDoc(List<ContractReaderV2.Concrete.Contract> lines,string filepath)
+        public void CreateWordDoc(List<SimTrixx.Reader.Concrete.Contract> lines,string filepath)
         {
             var winword = new Microsoft.Office.Interop.Word.Application();
             winword.ShowAnimation = false;

@@ -1,16 +1,16 @@
 ﻿using System;
 using Code7248.word_reader;
-using ContractReaderV2.Concrete;
+using SimTrixx.Reader.Concrete;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using ContractReaderV2.Concrete.Enum;
+using SimTrixx.Reader.Concrete.Enum;
 using org.apache.pdfbox.pdmodel;
 using org.apache.pdfbox.util;
-using static ContractReaderV2.Concrete.Enum.GlobalEnum;
+using static SimTrixx.Reader.Concrete.Enum.GlobalEnum;
 
-namespace ContractReaderV2
+namespace SimTrixx.Reader
 {
     public class Reader
     {

@@ -376,7 +376,7 @@
             // 
             // contractBindingSource
             // 
-            this.contractBindingSource.DataSource = typeof(ContractReaderV2.Concrete.Contract);
+            this.contractBindingSource.DataSource = typeof(SimTrixx.Reader.Concrete.Contract);
             // 
             // Form1
             // 

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using ContractReaderV2.Concrete;
+using SimTrixx.Reader.Concrete;
 
 namespace TestDocReader
 {

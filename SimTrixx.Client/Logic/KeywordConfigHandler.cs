@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ContractReaderV2.Concrete;
+using SimTrixx.Reader.Concrete;
 using Newtonsoft.Json;
 namespace TestDocReader.Logic
 {

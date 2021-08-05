@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using ContractReaderV2.Concrete;
+using SimTrixx.Reader.Concrete;
 using Portable.Licensing;
 using Portable.Licensing.Validation;
 using System.IO;

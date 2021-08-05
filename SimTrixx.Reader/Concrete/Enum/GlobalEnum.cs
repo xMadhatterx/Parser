@@ -1,4 +1,4 @@
-﻿namespace ContractReaderV2.Concrete.Enum
+﻿namespace SimTrixx.Reader.Concrete.Enum
 {
    public class GlobalEnum
     {

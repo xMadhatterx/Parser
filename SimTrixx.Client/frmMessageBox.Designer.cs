@@ -86,7 +86,7 @@
             // 
             // wordBindingSource
             // 
-            this.wordBindingSource.DataSource = typeof(ContractReaderV2.Concrete.Word);
+            this.wordBindingSource.DataSource = typeof(SimTrixx.Reader.Concrete.Word);
             // 
             // label1
             // 

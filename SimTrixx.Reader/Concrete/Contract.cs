@@ -1,6 +1,6 @@
-﻿using static ContractReaderV2.Concrete.Enum.GlobalEnum;
+﻿using static SimTrixx.Reader.Concrete.Enum.GlobalEnum;
 
-namespace ContractReaderV2.Concrete
+namespace SimTrixx.Reader.Concrete
 {
    public  class Contract
     {

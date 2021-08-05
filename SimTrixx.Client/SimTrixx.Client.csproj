@@ -158,10 +158,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SimTrixx.Reader\SimTrixx.Reader.csproj">
-      <Project>{5b9f720a-4de5-41ff-91a4-a741b9104497}</Project>
-      <Name>ContractReaderV2</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SimTrixx.Common\SimTrixx.Common.csproj">
       <Project>{613d1f86-6912-4a39-aa1d-a5d23328f0b9}</Project>
       <Name>SimTrixx.Common</Name>
@@ -169,6 +165,10 @@
     <ProjectReference Include="..\SimTrixx.Data\SimTrixx.Data.csproj">
       <Project>{e9e30e50-c7ad-49ba-a679-8cf7290c874f}</Project>
       <Name>SimTrixx.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimTrixx.Reader\SimTrixx.Reader.csproj">
+      <Project>{5b9f720a-4de5-41ff-91a4-a741b9104497}</Project>
+      <Name>SimTrixx.Reader</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

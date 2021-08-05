@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ContractReaderV2.Concrete
+namespace SimTrixx.Reader.Concrete
 {
     public class Root
     {

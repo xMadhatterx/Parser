@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using ContractReaderV2.Concrete;
+using SimTrixx.Reader.Concrete;
 using Code7248.word_reader;
 using System.IO;
 using System.Text.RegularExpressions;
-using static ContractReaderV2.Concrete.Enum.GlobalEnum;
+using static SimTrixx.Reader.Concrete.Enum.GlobalEnum;
 using org.apache.pdfbox.pdmodel;
 using org.apache.pdfbox.util;
 using iTextSharp.text.pdf;
