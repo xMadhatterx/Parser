@@ -4,11 +4,11 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using SimTrixx.Reader.Concrete;
-using Portable.Licensing;
-using Portable.Licensing.Validation;
+using Standard.Licensing;
+using Standard.Licensing.Validation;
 using System.IO;
 using AutoUpdaterDotNET;
-using Portable.Licensing.Security.Cryptography;
+using Standard.Licensing.Security.Cryptography;
 using SimTrixx.Data.Interfaces;
 using SimTrixx.Data.Repos;
 
