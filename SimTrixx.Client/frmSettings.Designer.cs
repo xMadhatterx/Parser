@@ -33,16 +33,18 @@
             this.lblSettings = new System.Windows.Forms.Label();
             this.btnCloseFrm = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnSave = new System.Windows.Forms.Button();
             this.dgvKeywords = new System.Windows.Forms.DataGridView();
             this.btnAddRow = new System.Windows.Forms.Button();
-            this.btnSave = new System.Windows.Forms.Button();
             this.wordBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.rbWord = new System.Windows.Forms.RadioButton();
-            this.rbHtml = new System.Windows.Forms.RadioButton();
             this.rbExcel = new System.Windows.Forms.RadioButton();
+            this.rbHtml = new System.Windows.Forms.RadioButton();
+            this.rbWord = new System.Windows.Forms.RadioButton();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtLicense = new System.Windows.Forms.TextBox();
             this.panel4.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKeywords)).BeginInit();
@@ -102,6 +104,16 @@
             this.panel1.Size = new System.Drawing.Size(800, 45);
             this.panel1.TabIndex = 10;
             // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(712, 10);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 17;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
             // dgvKeywords
             // 
             this.dgvKeywords.AllowUserToResizeColumns = false;
@@ -123,16 +135,6 @@
             this.btnAddRow.Text = "New";
             this.btnAddRow.UseVisualStyleBackColor = true;
             this.btnAddRow.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // btnSave
-            // 
-            this.btnSave.Location = new System.Drawing.Point(712, 10);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 17;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // wordBindingSource
             // 
@@ -170,6 +172,30 @@
             this.panel2.Size = new System.Drawing.Size(765, 100);
             this.panel2.TabIndex = 20;
             // 
+            // rbExcel
+            // 
+            this.rbExcel.AutoSize = true;
+            this.rbExcel.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.rbExcel.Location = new System.Drawing.Point(263, 39);
+            this.rbExcel.Name = "rbExcel";
+            this.rbExcel.Size = new System.Drawing.Size(51, 17);
+            this.rbExcel.TabIndex = 2;
+            this.rbExcel.Text = "Excel";
+            this.rbExcel.UseVisualStyleBackColor = true;
+            this.rbExcel.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
+            // 
+            // rbHtml
+            // 
+            this.rbHtml.AutoSize = true;
+            this.rbHtml.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.rbHtml.Location = new System.Drawing.Point(136, 39);
+            this.rbHtml.Name = "rbHtml";
+            this.rbHtml.Size = new System.Drawing.Size(112, 17);
+            this.rbHtml.TabIndex = 1;
+            this.rbHtml.Text = "Legacy Word Doc";
+            this.rbHtml.UseVisualStyleBackColor = true;
+            this.rbHtml.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
+            // 
             // rbWord
             // 
             this.rbWord.AutoSize = true;
@@ -184,29 +210,23 @@
             this.rbWord.UseVisualStyleBackColor = true;
             this.rbWord.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
             // 
-            // rbHtml
+            // label3
             // 
-            this.rbHtml.AutoSize = true;
-            this.rbHtml.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.rbHtml.Location = new System.Drawing.Point(136, 39);
-            this.rbHtml.Name = "rbHtml";
-            this.rbHtml.Size = new System.Drawing.Size(112, 17);
-            this.rbHtml.TabIndex = 1;
-            this.rbHtml.Text = "Legacy Word Doc";
-            this.rbHtml.UseVisualStyleBackColor = true;
-            this.rbHtml.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.label3.Location = new System.Drawing.Point(18, 321);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(131, 25);
+            this.label3.TabIndex = 21;
+            this.label3.Text = "License Key";
             // 
-            // rbExcel
+            // txtLicense
             // 
-            this.rbExcel.AutoSize = true;
-            this.rbExcel.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.rbExcel.Location = new System.Drawing.Point(263, 39);
-            this.rbExcel.Name = "rbExcel";
-            this.rbExcel.Size = new System.Drawing.Size(51, 17);
-            this.rbExcel.TabIndex = 2;
-            this.rbExcel.Text = "Excel";
-            this.rbExcel.UseVisualStyleBackColor = true;
-            this.rbExcel.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
+            this.txtLicense.Location = new System.Drawing.Point(158, 325);
+            this.txtLicense.Name = "txtLicense";
+            this.txtLicense.Size = new System.Drawing.Size(346, 20);
+            this.txtLicense.TabIndex = 22;
             // 
             // frmSettings
             // 
@@ -214,6 +234,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(46)))), ((int)(((byte)(59)))));
             this.ClientSize = new System.Drawing.Size(800, 546);
+            this.Controls.Add(this.txtLicense);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -252,5 +274,7 @@
         private System.Windows.Forms.RadioButton rbExcel;
         private System.Windows.Forms.RadioButton rbHtml;
         private System.Windows.Forms.RadioButton rbWord;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtLicense;
     }
 }

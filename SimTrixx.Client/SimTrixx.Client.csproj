@@ -109,6 +109,7 @@
     <Compile Include="Logic\FileExportHandler.cs" />
     <Compile Include="Logic\FileExtensionHandler.cs" />
     <Compile Include="Logic\KeywordConfigHandler.cs" />
+    <Compile Include="Logic\LicenseManager.cs" />
     <Compile Include="Logic\ReplacementWordConfigHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

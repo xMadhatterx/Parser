@@ -4,13 +4,10 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using SimTrixx.Reader.Concrete;
-using Standard.Licensing;
-using Standard.Licensing.Validation;
 using System.IO;
 using AutoUpdaterDotNET;
-using Standard.Licensing.Security.Cryptography;
-using SimTrixx.Data.Interfaces;
 using SimTrixx.Data.Repos;
+using SimTrixx.Client.Logic;
 
 namespace TestDocReader
 {
@@ -35,50 +32,44 @@ namespace TestDocReader
         public Form1()
         {
             InitializeComponent();
-            //CheckLicense();
             CheckUpdate();
+            CheckLicense();
             _documentLines = new List<Contract>();
             _keywords = new List<Word>();
             LoadKeywords();
         }
-        private void CheckLicense()
+        public void CheckLicense()
         {
-            var keyGenerator = KeyGenerator.Create();
-            var keyPair = keyGenerator.GenerateKeyPair();
-            var publicKey = keyPair.ToPublicKeyString();
-            var license = License.Load(@"E:\code\Windows Apps\Parser\TestDocReader\bin\Debug\License.lic");
-            var validationFailures = license.Validate().ExpirationDate().And().Signature(publicKey).AssertValidLicense();
-            foreach (var failure in validationFailures)
-            {
-                MessageBox.Show(failure.GetType().Name + ": " + failure.Message + " - " + failure.HowToResolve);
-            }
 
-            var lic = new LicenseRepo().GetLicense(license.Id.ToString());
-            bool validLicense = false;
-            if(lic != null)
+            var licenseKey = Properties.Settings.Default["License"];
+            if(!string.IsNullOrEmpty(licenseKey.ToString())) 
             {
-                if(lic.Expiration == license.Expiration && lic.Expiration > DateTime.UtcNow)
+                var license = new LicenseManager().CheckLicense(licenseKey.ToString());
+                if (license)
                 {
-                    //license Success
-                    validLicense = true;
-
+                    EnableForm();
                 } else
                 {
-                    //license fail
-                    validLicense = false;
+                    MessageBox.Show("Your license is not valid, please contact support.", "License", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    DisableForm();
                 }
-            } 
-            else
+            } else
             {
-                //license fail
-                validLicense = false;
+                MessageBox.Show("Please enter you license key in the settings menu and restart the app.", "License", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                DisableForm();
             }
+        }
 
-            if(!validLicense)
-            {
-                MessageBox.Show("License Invalid");
-                this.Close();
-            }
+        private void DisableForm()
+        {
+            btnLoadDocument.Enabled = false;
+            btnOutput.Enabled = false;
+        }
+
+        private void EnableForm()
+        {
+            btnLoadDocument.Enabled = true;
+            btnOutput.Enabled = true;
         }
 
         private void CheckUpdate()
@@ -191,7 +182,7 @@ namespace TestDocReader
         }
         private void btnSettings_Click(object sender, EventArgs e)
         {
-            var frm = new frmSettings();
+            var frm = new frmSettings(this);
             frm.StartPosition = FormStartPosition.CenterParent;
             frm.ShowDialog();
         }

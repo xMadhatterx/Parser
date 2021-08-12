@@ -20,24 +20,32 @@ namespace TestDocReader
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
         private RadioButton selectedRb;
+        private Form1 main;
 
         [DllImportAttribute("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
         [DllImportAttribute("user32.dll")]
 
         public static extern bool ReleaseCapture();
-        public frmSettings()
+        public frmSettings(Form1 mainForm)
         {
+            main = mainForm;
             InitializeComponent();
             _keywords = new List<string>();
             _replacements = new List<string>();
             LoadKeywords();
             LoadReplacements();
+            LoadLicense();
         }
 
         private void btnCloseFrm_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void LoadLicense()
+        {
+            txtLicense.Text = Properties.Settings.Default["License"].ToString();
         }
 
         //private void ModifyKeywordList()
@@ -78,8 +86,10 @@ namespace TestDocReader
             //{
             //    r.Settings.FileExportType = "3";
             //}
-       
+            Properties.Settings.Default["License"] = txtLicense.Text;
+            Properties.Settings.Default.Save();
             new TestDocReader.Logic.KeywordConfigHandler().ExportV2(r);
+            main.CheckLicense();
             this.Close();
         }
 

@@ -1,0 +1,11 @@
+﻿<License>
+  <Id>aa948083-c933-452b-82f1-b369eec9d957</Id>
+  <Type>Standard</Type>
+  <Expiration>Sun, 31 Jul 2022 02:32:55 GMT</Expiration>
+  <Quantity>1</Quantity>
+  <Customer>
+    <Name>Greg Goodwin</Name>
+    <Email>greggoodwin@gmail.com</Email>
+  </Customer>
+  <Signature>MEQCIHPypq43EHEYbE8NTBmeMuuJAIzymfs1bTSBcH8C18IrAiB+QzQBsFNgyDo78MiZJX5PYrFYQCyPBPqmVEQU/zpU7Q==</Signature>
+</License>
