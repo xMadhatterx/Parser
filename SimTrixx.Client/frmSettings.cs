@@ -33,6 +33,7 @@ namespace TestDocReader
             _replacements = new List<string>();
             LoadKeywords();
             LoadReplacements();
+
         }
 
         private void btnCloseFrm_Click(object sender, EventArgs e)
@@ -56,7 +57,7 @@ namespace TestDocReader
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            _keywordsV2.Add(new Word() { Keyword = string.Empty, Replacement = string.Empty });
+            _keywordsV2.Add(new Word() { Keyword = "Change Me", Replacement = "Change Me" });
             BuildGrid();
         }
 
@@ -65,7 +66,7 @@ namespace TestDocReader
             var r = new Root();
             r.Keywords = new List<Word>();
             //r.Settings = new CustomSettings();
-            //r.Keywords.AddRange(_keywordsV2);
+            r.Keywords.AddRange(_keywordsV2);
             //if(selectedRb.Text.ToLower() == "word doc")
             //{
             //    r.Settings.FileExportType = "1";

@@ -40,6 +40,13 @@ namespace TestDocReader
             _documentLines = new List<Contract>();
             _keywords = new List<Word>();
             LoadKeywords();
+            //Type dgvType =dataGridView1.GetType();
+            //var pi = dgvType.GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+            //pi.SetValue(dataGridView1, new object[]{true}, null);
+            typeof(DataGridView).InvokeMember("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.SetProperty,
+               null,
+               dataGridView1,
+               new object[] { true });
         }
         private void CheckLicense()
         {
