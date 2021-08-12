@@ -11,6 +11,7 @@ using iTextSharp.text.pdf.parser;
 using System.Text;
 using com.sun.corba.se.spi.orbutil.threadpool;
 using System.Linq;
+using com.sun.corba.se.spi.orbutil.fsm;
 
 namespace ContractReaderV2
 {
@@ -117,6 +118,10 @@ namespace ContractReaderV2
                                 if (sbSentence.Length != 0)
                                 {
                                     newContract.Data = sbSentence.ToString();
+                                    foreach (var keyword in keywords)
+                                    {
+                                        newContract.Data = Regex.Replace(newContract.Data, keyword.Keyword, keyword.Replacement, RegexOptions.IgnoreCase);
+                                    }
                                     _lineList2.Add(newContract);
                                     newContract = new Contract();
                                     newContract.DocumentSection = contract.DocumentSection;
@@ -134,6 +139,10 @@ namespace ContractReaderV2
                         if (currentCount == sentenceCount && sbSentence.Length != 0)
                         {
                             newContract.Data = sbSentence.ToString();
+                            foreach (var keyword in keywords)
+                            {
+                                newContract.Data = Regex.Replace(newContract.Data, keyword.Keyword, keyword.Replacement, RegexOptions.IgnoreCase);
+                            }
                             _lineList2.Add(newContract);
                             newContract = new Contract();
                             newContract.DocumentSection = contract.DocumentSection;
@@ -230,10 +239,11 @@ namespace ContractReaderV2
                         if (contract.Data.ToLower().Contains(keyword.Keyword.ToLower()))
                         {
                             //Replace keywords with replacement words
-                            if (keyword.Replacement != "")
-                            {
-                                contract.Data = contract.Data.Replace(keyword.Keyword, keyword.Replacement);
-                            }
+                            //if (keyword.Replacement != "")
+                            //{
+                            //    contract.Data = Regex.Replace(contract.Data, keyword.Keyword, keyword.Replacement, RegexOptions.IgnoreCase);
+                                //contract.Data = result;// contract.Data.Replace(keyword.Keyword, keyword.Replacement);
+                            //}
                             keyWordHit = true;
                             break;
                         }

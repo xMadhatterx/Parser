@@ -3,18 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SimTrixx.Data.Interfaces;
 using SimTrixx.Common.Entities;
-using SimTrixx.Data.Context;
+using Dapper;
+using System.Data.SqlClient;
 
 namespace SimTrixx.Data.Repos
 {
-    public class LicenseRepo : ILicenseRepo
+    public class LicenseRepo
     {
         public License GetLicense(string Id)
         {
-            LicenseContext db = new LicenseContext();
-            return db.Licenses.Find(Id);
+            string sql = "SELECT * FROM Licenses WHERE Id = '" + Id + "'";
+
+            using (var connection = new SqlConnection("Data Source=SQL5105.site4now.net;Initial Catalog=db_a39883_simtrixx;User Id=db_a39883_simtrixx_admin;Password=Of*w6m8TYO5"))
+            {
+                var orderDetails = connection.Query<License>(sql).FirstOrDefault();
+                return orderDetails;
+            }
         }
     }
 }
