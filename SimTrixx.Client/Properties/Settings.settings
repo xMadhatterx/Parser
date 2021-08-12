@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="License" Type="System.String" Scope="User">
-      <Value Profile="(Default)">ab948083-c933-452b-82f1-b369eec9d957</Value>
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

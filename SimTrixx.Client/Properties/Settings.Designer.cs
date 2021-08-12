@@ -25,7 +25,7 @@ namespace TestDocReader.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ab948083-c933-452b-82f1-b369eec9d957")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string License {
             get {
                 return ((string)(this["License"]));
