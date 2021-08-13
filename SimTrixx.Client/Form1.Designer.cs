@@ -39,7 +39,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.documentSectionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            //this.dataTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contractBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
@@ -176,13 +175,6 @@
             this.documentSectionDataGridViewTextBoxColumn.HeaderText = "Section";
             this.documentSectionDataGridViewTextBoxColumn.Name = "documentSectionDataGridViewTextBoxColumn";
             // 
-            // dataTypeDataGridViewTextBoxColumn
-            // 
-            //this.dataTypeDataGridViewTextBoxColumn.DataPropertyName = "DataType";
-            //this.dataTypeDataGridViewTextBoxColumn.FillWeight = 33.16705F;
-            //this.dataTypeDataGridViewTextBoxColumn.HeaderText = "DataType";
-            //this.dataTypeDataGridViewTextBoxColumn.Name = "dataTypeDataGridViewTextBoxColumn";
-            // 
             // dataDataGridViewTextBoxColumn
             // 
             this.dataDataGridViewTextBoxColumn.DataPropertyName = "Data";
@@ -289,9 +281,9 @@
             this.panel3.BackColor = System.Drawing.Color.Transparent;
             this.panel3.BackgroundImage = global::TestDocReader.Properties.Resources.Logo2;
             this.panel3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel3.Location = new System.Drawing.Point(2, 3);
+            this.panel3.Location = new System.Drawing.Point(11, 5);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(254, 68);
+            this.panel3.Size = new System.Drawing.Size(237, 63);
             this.panel3.TabIndex = 12;
             // 
             // pnlExport
