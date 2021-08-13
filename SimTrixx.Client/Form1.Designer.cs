@@ -38,36 +38,37 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.documentSectionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.contractBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.btnOutput = new System.Windows.Forms.Button();
             this.ofdDocument = new System.Windows.Forms.OpenFileDialog();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pnlSettings = new System.Windows.Forms.Panel();
+            this.panel9 = new System.Windows.Forms.Panel();
             this.btnSettings = new System.Windows.Forms.Button();
             this.panel10 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.pnlExport = new System.Windows.Forms.Panel();
+            this.panel7 = new System.Windows.Forms.Panel();
             this.panel8 = new System.Windows.Forms.Panel();
             this.pnlImport = new System.Windows.Forms.Panel();
+            this.panel5 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.btnMinimize = new System.Windows.Forms.Button();
             this.btnCloseFrm = new System.Windows.Forms.Button();
-            this.panel7 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.contractBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.panel9 = new System.Windows.Forms.Panel();
-            this.documentSectionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.contractBindingSource)).BeginInit();
             this.panel1.SuspendLayout();
             this.pnlSettings.SuspendLayout();
             this.pnlExport.SuspendLayout();
             this.pnlImport.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.contractBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // btnLoadDocument
@@ -166,6 +167,35 @@
             this.dataGridView1.Size = new System.Drawing.Size(966, 622);
             this.dataGridView1.TabIndex = 5;
             // 
+            // documentSectionDataGridViewTextBoxColumn
+            // 
+            this.documentSectionDataGridViewTextBoxColumn.DataPropertyName = "DocumentSection";
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+            this.documentSectionDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            this.documentSectionDataGridViewTextBoxColumn.FillWeight = 27.41117F;
+            this.documentSectionDataGridViewTextBoxColumn.HeaderText = "Section";
+            this.documentSectionDataGridViewTextBoxColumn.Name = "documentSectionDataGridViewTextBoxColumn";
+            // 
+            // dataTypeDataGridViewTextBoxColumn
+            // 
+            this.dataTypeDataGridViewTextBoxColumn.DataPropertyName = "DataType";
+            this.dataTypeDataGridViewTextBoxColumn.FillWeight = 33.16705F;
+            this.dataTypeDataGridViewTextBoxColumn.HeaderText = "DataType";
+            this.dataTypeDataGridViewTextBoxColumn.Name = "dataTypeDataGridViewTextBoxColumn";
+            // 
+            // dataDataGridViewTextBoxColumn
+            // 
+            this.dataDataGridViewTextBoxColumn.DataPropertyName = "Data";
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle3;
+            this.dataDataGridViewTextBoxColumn.FillWeight = 239.4218F;
+            this.dataDataGridViewTextBoxColumn.HeaderText = "Data";
+            this.dataDataGridViewTextBoxColumn.Name = "dataDataGridViewTextBoxColumn";
+            // 
+            // contractBindingSource
+            // 
+            this.contractBindingSource.DataSource = typeof(SimTrixx.Reader.Concrete.Contract);
+            // 
             // btnOutput
             // 
             this.btnOutput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(46)))), ((int)(((byte)(59)))));
@@ -217,6 +247,16 @@
             this.pnlSettings.MouseEnter += new System.EventHandler(this.pnlSettings_MouseEnter);
             this.pnlSettings.MouseLeave += new System.EventHandler(this.pnlSettings_MouseLeave);
             // 
+            // panel9
+            // 
+            this.panel9.BackColor = System.Drawing.Color.Transparent;
+            this.panel9.BackgroundImage = global::TestDocReader.Properties.Resources.cogwheel_white;
+            this.panel9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel9.Location = new System.Drawing.Point(31, 15);
+            this.panel9.Name = "panel9";
+            this.panel9.Size = new System.Drawing.Size(37, 34);
+            this.panel9.TabIndex = 18;
+            // 
             // btnSettings
             // 
             this.btnSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(46)))), ((int)(((byte)(59)))));
@@ -238,11 +278,21 @@
             // 
             // panel10
             // 
-            this.panel10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(142)))), ((int)(((byte)(30)))));
+            this.panel10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(73)))), ((int)(((byte)(106)))), ((int)(((byte)(129)))));
             this.panel10.Location = new System.Drawing.Point(1, 0);
             this.panel10.Name = "panel10";
             this.panel10.Size = new System.Drawing.Size(6, 60);
             this.panel10.TabIndex = 0;
+            // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.Transparent;
+            this.panel3.BackgroundImage = global::TestDocReader.Properties.Resources.Logo2;
+            this.panel3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel3.Location = new System.Drawing.Point(2, 3);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(254, 68);
+            this.panel3.TabIndex = 12;
             // 
             // pnlExport
             // 
@@ -257,9 +307,19 @@
             this.pnlExport.MouseEnter += new System.EventHandler(this.pnlExport_MouseEnter);
             this.pnlExport.MouseLeave += new System.EventHandler(this.pnlExport_MouseLeave);
             // 
+            // panel7
+            // 
+            this.panel7.BackColor = System.Drawing.Color.Transparent;
+            this.panel7.BackgroundImage = global::TestDocReader.Properties.Resources.left_arrow_white;
+            this.panel7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel7.Location = new System.Drawing.Point(24, 14);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(50, 34);
+            this.panel7.TabIndex = 17;
+            // 
             // panel8
             // 
-            this.panel8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(142)))), ((int)(((byte)(30)))));
+            this.panel8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(73)))), ((int)(((byte)(106)))), ((int)(((byte)(129)))));
             this.panel8.Location = new System.Drawing.Point(1, 0);
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(6, 60);
@@ -278,9 +338,19 @@
             this.pnlImport.MouseEnter += new System.EventHandler(this.pnlImport_MouseEnter);
             this.pnlImport.MouseLeave += new System.EventHandler(this.pnlImport_MouseLeave);
             // 
+            // panel5
+            // 
+            this.panel5.BackColor = System.Drawing.Color.Transparent;
+            this.panel5.BackgroundImage = global::TestDocReader.Properties.Resources.right_arrow_white;
+            this.panel5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel5.Location = new System.Drawing.Point(24, 13);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(50, 34);
+            this.panel5.TabIndex = 16;
+            // 
             // panel6
             // 
-            this.panel6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(142)))), ((int)(((byte)(30)))));
+            this.panel6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(73)))), ((int)(((byte)(106)))), ((int)(((byte)(129)))));
             this.panel6.Location = new System.Drawing.Point(1, 0);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(6, 60);
@@ -299,7 +369,7 @@
             // 
             // panel4
             // 
-            this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(142)))), ((int)(((byte)(30)))));
+            this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(73)))), ((int)(((byte)(106)))), ((int)(((byte)(129)))));
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel4.Controls.Add(this.btnMinimize);
             this.panel4.Controls.Add(this.btnCloseFrm);
@@ -343,68 +413,6 @@
             this.btnCloseFrm.UseVisualStyleBackColor = false;
             this.btnCloseFrm.Click += new System.EventHandler(this.btnCloseFrm_Click);
             // 
-            // panel7
-            // 
-            this.panel7.BackColor = System.Drawing.Color.Transparent;
-            this.panel7.BackgroundImage = global::TestDocReader.Properties.Resources.left_arrow_white;
-            this.panel7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel7.Location = new System.Drawing.Point(24, 14);
-            this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(50, 34);
-            this.panel7.TabIndex = 17;
-            // 
-            // panel3
-            // 
-            this.panel3.BackColor = System.Drawing.Color.Transparent;
-            this.panel3.BackgroundImage = global::TestDocReader.Properties.Resources.Logo2;
-            this.panel3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel3.Location = new System.Drawing.Point(2, 3);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(254, 68);
-            this.panel3.TabIndex = 12;
-            // 
-            // panel5
-            // 
-            this.panel5.BackColor = System.Drawing.Color.Transparent;
-            this.panel5.BackgroundImage = global::TestDocReader.Properties.Resources.right_arrow_white;
-            this.panel5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel5.Location = new System.Drawing.Point(24, 13);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(50, 34);
-            this.panel5.TabIndex = 16;
-            // 
-            // contractBindingSource
-            // 
-            this.contractBindingSource.DataSource = typeof(SimTrixx.Reader.Concrete.Contract);
-            // 
-            // panel9
-            // 
-            this.panel9.BackColor = System.Drawing.Color.Transparent;
-            this.panel9.BackgroundImage = global::TestDocReader.Properties.Resources.cogwheel_white;
-            this.panel9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel9.Location = new System.Drawing.Point(31, 15);
-            this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(37, 34);
-            this.panel9.TabIndex = 18;
-            // 
-            // documentSectionDataGridViewTextBoxColumn
-            // 
-            this.documentSectionDataGridViewTextBoxColumn.DataPropertyName = "DocumentSection";
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
-            this.documentSectionDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
-            this.documentSectionDataGridViewTextBoxColumn.FillWeight = 27.41117F;
-            this.documentSectionDataGridViewTextBoxColumn.HeaderText = "Section";
-            this.documentSectionDataGridViewTextBoxColumn.Name = "documentSectionDataGridViewTextBoxColumn";
-            // 
-            // dataDataGridViewTextBoxColumn
-            // 
-            this.dataDataGridViewTextBoxColumn.DataPropertyName = "Data";
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle3;
-            this.dataDataGridViewTextBoxColumn.FillWeight = 239.4218F;
-            this.dataDataGridViewTextBoxColumn.HeaderText = "Data";
-            this.dataDataGridViewTextBoxColumn.Name = "dataDataGridViewTextBoxColumn";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -421,6 +429,7 @@
             this.Text = "Parser";
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.contractBindingSource)).EndInit();
             this.panel1.ResumeLayout(false);
             this.pnlSettings.ResumeLayout(false);
             this.pnlExport.ResumeLayout(false);
@@ -428,7 +437,6 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.contractBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
