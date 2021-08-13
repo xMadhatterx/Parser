@@ -45,7 +45,6 @@
             this.pnlSettings = new System.Windows.Forms.Panel();
             this.btnSettings = new System.Windows.Forms.Button();
             this.panel10 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
             this.pnlExport = new System.Windows.Forms.Panel();
             this.panel8 = new System.Windows.Forms.Panel();
             this.pnlImport = new System.Windows.Forms.Panel();
@@ -54,10 +53,14 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.btnMinimize = new System.Windows.Forms.Button();
             this.btnCloseFrm = new System.Windows.Forms.Button();
+            this.panel7 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.panel5 = new System.Windows.Forms.Panel();
             this.documentSectionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contractBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.panel9 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             this.pnlSettings.SuspendLayout();
@@ -77,9 +80,9 @@
             this.btnLoadDocument.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLoadDocument.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLoadDocument.ForeColor = System.Drawing.Color.White;
-            this.btnLoadDocument.Location = new System.Drawing.Point(50, 9);
+            this.btnLoadDocument.Location = new System.Drawing.Point(24, 9);
             this.btnLoadDocument.Name = "btnLoadDocument";
-            this.btnLoadDocument.Size = new System.Drawing.Size(178, 43);
+            this.btnLoadDocument.Size = new System.Drawing.Size(230, 43);
             this.btnLoadDocument.TabIndex = 0;
             this.btnLoadDocument.Text = "Import";
             this.btnLoadDocument.UseVisualStyleBackColor = false;
@@ -139,7 +142,7 @@
             this.dataGridView1.DataSource = this.contractBindingSource;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.MenuBar;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -174,9 +177,9 @@
             this.btnOutput.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOutput.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnOutput.ForeColor = System.Drawing.Color.White;
-            this.btnOutput.Location = new System.Drawing.Point(50, 9);
+            this.btnOutput.Location = new System.Drawing.Point(24, 9);
             this.btnOutput.Name = "btnOutput";
-            this.btnOutput.Size = new System.Drawing.Size(178, 43);
+            this.btnOutput.Size = new System.Drawing.Size(230, 43);
             this.btnOutput.TabIndex = 7;
             this.btnOutput.Text = "Export";
             this.btnOutput.UseVisualStyleBackColor = false;
@@ -206,6 +209,7 @@
             // pnlSettings
             // 
             this.pnlSettings.BackColor = System.Drawing.Color.Transparent;
+            this.pnlSettings.Controls.Add(this.panel9);
             this.pnlSettings.Controls.Add(this.btnSettings);
             this.pnlSettings.Controls.Add(this.panel10);
             this.pnlSettings.Location = new System.Drawing.Point(-1, 231);
@@ -224,9 +228,9 @@
             this.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSettings.ForeColor = System.Drawing.Color.White;
-            this.btnSettings.Location = new System.Drawing.Point(50, 10);
+            this.btnSettings.Location = new System.Drawing.Point(24, 10);
             this.btnSettings.Name = "btnSettings";
-            this.btnSettings.Size = new System.Drawing.Size(178, 43);
+            this.btnSettings.Size = new System.Drawing.Size(230, 43);
             this.btnSettings.TabIndex = 8;
             this.btnSettings.Text = "Settings";
             this.btnSettings.UseVisualStyleBackColor = true;
@@ -242,19 +246,10 @@
             this.panel10.Size = new System.Drawing.Size(6, 60);
             this.panel10.TabIndex = 0;
             // 
-            // panel3
-            // 
-            this.panel3.BackColor = System.Drawing.Color.Transparent;
-            this.panel3.BackgroundImage = global::TestDocReader.Properties.Resources.Logo2;
-            this.panel3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel3.Location = new System.Drawing.Point(2, 3);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(254, 68);
-            this.panel3.TabIndex = 12;
-            // 
             // pnlExport
             // 
             this.pnlExport.BackColor = System.Drawing.Color.Transparent;
+            this.pnlExport.Controls.Add(this.panel7);
             this.pnlExport.Controls.Add(this.panel8);
             this.pnlExport.Controls.Add(this.btnOutput);
             this.pnlExport.Location = new System.Drawing.Point(-1, 163);
@@ -275,6 +270,7 @@
             // pnlImport
             // 
             this.pnlImport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(46)))), ((int)(((byte)(59)))));
+            this.pnlImport.Controls.Add(this.panel5);
             this.pnlImport.Controls.Add(this.panel6);
             this.pnlImport.Controls.Add(this.btnLoadDocument);
             this.pnlImport.Location = new System.Drawing.Point(-1, 97);
@@ -349,6 +345,36 @@
             this.btnCloseFrm.UseVisualStyleBackColor = false;
             this.btnCloseFrm.Click += new System.EventHandler(this.btnCloseFrm_Click);
             // 
+            // panel7
+            // 
+            this.panel7.BackColor = System.Drawing.Color.Transparent;
+            this.panel7.BackgroundImage = global::TestDocReader.Properties.Resources.left_arrow_white;
+            this.panel7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel7.Location = new System.Drawing.Point(24, 14);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(50, 34);
+            this.panel7.TabIndex = 17;
+            // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.Transparent;
+            this.panel3.BackgroundImage = global::TestDocReader.Properties.Resources.Logo2;
+            this.panel3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel3.Location = new System.Drawing.Point(2, 3);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(254, 68);
+            this.panel3.TabIndex = 12;
+            // 
+            // panel5
+            // 
+            this.panel5.BackColor = System.Drawing.Color.Transparent;
+            this.panel5.BackgroundImage = global::TestDocReader.Properties.Resources.right_arrow_white;
+            this.panel5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel5.Location = new System.Drawing.Point(24, 13);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(50, 34);
+            this.panel5.TabIndex = 16;
+            // 
             // documentSectionDataGridViewTextBoxColumn
             // 
             this.documentSectionDataGridViewTextBoxColumn.DataPropertyName = "DocumentSection";
@@ -377,6 +403,16 @@
             // contractBindingSource
             // 
             this.contractBindingSource.DataSource = typeof(SimTrixx.Reader.Concrete.Contract);
+            // 
+            // panel9
+            // 
+            this.panel9.BackColor = System.Drawing.Color.Transparent;
+            this.panel9.BackgroundImage = global::TestDocReader.Properties.Resources.cogwheel_white;
+            this.panel9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel9.Location = new System.Drawing.Point(31, 15);
+            this.panel9.Name = "panel9";
+            this.panel9.Size = new System.Drawing.Size(37, 34);
+            this.panel9.TabIndex = 18;
             // 
             // Form1
             // 
@@ -432,6 +468,9 @@
         private System.Windows.Forms.Panel pnlSettings;
         private System.Windows.Forms.Panel panel10;
         private System.Windows.Forms.Button btnSettings;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.Panel panel9;
     }
 }
 

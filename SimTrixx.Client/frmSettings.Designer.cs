@@ -38,18 +38,12 @@
             this.btnAddRow = new System.Windows.Forms.Button();
             this.wordBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.rbExcel = new System.Windows.Forms.RadioButton();
-            this.rbHtml = new System.Windows.Forms.RadioButton();
-            this.rbWord = new System.Windows.Forms.RadioButton();
             this.label3 = new System.Windows.Forms.Label();
             this.txtLicense = new System.Windows.Forms.TextBox();
             this.panel4.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKeywords)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.wordBindingSource)).BeginInit();
-            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel4
@@ -99,7 +93,7 @@
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(142)))), ((int)(((byte)(30)))));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.btnSave);
-            this.panel1.Location = new System.Drawing.Point(0, 504);
+            this.panel1.Location = new System.Drawing.Point(0, 398);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(800, 45);
             this.panel1.TabIndex = 10;
@@ -128,11 +122,11 @@
             // 
             // btnAddRow
             // 
-            this.btnAddRow.Location = new System.Drawing.Point(713, 321);
+            this.btnAddRow.Location = new System.Drawing.Point(683, 321);
             this.btnAddRow.Name = "btnAddRow";
-            this.btnAddRow.Size = new System.Drawing.Size(75, 23);
+            this.btnAddRow.Size = new System.Drawing.Size(105, 23);
             this.btnAddRow.TabIndex = 16;
-            this.btnAddRow.Text = "New";
+            this.btnAddRow.Text = "Add Keyword";
             this.btnAddRow.UseVisualStyleBackColor = true;
             this.btnAddRow.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -151,71 +145,12 @@
             this.label1.TabIndex = 18;
             this.label1.Text = "KEYWORDS";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label2.Location = new System.Drawing.Point(18, 363);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(115, 25);
-            this.label2.TabIndex = 19;
-            this.label2.Text = "File Export";
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.rbExcel);
-            this.panel2.Controls.Add(this.rbHtml);
-            this.panel2.Controls.Add(this.rbWord);
-            this.panel2.Location = new System.Drawing.Point(23, 392);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(765, 100);
-            this.panel2.TabIndex = 20;
-            // 
-            // rbExcel
-            // 
-            this.rbExcel.AutoSize = true;
-            this.rbExcel.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.rbExcel.Location = new System.Drawing.Point(263, 39);
-            this.rbExcel.Name = "rbExcel";
-            this.rbExcel.Size = new System.Drawing.Size(51, 17);
-            this.rbExcel.TabIndex = 2;
-            this.rbExcel.Text = "Excel";
-            this.rbExcel.UseVisualStyleBackColor = true;
-            this.rbExcel.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
-            // 
-            // rbHtml
-            // 
-            this.rbHtml.AutoSize = true;
-            this.rbHtml.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.rbHtml.Location = new System.Drawing.Point(136, 39);
-            this.rbHtml.Name = "rbHtml";
-            this.rbHtml.Size = new System.Drawing.Size(112, 17);
-            this.rbHtml.TabIndex = 1;
-            this.rbHtml.Text = "Legacy Word Doc";
-            this.rbHtml.UseVisualStyleBackColor = true;
-            this.rbHtml.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
-            // 
-            // rbWord
-            // 
-            this.rbWord.AutoSize = true;
-            this.rbWord.Checked = true;
-            this.rbWord.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.rbWord.Location = new System.Drawing.Point(44, 39);
-            this.rbWord.Name = "rbWord";
-            this.rbWord.Size = new System.Drawing.Size(74, 17);
-            this.rbWord.TabIndex = 0;
-            this.rbWord.TabStop = true;
-            this.rbWord.Text = "Word Doc";
-            this.rbWord.UseVisualStyleBackColor = true;
-            this.rbWord.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label3.Location = new System.Drawing.Point(18, 321);
+            this.label3.Location = new System.Drawing.Point(18, 353);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(131, 25);
             this.label3.TabIndex = 21;
@@ -223,7 +158,7 @@
             // 
             // txtLicense
             // 
-            this.txtLicense.Location = new System.Drawing.Point(158, 325);
+            this.txtLicense.Location = new System.Drawing.Point(155, 358);
             this.txtLicense.Name = "txtLicense";
             this.txtLicense.Size = new System.Drawing.Size(346, 20);
             this.txtLicense.TabIndex = 22;
@@ -233,11 +168,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(46)))), ((int)(((byte)(59)))));
-            this.ClientSize = new System.Drawing.Size(800, 546);
+            this.ClientSize = new System.Drawing.Size(800, 440);
             this.Controls.Add(this.txtLicense);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnAddRow);
             this.Controls.Add(this.dgvKeywords);
@@ -251,8 +184,6 @@
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvKeywords)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.wordBindingSource)).EndInit();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -269,11 +200,6 @@
         private System.Windows.Forms.Button btnAddRow;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.RadioButton rbExcel;
-        private System.Windows.Forms.RadioButton rbHtml;
-        private System.Windows.Forms.RadioButton rbWord;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtLicense;
     }

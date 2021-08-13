@@ -175,6 +175,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\cogwheel-white.png" />
+    <Content Include="Images\left-arrow-white.png" />
+    <Content Include="Images\right-arrow-white.png" />
     <Content Include="Logo2.png" />
     <Content Include="Update.xml" />
   </ItemGroup>
@@ -219,5 +222,6 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
