@@ -39,7 +39,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.documentSectionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            //this.dataTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contractBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
@@ -178,10 +178,10 @@
             // 
             // dataTypeDataGridViewTextBoxColumn
             // 
-            this.dataTypeDataGridViewTextBoxColumn.DataPropertyName = "DataType";
-            this.dataTypeDataGridViewTextBoxColumn.FillWeight = 33.16705F;
-            this.dataTypeDataGridViewTextBoxColumn.HeaderText = "DataType";
-            this.dataTypeDataGridViewTextBoxColumn.Name = "dataTypeDataGridViewTextBoxColumn";
+            //this.dataTypeDataGridViewTextBoxColumn.DataPropertyName = "DataType";
+            //this.dataTypeDataGridViewTextBoxColumn.FillWeight = 33.16705F;
+            //this.dataTypeDataGridViewTextBoxColumn.HeaderText = "DataType";
+            //this.dataTypeDataGridViewTextBoxColumn.Name = "dataTypeDataGridViewTextBoxColumn";
             // 
             // dataDataGridViewTextBoxColumn
             // 
