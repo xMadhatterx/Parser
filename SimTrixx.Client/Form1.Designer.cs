@@ -56,11 +56,10 @@
             this.panel7 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.documentSectionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contractBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.panel9 = new System.Windows.Forms.Panel();
+            this.documentSectionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             this.pnlSettings.SuspendLayout();
@@ -137,7 +136,6 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.documentSectionDataGridViewTextBoxColumn,
-            this.dataTypeDataGridViewTextBoxColumn,
             this.dataDataGridViewTextBoxColumn});
             this.dataGridView1.DataSource = this.contractBindingSource;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -375,31 +373,6 @@
             this.panel5.Size = new System.Drawing.Size(50, 34);
             this.panel5.TabIndex = 16;
             // 
-            // documentSectionDataGridViewTextBoxColumn
-            // 
-            this.documentSectionDataGridViewTextBoxColumn.DataPropertyName = "DocumentSection";
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
-            this.documentSectionDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
-            this.documentSectionDataGridViewTextBoxColumn.FillWeight = 27.41117F;
-            this.documentSectionDataGridViewTextBoxColumn.HeaderText = "Section";
-            this.documentSectionDataGridViewTextBoxColumn.Name = "documentSectionDataGridViewTextBoxColumn";
-            // 
-            // dataTypeDataGridViewTextBoxColumn
-            // 
-            this.dataTypeDataGridViewTextBoxColumn.DataPropertyName = "DataType";
-            this.dataTypeDataGridViewTextBoxColumn.FillWeight = 33.16705F;
-            this.dataTypeDataGridViewTextBoxColumn.HeaderText = "DataType";
-            this.dataTypeDataGridViewTextBoxColumn.Name = "dataTypeDataGridViewTextBoxColumn";
-            // 
-            // dataDataGridViewTextBoxColumn
-            // 
-            this.dataDataGridViewTextBoxColumn.DataPropertyName = "Data";
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle3;
-            this.dataDataGridViewTextBoxColumn.FillWeight = 239.4218F;
-            this.dataDataGridViewTextBoxColumn.HeaderText = "Data";
-            this.dataDataGridViewTextBoxColumn.Name = "dataDataGridViewTextBoxColumn";
-            // 
             // contractBindingSource
             // 
             this.contractBindingSource.DataSource = typeof(SimTrixx.Reader.Concrete.Contract);
@@ -413,6 +386,24 @@
             this.panel9.Name = "panel9";
             this.panel9.Size = new System.Drawing.Size(37, 34);
             this.panel9.TabIndex = 18;
+            // 
+            // documentSectionDataGridViewTextBoxColumn
+            // 
+            this.documentSectionDataGridViewTextBoxColumn.DataPropertyName = "DocumentSection";
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+            this.documentSectionDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            this.documentSectionDataGridViewTextBoxColumn.FillWeight = 27.41117F;
+            this.documentSectionDataGridViewTextBoxColumn.HeaderText = "Section";
+            this.documentSectionDataGridViewTextBoxColumn.Name = "documentSectionDataGridViewTextBoxColumn";
+            // 
+            // dataDataGridViewTextBoxColumn
+            // 
+            this.dataDataGridViewTextBoxColumn.DataPropertyName = "Data";
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle3;
+            this.dataDataGridViewTextBoxColumn.FillWeight = 239.4218F;
+            this.dataDataGridViewTextBoxColumn.HeaderText = "Data";
+            this.dataDataGridViewTextBoxColumn.Name = "dataDataGridViewTextBoxColumn";
             // 
             // Form1
             // 
@@ -457,9 +448,6 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Button btnCloseFrm;
         private System.Windows.Forms.Button btnMinimize;
-        private System.Windows.Forms.DataGridViewTextBoxColumn documentSectionDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataTypeDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataDataGridViewTextBoxColumn;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel pnlImport;
         private System.Windows.Forms.Panel panel6;
@@ -471,6 +459,8 @@
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.Panel panel9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn documentSectionDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataDataGridViewTextBoxColumn;
     }
 }
 

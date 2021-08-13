@@ -184,7 +184,7 @@ namespace SimTrixx.Reader
                             }
 
                             contract.DocumentSection = _lastSectionId;
-                            contract.DataType = LineType.Contractor;
+                            //contract.DataType = LineType.Contractor;
                             _lineList.Add(contract);
                             lineType = LineType.Contractor;
                         }

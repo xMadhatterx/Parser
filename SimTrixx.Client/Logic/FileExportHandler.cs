@@ -26,7 +26,7 @@ namespace TestDocReader.Logic
                 foreach (var line in lines)
                 {
                     var section = string.IsNullOrWhiteSpace(line.DocumentSection) ? "Empty" : line.DocumentSection;
-                    var lineType = string.IsNullOrWhiteSpace(line.DataType.ToString()) ? "Empty" : line.DataType.ToString();
+                    //var lineType = string.IsNullOrWhiteSpace(line.DataType.ToString()) ? "Empty" : line.DataType.ToString();
                     var lineContent = string.IsNullOrWhiteSpace(line.Data) ? "Empty" : line.Data;
                     htmlString.Append("<tr>");
                     htmlString.Append($"<td style='width:10%'>{section}</td>");

@@ -137,7 +137,7 @@ namespace TestDocReader
                     {
                         dataGridView1.DataSource = _documentLines;
                         dataGridView1.Columns[0].DefaultCellStyle.ForeColor = Color.Green;
-                        dataGridView1.Columns[1].DefaultCellStyle.BackColor = Color.Yellow;
+                        //dataGridView1.Columns[1].DefaultCellStyle.BackColor = Color.Yellow;
                         dataGridView1.Columns[1].DefaultCellStyle.ForeColor = Color.Black;
 
                         label2.Text = _currentDocument;
