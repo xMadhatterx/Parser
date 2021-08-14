@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using SimTrixx.Reader.Concrete;
 using Microsoft.Office.Interop.Word;
+using Microsoft.Office.Interop.Excel;
 namespace TestDocReader.Logic
 {
    public class FileExportHandler
@@ -175,6 +176,80 @@ namespace TestDocReader.Logic
             document = null;
             winword.Quit(ref missing, ref missing, ref missing);
             winword = null;
+
+        }
+
+        public void CreateExcelDoc(List<SimTrixx.Reader.Concrete.Contract> lines, string filepath)
+        {
+            Microsoft.Office.Interop.Excel.Application excel;
+            Microsoft.Office.Interop.Excel.Workbook workBook;
+            Microsoft.Office.Interop.Excel.Worksheet workSheet;
+            Microsoft.Office.Interop.Excel.Range cellRange;
+            excel = new Microsoft.Office.Interop.Excel.Application();
+
+            try
+            {
+                
+                excel.Visible = false;
+                excel.DisplayAlerts = false;
+                workBook = excel.Workbooks.Add(Type.Missing);
+
+
+                workSheet = (Microsoft.Office.Interop.Excel.Worksheet)workBook.ActiveSheet;
+                workSheet.Name = "SimTrixx Matrix";
+
+                workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 2]].Merge();
+                workSheet.Cells[1, 1] = $"SimTrixx Simple Matrix - {System.IO.Path.GetFileName(filepath)}";
+                workSheet.Cells.Font.Size = 15;
+                workSheet.Cells[2, 1] = "Section";
+                workSheet.Cells[2, 2] = "Data";
+                int rowcount = 2;
+                foreach (var line in lines)
+                {
+                    rowcount += 1;
+                    if (rowcount > 2)
+                    {
+                        workSheet.Cells[rowcount, 1] = line.DocumentSection;
+                        workSheet.Cells[rowcount, 2] = line.Data;
+                    }
+                }
+                cellRange = workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[rowcount, 2]];
+                cellRange.EntireColumn.AutoFit();
+                cellRange.EntireColumn.WrapText = true;
+                Microsoft.Office.Interop.Excel.Borders border = cellRange.Borders;
+                border.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                border.Weight = 2d;
+                //Style Sheet Header
+                cellRange = workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 2]];
+                cellRange.Interior.Color = System.Drawing.Color.Yellow;
+                cellRange.Font.Bold = true;
+
+                //Style Column Headers
+                cellRange = workSheet.Range[workSheet.Cells[2, 1], workSheet.Cells[2,2]];
+                cellRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                cellRange.Interior.Color = System.Drawing.Color.DarkGray;
+                cellRange.Font.Color = System.Drawing.Color.White;
+                cellRange.Font.Bold = true;
+                //Center left column
+                cellRange = workSheet.Range[workSheet.Cells[3, 1], workSheet.Cells[rowcount, 1]];
+                cellRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+                workBook.SaveAs(filepath);
+                workBook.Close();
+                
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                excel.Quit();
+                workSheet = null;
+                workBook = null;
+                cellRange = null;
+                excel = null;
+            }
 
         }
     }

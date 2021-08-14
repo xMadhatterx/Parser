@@ -168,7 +168,11 @@ namespace TestDocReader
                         {
                             System.IO.File.AppendAllText(saveFileDialog1.FileName, doc);
                         }
-                        
+                        else if (saveFileDialog1.FilterIndex == 3)
+                        {
+                            new Logic.FileExportHandler().CreateExcelDoc(_documentLines, saveFileDialog1.FileName);
+                        }
+
                         MessageBox.Show($@"Export complete {Environment.NewLine} File saved to {saveFileDialog1.FileName}");
                     }
                     else
