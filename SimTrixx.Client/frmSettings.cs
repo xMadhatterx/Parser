@@ -35,6 +35,7 @@ namespace TestDocReader
             _replacements = new List<string>();
             LoadKeywords();
             LoadReplacements();
+            LoadLicense();
         }
 
         private void btnCloseFrm_Click(object sender, EventArgs e)
