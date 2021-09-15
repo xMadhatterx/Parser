@@ -20,9 +20,10 @@ namespace ContractReaderV2
         private readonly string _documentPath;
         private readonly string _tempDocumentPath;
         private readonly List<Contract> _lineList;
-        //private readonly List<Contract> _lineList2;
+        private readonly List<Contract> _lineList2;
         private string _lastSectionId;
         private bool _inActiveSection = false;
+        private bool _atleastOne = false;
 
         public ReaderV2(string documentPath, string tempPath)
         {
@@ -30,7 +31,7 @@ namespace ContractReaderV2
             _documentPath = documentPath;
             _tempDocumentPath = tempPath;
             _lineList = new List<Contract>();
-            //_lineList2 = new List<Contract>();
+            _lineList2 = new List<Contract>();
         }
 
         public List<Contract> ParseWordDocument(List<Word> keywords)
@@ -39,8 +40,8 @@ namespace ContractReaderV2
             var docText = extractor.ExtractText();
             File.WriteAllText(_tempDocumentPath, docText);
             ParseDocument(keywords);
-            return _lineList;
-            //return _lineList2;
+            //return _lineList;
+            return _lineList2;
         }
 
         public List<Contract> ParsePdfDocument(List<Word> keywords)
@@ -55,8 +56,8 @@ namespace ContractReaderV2
                 File.WriteAllText(_tempDocumentPath, strPdfText);
             }
             ParseDocument(keywords);
-            return _lineList;
-            //return _lineList2;
+            //return _lineList;
+            return _lineList2;
         }
 
         public void ParseDocument(List<Word> keywords)
@@ -72,7 +73,7 @@ namespace ContractReaderV2
                 }
                 NewPass(textList, lineCounter);
                 //CycleThrough(textList, lineCounter, keywords);
-                //SecondPass(keywords);
+                SecondPass(keywords);
             }
             File.Delete(_tempDocumentPath);
         }
@@ -86,9 +87,9 @@ namespace ContractReaderV2
             while (true)
             {
                 //If we are on the last line then wrap it up.
-                if(lineCount == lineAmount)
+                if (lineCount == lineAmount)
                 {
-                    if(!string.IsNullOrEmpty(contract.Data))
+                    if (!string.IsNullOrEmpty(contract.Data))
                     {
                         _lineList.Add(contract);
                     }
@@ -97,7 +98,7 @@ namespace ContractReaderV2
 
                 //If we are 1 past the last line then wrap it up
                 if (lineCount > lineAmount) return;
-                
+
                 var lineData = lines[lineCount];
                 if (!string.IsNullOrEmpty(lineData))
                 {
@@ -126,36 +127,44 @@ namespace ContractReaderV2
                         if (!string.IsNullOrEmpty(_lastSectionId))
                         {
                             //If we do compare the current section to the last section
-                            if(section == _lastSectionId)
+                            if (section == _lastSectionId)
                             {
                                 //boom - same section
                                 sameSection = true;
-                            } else
+                            }
+                            else
                             {
                                 //New Section, let's set our sectionid
                                 _lastSectionId = section.Trim();
                             }
-                        } else
+                        }
+                        else
                         {
                             //New Section, let's set our _lastSectionId
                             _lastSectionId = section.Trim();
                         }
-                    } else
+                    }
+                    else
                     {
                         //Section Not Found
                         //-----------------
                         //Check if we are consolidating
-                        if(section == "consolidate")
+                        if (section == "consolidate")
                         {
+                            _atleastOne = true;
                             _lineList.Add(contract);
                             contract = new Contract();
-                        } else
+                        }
+                        else
                         {
                             //Check if we have a previous section id
                             if (!string.IsNullOrEmpty(_lastSectionId) && _inActiveSection)
                             {
                                 //We have a previous section, let's use that
                                 sameSection = true;
+                            } else
+                            {
+                                _lastSectionId = section.Trim();
                             }
                         }
                     }
@@ -164,17 +173,18 @@ namespace ContractReaderV2
                     if (!string.IsNullOrEmpty(section) && !string.IsNullOrEmpty(lineData) && lineData.Contains(section))
                     {
                         lineData = lineData.Remove(0, section.Length + 1);
-                    }                    
+                    }
 
                     //Lets check and see if we are in a new section or a continuation section
                     if (sameSection)
                     {
                         //Same section as previous
                         //------------------------
-                        if(!string.IsNullOrEmpty(lineData))
+                        if (!string.IsNullOrEmpty(lineData))
                             contract.Data += lineData;
-                        
-                    } else
+
+                    }
+                    else
                     {
                         //New section
                         //------------
@@ -196,290 +206,320 @@ namespace ContractReaderV2
             }
         }
 
-        //public void SecondPass(List<Word> keywords)
-        //{
-        //    //Cycle through list of contracts we built after seperating and combining sections
-        //    foreach(Contract contract in _lineList)
-        //    {
-        //        if (!string.IsNullOrEmpty(contract.Data))
-        //        {
-        //            string[] sentences = Regex.Split(contract.Data, @"(?<=[\.!\?])\s+");
-        //            Contract newContract = new Contract();
-        //            newContract.DocumentSection = contract.DocumentSection;
+        public void SecondPass(List<Word> keywords)
+        {
+            //Cycle through list of contracts we built after seperating and combining sections
+            foreach (Contract contract in _lineList)
+            {
+                if (!string.IsNullOrEmpty(contract.Data))
+                {
+                    string[] sentences = Regex.Split(contract.Data, @"(?<=[\.!\?])\s+");
+                    Contract newContract = new Contract();
+                    newContract.DocumentSection = contract.DocumentSection;
 
-        //            var sbSentence = new StringBuilder();
+                    var sbSentence = new StringBuilder();
 
-        //            int sentenceCount = sentences.Length;
-        //            int currentCount = 0;
-        //            bool firstKeyword = false;
+                    int sentenceCount = sentences.Length;
+                    int currentCount = 0;
+                    bool firstKeyword = false;
 
-        //            List<string> keys = new List<string>();
-        //            //Put keywords into string array
-        //            foreach(Word word in keywords)
-        //            {
-        //                keys.Add(word.ToString());
-        //            }
+                    List<string> keys = new List<string>();
+                    //Put keywords into string array
+                    foreach (Word word in keywords)
+                    {
+                        keys.Add(word.ToString());
+                    }
 
-        //            foreach (var sentence in sentences)
-        //            {
-        //                currentCount++;
-        //                if (!string.IsNullOrEmpty(sentence.Trim()))
-        //                { 
-        //                    //Check to see if this sentence has a keyword in it
-        //                    bool keywordHit = keywords.Any(k => sentence.ToLower().Contains(k.Keyword.ToLower()));
-        //                    if (keywordHit)
-        //                    {
-        //                        //Remove previous sentences if this is the first keyword hit
-        //                        if (!firstKeyword)
-        //                        {
-        //                            sbSentence = new StringBuilder();
-        //                            firstKeyword = true;
-        //                        }
-        //                        //new section begins, close old one and start new
-        //                        if (sbSentence.Length != 0)
-        //                        {
-        //                            newContract.Data = sbSentence.ToString();
-        //                            foreach (var keyword in keywords)
-        //                            {
-        //                                newContract.Data = Regex.Replace(newContract.Data, keyword.Keyword, keyword.Replacement, RegexOptions.IgnoreCase);
-        //                            }
-        //                            _lineList2.Add(newContract);
-        //                            newContract = new Contract();
-        //                            newContract.DocumentSection = contract.DocumentSection;
-        //                        }
-        //                        sbSentence = new StringBuilder();
-        //                        sbSentence.Append(sentence);
-        //                    }
-        //                    else
-        //                    {
-        //                        //add to previous section
-        //                        sbSentence.Append(sentence);
-        //                    }
-        //                }
-        //                //Add what we have left if we hit here and still have data in out stringbuilder
-        //                if (currentCount == sentenceCount && sbSentence.Length != 0)
-        //                {
-        //                    newContract.Data = sbSentence.ToString();
-        //                    foreach (var keyword in keywords)
-        //                    {
-        //                        newContract.Data = Regex.Replace(newContract.Data, keyword.Keyword, keyword.Replacement, RegexOptions.IgnoreCase);
-        //                    }
-        //                    _lineList2.Add(newContract);
-        //                    newContract = new Contract();
-        //                    newContract.DocumentSection = contract.DocumentSection;
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
+                    foreach (var sentence in sentences)
+                    {
+                        currentCount++;
+                        if (!string.IsNullOrEmpty(sentence.Trim()))
+                        {
+                            //Check to see if this sentence has a keyword in it
+                            bool keywordHit = keywords.Any(k => sentence.ToLower().Contains(k.Keyword.ToLower()));
+                            if (keywordHit)
+                            {
+                                //Remove previous sentences if this is the first keyword hit
+                                if (!firstKeyword)
+                                {
+                                    sbSentence = new StringBuilder();
+                                    firstKeyword = true;
+                                }
+                                //new section begins, close old one and start new
+                                if (sbSentence.Length != 0)
+                                {
+                                    newContract.Data = sbSentence.ToString();
+                                    foreach (var keyword in keywords)
+                                    {
+                                        newContract.Data = Regex.Replace(newContract.Data, keyword.Keyword, keyword.Replacement, RegexOptions.IgnoreCase);
+                                    }
+                                    _lineList2.Add(newContract);
+                                    newContract = new Contract();
+                                    newContract.DocumentSection = contract.DocumentSection;
+                                }
+                                sbSentence = new StringBuilder();
+                                sbSentence.Append(sentence);
+                            }
+                            else
+                            {
+                                //add to previous section
+                                sbSentence.Append(sentence);
+                            }
+                        }
+                        //Add what we have left if we hit here and still have data in out stringbuilder
+                        if (currentCount == sentenceCount && sbSentence.Length != 0)
+                        {
+                            newContract.Data = sbSentence.ToString();
+                            foreach (var keyword in keywords)
+                            {
+                                newContract.Data = Regex.Replace(newContract.Data, keyword.Keyword, keyword.Replacement, RegexOptions.IgnoreCase);
+                            }
+                            _lineList2.Add(newContract);
+                            newContract = new Contract();
+                            newContract.DocumentSection = contract.DocumentSection;
+                        }
+                    }
+                }
+            }
+        }
 
-        //public void CycleThrough(List<string> lines, int lineAmount, List<Word> keywords)
-        //{
-        //    var lineCount = 0;
-        //    var contract = new Contract();
-        //    bool keyWordHit = false;
-        //    bool sameSection = false;
+        public void CycleThrough(List<string> lines, int lineAmount, List<Word> keywords)
+        {
+            var lineCount = 0;
+            var contract = new Contract();
+            bool keyWordHit = false;
+            bool sameSection = false;
 
-        //    while (true)
-        //    {
-        //        if (lineCount >= lineAmount) return;
-        //        var lineData = lines[lineCount];
-        //        if (!string.IsNullOrEmpty(lineData))
-        //        {
+            while (true)
+            {
+                if (lineCount >= lineAmount) return;
+                var lineData = lines[lineCount];
+                if (!string.IsNullOrEmpty(lineData))
+                {
 
-        //            //Remove \t from doc
-        //            if (lineData.StartsWith("\t"))
-        //            {
-        //                lineData = lineData.Replace("\t", "");
-        //            }
+                    //Remove \t from doc
+                    if (lineData.StartsWith("\t"))
+                    {
+                        lineData = lineData.Replace("\t", "");
+                    }
 
-        //            //Second check to replace any mid line tabs with spaces.
-        //            if (lineData.Contains("\t"))
-        //            {
-        //                lineData = lineData.Replace("\t", " ");
-        //            }
+                    //Second check to replace any mid line tabs with spaces.
+                    if (lineData.Contains("\t"))
+                    {
+                        lineData = lineData.Replace("\t", " ");
+                    }
 
-        //            //Grab the section number if this line contains one
-        //            var section = GetDocumentSection(lineData);
+                    //Grab the section number if this line contains one
+                    var section = GetDocumentSection(lineData);
 
-        //            //Set current section if we were able to find one.
-        //            if (!string.IsNullOrWhiteSpace(section.Trim()))
-        //            {
-        //                if (section == _lastSectionId)
-        //                {
-        //                    //We are in the same section
-        //                    sameSection = true;
-        //                }
-        //                else
-        //                {
-        //                    if (contract.Data != "")// && keyWordHit)
-        //                    {
-        //                        _lineList.Add(contract);
-        //                        contract = new Contract();
-        //                        keyWordHit = false;
-        //                    }
-        //                    _lastSectionId = section;
-        //                    sameSection = false;
-        //                }
-        //            }
-        //            else
-        //            {
-        //                if (!string.IsNullOrEmpty(_lastSectionId))
-        //                {
-        //                    section = _lastSectionId;
-        //                    sameSection = true;
-        //                }
-        //                else
-        //                {
-        //                    sameSection = false;
-        //                    if (contract.Data != "")// && keyWordHit)
-        //                    {
-        //                        _lineList.Add(contract);
-        //                        contract = new Contract();
-        //                        keyWordHit = false;
-        //                    }
-        //                }
-        //            }
+                    //Set current section if we were able to find one.
+                    if (!string.IsNullOrWhiteSpace(section.Trim()))
+                    {
+                        if (section == _lastSectionId)
+                        {
+                            //We are in the same section
+                            sameSection = true;
+                        }
+                        else
+                        {
+                            if (contract.Data != "" && keyWordHit)
+                            {
+                                _lineList.Add(contract);
+                                contract = new Contract();
+                                keyWordHit = false;
+                            }
+                            _lastSectionId = section;
+                            sameSection = false;
+                        }
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(_lastSectionId))
+                        {
+                            section = _lastSectionId;
+                            sameSection = true;
+                        }
+                        else
+                        {
+                            sameSection = false;
+                            if (contract.Data != "" && keyWordHit)
+                            {
+                                _lineList.Add(contract);
+                                contract = new Contract();
+                                keyWordHit = false;
+                            }
+                        }
+                    }
 
-        //            //Remove Section from current line
-        //            if (!string.IsNullOrEmpty(section) && !string.IsNullOrEmpty(lineData) && lineData.Contains(section))
-        //            {
-        //                lineData = lineData.Remove(0, section.Length + 1);
-        //            }
+                    //Remove Section from current line
+                    if (!string.IsNullOrEmpty(section) && !string.IsNullOrEmpty(lineData) && lineData.Contains(section))
+                    {
+                        lineData = lineData.Remove(0, section.Length + 1);
+                    }
 
-        //            if (sameSection)
-        //            {
-        //                contract.Data += lineData;
-        //            }
-        //            else
-        //            {
-        //                //var newSentence = string.Empty;
-        //                contract.Data = lineData; //!string.IsNullOrEmpty(newSentence) ? newSentence : lineData;
-        //            }
+                    if (sameSection)
+                    {
+                        contract.Data += lineData;
+                    }
+                    else
+                    {
+                        //var newSentence = string.Empty;
+                        contract.Data = lineData; //!string.IsNullOrEmpty(newSentence) ? newSentence : lineData;
+                    }
 
-        //            contract.DocumentSection = _lastSectionId;
-        //            //if (!string.IsNullOrEmpty(contract.Data.Trim()))
-        //            //{
-        //            //    foreach (Word keyword in keywords)
-        //            //    {
-        //            //        //Check for keyword
-        //            //        if (contract.Data.ToLower().Contains(keyword.Keyword.ToLower()))
-        //            //        {
-        //            //            //Replace keywords with replacement words
-        //            //            //if (keyword.Replacement != "")
-        //            //            //{
-        //            //            //    contract.Data = Regex.Replace(contract.Data, keyword.Keyword, keyword.Replacement, RegexOptions.IgnoreCase);
-        //            //            //contract.Data = result;// contract.Data.Replace(keyword.Keyword, keyword.Replacement);
-        //            //            //}
-        //            //            keyWordHit = true;
-        //            //            break;
-        //            //        }
-        //            //    }
-        //            //}
-        //        }
-        //        lineCount++;
-        //    }
-        //}
+                    contract.DocumentSection = _lastSectionId;
+                    //if (!string.IsNullOrEmpty(contract.Data.Trim()))
+                    //{
+                    //    foreach (Word keyword in keywords)
+                    //    {
+                    //        //Check for keyword
+                    //        if (contract.Data.ToLower().Contains(keyword.Keyword.ToLower()))
+                    //        {
+                    //            //Replace keywords with replacement words
+                    //            //if (keyword.Replacement != "")
+                    //            //{
+                    //            //    contract.Data = Regex.Replace(contract.Data, keyword.Keyword, keyword.Replacement, RegexOptions.IgnoreCase);
+                    //            //contract.Data = result;// contract.Data.Replace(keyword.Keyword, keyword.Replacement);
+                    //            //}
+                    //            keyWordHit = true;
+                    //            break;
+                    //        }
+                    //    }
+                    //}
+                }
+                lineCount++;
+            }
+        }
 
         private string GetNewDocumentSection(string line)
         {
             var section = string.Empty;
             bool dotPresent = false;
 
-            if (!line.ToLower().Contains("~section~") && !_inActiveSection) return section;
+            var match = false;
+            var leadingLetter = false;
+            var sectionChecker = new Regex(@"(?m)^\d+(?:\.\d+)*[ \t]+\S.*$");
+            var sectionCheckerTrailing = new Regex(@"(?m)^\d+(?:\.\d+)*\S[ \t]+\S.*$");
+            var sectionCheckerLeading = new Regex(@"(?m)^\S.\d+(?:\.\d+)*[ \t]+\S.*$");
+
+            if (sectionChecker.IsMatch(line))
+            {
+                match = true;
+            }
+            else if (sectionCheckerTrailing.IsMatch(line))
+            {
+                match = true;
+            }
+            else if (sectionCheckerLeading.IsMatch(line))
+            {
+                match = true;
+                leadingLetter = true;
+            }
+
+            if (!match && !_inActiveSection) return section;
 
             foreach (var t in line)
             {
-                if (t.ToString() == " ")
-                {
-                    if(_inActiveSection)
-                    {
-                        if(!string.IsNullOrEmpty(section) && section.ToString() != " " && !line.ToLower().Contains("~section~"))
-                        {
-                            //We hit the next section after a section was filled in
-                            _inActiveSection = false;
-                            return "consolidate";
-                        }
-                    }
-                    _inActiveSection = true;
-                    if (dotPresent)
-                    {
-                        return section;
-                    }
-                    else
-                    {
-                        return "";
-                    }
-                }
-                if (t.ToString() == ".")
-                    dotPresent = true;
-                var isNumber = int.TryParse(t.ToString(), out _);
-                if (isNumber || t.ToString() == ".")
+                if (leadingLetter)
                 {
                     section += t.ToString();
-                }   
+                    leadingLetter = false;
+                }
+                else
+                {
+                    if (t.ToString() == " ")
+                    {
+                        if (_inActiveSection)
+                        {
+                            if (!string.IsNullOrEmpty(section) && section.ToString() != " " && !line.ToLower().Contains("~section~"))
+                            {
+                                //We hit the next section after a section was filled in
+                                _inActiveSection = false;
+                                return "consolidate";
+                            }
+                        }
+                        _inActiveSection = true;
+                        if (dotPresent)
+                        {
+                            return section;
+                        }
+                        else
+                        {
+                            return "";
+                        }
+                    }
+                    if (t.ToString() == ".")
+                        dotPresent = true;
+                    var isNumber = int.TryParse(t.ToString(), out _);
+                    if (isNumber || t.ToString() == ".")
+                    {
+                        section += t.ToString();
+                    }
+                }
             }
 
             if (dotPresent)
             {
                 return section;
-            } else
+            }
+            else
             {
                 return "";
             }
         }
 
-        //public string GetDocumentSection(string line)
-        //{
+        public string GetDocumentSection(string line)
+        {
+
+            var section = string.Empty;
+            var match = false;
+            var leadingLetter = false;
+            var sectionChecker = new Regex(@"(?m)^\d+(?:\.\d+)*[ \t]+\S.*$");
+            var sectionCheckerTrailing = new Regex(@"(?m)^\d+(?:\.\d+)*\S[ \t]+\S.*$");
+            var sectionCheckerLeading = new Regex(@"(?m)^\S.\d+(?:\.\d+)*[ \t]+\S.*$");
+
+            if (sectionChecker.IsMatch(line))
+            {
+                match = true;
+            }
+            else if (sectionCheckerTrailing.IsMatch(line))
+            {
+                match = true;
+            }
+            else if (sectionCheckerLeading.IsMatch(line))
+            {
+                match = true;
+                leadingLetter = true;
+            }
+
+            //Return blank if no section tag
+            //if (!line.ToLower().Contains("~section~")) return section;
             
-        //    var section = string.Empty;
-        //    var match = false;
-        //    var leadingLetter = false;
-        //    var sectionChecker = new Regex(@"(?m)^\d+(?:\.\d+)*[ \t]+\S.*$");
-        //    var sectionCheckerTrailing = new Regex(@"(?m)^\d+(?:\.\d+)*\S[ \t]+\S.*$");
-        //    var sectionCheckerLeading = new Regex(@"(?m)^\S.\d+(?:\.\d+)*[ \t]+\S.*$");
+            //Return blank if no match
+            if (!match) return section;
 
-        //    if (sectionChecker.IsMatch(line))
-        //    {
-        //        match = true;
-        //    }
-        //    else if (sectionCheckerTrailing.IsMatch(line))
-        //    {
-        //        match = true;
-        //    }
-        //    else if (sectionCheckerLeading.IsMatch(line))
-        //    {
-        //        match = true;
-        //        leadingLetter = true;
-        //    }
+            foreach (var t in line)
+            {
+                if (leadingLetter)
+                {
+                    section += t.ToString();
+                    leadingLetter = false;
+                }
+                else
+                {
+                    if (t.ToString() == " ")
+                    {
+                        return section;
+                    }
+                    var isNumber = int.TryParse(t.ToString(), out _);
+                    if (isNumber || t.ToString() == ".")
+                    {
+                        section += t.ToString();
+                    }
+                }
+            }
 
-        //    //Return blank if no section tag
-        //    if (!line.ToLower().Contains("~section~")) return section;
-        //    //Return blank if no match
-        //    if (!match) return section;
-
-        //    foreach (var t in line)
-        //    {
-        //        if (leadingLetter)
-        //        {
-        //            section += t.ToString();
-        //            leadingLetter = false;
-        //        }
-        //        else
-        //        {
-        //            if (t.ToString() == " ")
-        //            {
-        //                return section;
-        //            }
-        //            var isNumber = int.TryParse(t.ToString(), out _);
-        //            if (isNumber || t.ToString() == ".")
-        //            {
-        //                section += t.ToString();
-        //            }
-        //        }
-        //    }
-
-        //    return section;
-        //}
+            return section;
+        }
     }
 }
