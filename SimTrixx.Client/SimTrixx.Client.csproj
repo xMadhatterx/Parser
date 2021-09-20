@@ -181,6 +181,7 @@
     <Content Include="Images\left-arrow-white.png" />
     <Content Include="Images\right-arrow-white.png" />
     <Content Include="Logo2.png" />
+    <None Include="Resources\CloseButton.png" />
     <Content Include="Update.xml" />
   </ItemGroup>
   <ItemGroup>
