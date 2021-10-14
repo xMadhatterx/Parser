@@ -240,7 +240,7 @@ namespace ContractReaderV2
             {
                 string[] sentences = Regex.Split(contract.Data, @"(?<=[\.!\?])\s+");
                 var indexes = new List<int>();
-                indexes.Add(0);
+                //indexes.Add(0);
                 foreach (var sentence in sentences)
                 {
 
@@ -251,32 +251,41 @@ namespace ContractReaderV2
                             var index = contract.Data.IndexOf(sentence);
                             //Just to test the return of the index
                             var t = contract.Data.Substring(contract.Data.IndexOf(sentence), 1);
-                            indexes.Add(index);
-                            break;
-                            //if (!indexes.Contains(index))
-                            //{
-                                
-                                
-                            //}   
+                            if (!indexes.Contains(index))
+                            {
+                                indexes.Add(index);
+                                break;
+
+                            }
+
                         }
                     }
-              
+                    if (indexes.Count > 0 && !indexes.Contains(0))
+                    {
+                        indexes.Add(0);
+                    }
+
                 }
-                if (indexes.Count > 1)
+
+                var orderedIndexes = indexes.OrderBy(x => x).ToList();
+                if (orderedIndexes.Count > 1)
                 {
-                    for (var i = 0; i < indexes.Count; i++)
+                    for (var i = 0; i < orderedIndexes.Count; i++)
                     {
                         var k = new Contract();
                         k.DocumentSection = contract.DocumentSection;
-                        if (i != indexes.Count)
+                        if (i != orderedIndexes.Count -1)
                         {
-
-                            k.Data = contract.Data.Substring(indexes[i], indexes[(i + 1)] - 1);
+                            var m = orderedIndexes[i];
+                            var l = orderedIndexes[(i + 1)] - 1;
+                            var j = (orderedIndexes[i + 1] - orderedIndexes[i])-1;
+                            k.Data = contract.Data.Substring(orderedIndexes[i], j);
                             splitSectionContract.Add(k);
                         }
                         else
                         {
-                            k.Data = contract.Data.Substring(indexes[i], contract.Data.Length - 1);
+                            var j = ((contract.Data.Length - 1) - orderedIndexes[i]);
+                            k.Data = contract.Data.Substring(orderedIndexes[i], j);
                             splitSectionContract.Add(k);
                         }
 
