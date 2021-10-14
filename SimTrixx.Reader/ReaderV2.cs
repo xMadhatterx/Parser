@@ -72,8 +72,9 @@ namespace ContractReaderV2
                     lineCounter++;
                 }
                 GetSections(textList, lineCounter);
+                _lineList2.AddRange(GetSectionsWithKeywords(keywords));
                 //CycleThrough(textList, lineCounter, keywords);
-                GetKeywords(keywords);
+                //GetKeywords(keywords);
             }
             File.Delete(_tempDocumentPath);
         }
@@ -210,6 +211,24 @@ namespace ContractReaderV2
                 }
                 lineCount++;
             }
+        }
+
+
+        public List<Contract> GetSectionsWithKeywords(List<Word> keywords)
+        {
+            var keywordSection = new List<Contract>();
+            foreach(var contract in _lineList)
+            {
+                foreach (var keyword in keywords)
+                {
+                    if(contract.Data.ToLower().Contains(keyword.Keyword.ToLower()))
+                    {
+                        keywordSection.Add(contract);
+                        break;
+                    }
+                }
+            }
+            return keywordSection;
         }
 
         public void GetKeywords(List<Word> keywords)
