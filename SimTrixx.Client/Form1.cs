@@ -160,6 +160,7 @@ namespace TestDocReader
                     saveFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                     if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                     {
+                        Cursor.Current = Cursors.WaitCursor;
                         if (saveFileDialog1.FilterIndex == 1)
                         {
                             new Logic.FileExportHandler().CreateWordDoc(_documentLines, saveFileDialog1.FileName);
@@ -172,7 +173,7 @@ namespace TestDocReader
                         {
                             new Logic.FileExportHandler().CreateExcelDoc(_documentLines, saveFileDialog1.FileName);
                         }
-
+                        Cursor.Current = Cursors.Default;
                         MessageBox.Show($@"Export complete {Environment.NewLine} File saved to {saveFileDialog1.FileName}");
                     }
                     else
