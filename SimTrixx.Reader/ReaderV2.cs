@@ -231,6 +231,22 @@ namespace ContractReaderV2
             return keywordSection;
         }
 
+        public List<Contract> SplitSectionsByKeyword(List<Contract> contracts,List<Word> keywords)
+        {
+            var splitSectionContract = new List<Contract>();
+            foreach(var contract in contracts)
+            {
+                string[] sentences = Regex.Split(contract.Data, @"(?<=[\.!\?])\s+");
+                foreach(var sentence in sentences)
+                {
+
+                }
+                Contract newContract = new Contract();
+                newContract.DocumentSection = contract.DocumentSection;
+            }
+            return splitSectionContract;
+        }
+
         public void GetKeywords(List<Word> keywords)
         {
             //Cycle through list of contracts we built after seperating and combining sections
