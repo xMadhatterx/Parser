@@ -72,7 +72,9 @@ namespace ContractReaderV2
                     lineCounter++;
                 }
                 GetSections(textList, lineCounter);
-                _lineList2.AddRange(GetSectionsWithKeywords(keywords));
+                var keywordSections = GetSectionsWithKeywords(keywords);
+                _lineList2.AddRange(SplitSectionsByKeyword(keywordSections, keywords));
+
                 //CycleThrough(textList, lineCounter, keywords);
                 //GetKeywords(keywords);
             }
@@ -237,9 +239,48 @@ namespace ContractReaderV2
             foreach(var contract in contracts)
             {
                 string[] sentences = Regex.Split(contract.Data, @"(?<=[\.!\?])\s+");
-                foreach(var sentence in sentences)
+                var indexes = new List<int>();
+                indexes.Add(0);
+                foreach (var sentence in sentences)
                 {
 
+                    foreach(var word in keywords)
+                    {
+                        if (sentence.ToLower().Contains(word.Keyword.ToLower()))
+                        {
+                            var index = contract.Data.IndexOf(sentence);
+                            //Just to test the return of the index
+                            var t = contract.Data.Substring(contract.Data.IndexOf(sentence), 1);
+                            indexes.Add(index);
+                            break;
+                            //if (!indexes.Contains(index))
+                            //{
+                                
+                                
+                            //}   
+                        }
+                    }
+              
+                }
+                if (indexes.Count > 1)
+                {
+                    for (var i = 0; i < indexes.Count; i++)
+                    {
+                        var k = new Contract();
+                        k.DocumentSection = contract.DocumentSection;
+                        if (i != indexes.Count)
+                        {
+
+                            k.Data = contract.Data.Substring(indexes[i], indexes[(i + 1)] - 1);
+                            splitSectionContract.Add(k);
+                        }
+                        else
+                        {
+                            k.Data = contract.Data.Substring(indexes[i], contract.Data.Length - 1);
+                            splitSectionContract.Add(k);
+                        }
+
+                    }
                 }
                 Contract newContract = new Contract();
                 newContract.DocumentSection = contract.DocumentSection;
