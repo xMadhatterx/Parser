@@ -71,14 +71,14 @@ namespace ContractReaderV2
                     textList.Add(reader.ReadLine());
                     lineCounter++;
                 }
-                NewPass(textList, lineCounter);
+                GetSections(textList, lineCounter);
                 //CycleThrough(textList, lineCounter, keywords);
-                SecondPass(keywords);
+                GetKeywords(keywords);
             }
             File.Delete(_tempDocumentPath);
         }
 
-        public void NewPass(List<string> lines, int lineAmount)
+        public void GetSections(List<string> lines, int lineAmount)
         {
             var lineCount = 0;
             var contract = new Contract();
@@ -102,6 +102,12 @@ namespace ContractReaderV2
                 var lineData = lines[lineCount];
                 if (!string.IsNullOrEmpty(lineData))
                 {
+                    //Remove \f from doc
+                    if (lineData.StartsWith("\f"))
+                    {
+                        lineData = lineData.Replace("\f", "");
+                    }
+
                     //Remove \t from doc
                     if (lineData.StartsWith("\t"))
                     {
@@ -206,7 +212,7 @@ namespace ContractReaderV2
             }
         }
 
-        public void SecondPass(List<Word> keywords)
+        public void GetKeywords(List<Word> keywords)
         {
             //Cycle through list of contracts we built after seperating and combining sections
             foreach (Contract contract in _lineList)
@@ -263,7 +269,10 @@ namespace ContractReaderV2
                             else
                             {
                                 //add to previous section
-                                sbSentence.Append(sentence);
+                                if (firstKeyword)
+                                {
+                                    sbSentence.Append(sentence);
+                                }
                             }
                         }
                         //Add what we have left if we hit here and still have data in out stringbuilder
@@ -416,6 +425,7 @@ namespace ContractReaderV2
                 leadingLetter = true;
             }
 
+            if (!match) return section;
             if (!match && !_inActiveSection) return section;
 
             foreach (var t in line)
@@ -431,9 +441,15 @@ namespace ContractReaderV2
                     {
                         if (_inActiveSection)
                         {
-                            if (!string.IsNullOrEmpty(section) && section.ToString() != " " && !line.ToLower().Contains("~section~"))
+                            if (!string.IsNullOrEmpty(section) && section.ToString() != " ")
                             {
                                 //We hit the next section after a section was filled in
+                                //_inActiveSection = false;
+                                return section;
+                                //return "consolidate";
+                            } 
+                            else
+                            {
                                 _inActiveSection = false;
                                 return "consolidate";
                             }
@@ -445,7 +461,7 @@ namespace ContractReaderV2
                         }
                         else
                         {
-                            return "";
+                            return section;
                         }
                     }
                     if (t.ToString() == ".")
