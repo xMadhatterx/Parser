@@ -252,6 +252,10 @@ namespace ContractReaderV2
                 string[] sentences = Regex.Split(contract.Data, @"(?<=[\.!\?])\s+");
                 var indexes = new List<int>();
                 //indexes.Add(0);
+                if(contract.DocumentSection=="4.1")
+                {
+                    var j = 1;
+                }
                 foreach (var sentence in sentences)
                 {
 
@@ -279,7 +283,7 @@ namespace ContractReaderV2
                 }
 
                 var orderedIndexes = indexes.OrderBy(x => x).ToList();
-                if (orderedIndexes.Count > 1)
+                if (orderedIndexes.Count >= 1)
                 {
                     for (var i = 0; i < orderedIndexes.Count; i++)
                     {
