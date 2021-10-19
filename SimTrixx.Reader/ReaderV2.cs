@@ -12,6 +12,7 @@ using System.Text;
 using com.sun.corba.se.spi.orbutil.threadpool;
 using System.Linq;
 using com.sun.corba.se.spi.orbutil.fsm;
+using System;
 
 namespace ContractReaderV2
 {
@@ -143,8 +144,18 @@ namespace ContractReaderV2
                             }
                             else
                             {
-                                //New Section, let's set our sectionid
-                                _lastSectionId = section.Trim();
+                                //Check to make sure we didn't hit a false section
+                                double.TryParse(section.Trim(), out double newSection);
+                                double.TryParse(_lastSectionId, out double lastSection);
+                                if (newSection < lastSection)
+                                {
+                                    sameSection = true;
+                                }
+                                else
+                                {
+                                    //New Section, let's set our sectionid
+                                    _lastSectionId = section.Trim();
+                                }
                             }
                         }
                         else
