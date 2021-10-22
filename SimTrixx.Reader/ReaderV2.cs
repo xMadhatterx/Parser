@@ -145,9 +145,11 @@ namespace ContractReaderV2
                             else
                             {
                                 //Check to make sure we didn't hit a false section
-                                double.TryParse(section.Trim(), out double newSection);
-                                double.TryParse(_lastSectionId, out double lastSection);
-                                if (newSection < lastSection)
+                                var newSection = section.Replace(".", "");
+                                var lastSection = _lastSectionId.Replace(".", "");
+                                int.TryParse(newSection, out int newSectionInt);
+                                int.TryParse(lastSection, out int lastSectionInt);
+                                if (newSectionInt < lastSectionInt)
                                 {
                                     sameSection = true;
                                 }
