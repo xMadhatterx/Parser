@@ -13,6 +13,7 @@ using com.sun.corba.se.spi.orbutil.threadpool;
 using System.Linq;
 using com.sun.corba.se.spi.orbutil.fsm;
 using System;
+using static System.Version;
 
 namespace ContractReaderV2
 {
@@ -144,20 +145,39 @@ namespace ContractReaderV2
                             }
                             else
                             {
-                                //Check to make sure we didn't hit a false section
-                                var newSection = section.Replace(".", "");
-                                var lastSection = _lastSectionId.Replace(".", "");
-                                int.TryParse(newSection, out int newSectionInt);
-                                int.TryParse(lastSection, out int lastSectionInt);
-                                if (newSectionInt < lastSectionInt)
+                                try
                                 {
-                                    sameSection = true;
+                                    var workingSection = section;
+                                    var workingLastSection = _lastSectionId;
+                                    if (workingSection.Length == 1) workingSection = workingSection + ".0";
+                                    if (workingLastSection.Length == 1) workingLastSection = workingLastSection + ".0";
+                                    var newSection = new Version(workingSection);
+                                    var lastSection = new Version(workingLastSection);
+
+                                    var result = newSection.CompareTo(lastSection);
+                                    if (result > 0)
+                                        _lastSectionId = section.Trim();
+                                    else if (result < 0)
+                                        sameSection = true;
+                                    else
+                                        sameSection = true;
+                                } catch {
+                                    var newSection = section.Replace(".", "");
+                                    var newLastSection = _lastSectionId.Replace(".", "");
+                                    Int32.TryParse(newSection, out int newSectionDecimal);
+                                    Int32.TryParse(newLastSection, out int lastSectionDecimal);
+
+                                    if (newSectionDecimal < lastSectionDecimal)
+                                    {
+                                        sameSection = true;
+                                    }
+                                    else
+                                    {
+                                        //New Section, let's set our sectionid
+                                        _lastSectionId = section.Trim();
+                                    }
                                 }
-                                else
-                                {
-                                    //New Section, let's set our sectionid
-                                    _lastSectionId = section.Trim();
-                                }
+                                
                             }
                         }
                         else
@@ -227,8 +247,7 @@ namespace ContractReaderV2
                 lineCount++;
             }
         }
-
-
+        
         public List<Contract> GetSectionsWithKeywords(List<Word> keywords)
         {
             var keywordSection = new List<Contract>();
