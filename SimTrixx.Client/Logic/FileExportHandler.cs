@@ -66,7 +66,7 @@ namespace TestDocReader.Logic
         {
             var winword = new Microsoft.Office.Interop.Word.Application();
             winword.ShowAnimation = false;
-
+            
             //Set status for word application is to be visible or not.  
             winword.Visible = false;
 
@@ -90,8 +90,9 @@ namespace TestDocReader.Logic
             //firstTable.Columns[4].PreferredWidthType = WdPreferredWidthType.wdPreferredWidthPercent;
             //firstTable.Columns[4].PreferredWidth = 15;
 
-           
+
             //firstTable.PreferredWidthType = WdPreferredWidthType.wdPreferredWidthAuto;
+            document.PageSetup.Orientation = WdOrientation.wdOrientLandscape;
             firstTable.PreferredWidth = document.PageSetup.PageWidth - (document.PageSetup.LeftMargin + document.PageSetup.RightMargin);
             firstTable.Borders.Enable = 1;
             foreach (Row row in firstTable.Rows)
