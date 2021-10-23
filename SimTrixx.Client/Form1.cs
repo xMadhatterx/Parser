@@ -305,7 +305,7 @@ namespace TestDocReader
                         //the highlite rectangle  
                         Rectangle hl_rect = new Rectangle();
                         hl_rect.Y = e.CellBounds.Y + 2;
-                    hl_rect.Height = 10;//e.CellBounds.Height - 20;
+                        hl_rect.Height = 10;//e.CellBounds.Height - 20;
                         //find the size of the text before the search word in grid cell data.  
                         String sBeforeSearchword = gridCellValue.Substring(0, startIndexInCellValue);
                         //size of the search word in the grid cell data  
