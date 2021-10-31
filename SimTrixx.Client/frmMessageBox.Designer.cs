@@ -29,25 +29,26 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMessageBox));
             this.panel4 = new System.Windows.Forms.Panel();
-            this.lblSettings = new System.Windows.Forms.Label();
             this.btnCloseFrm = new System.Windows.Forms.Button();
-            this.wordBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label2 = new System.Windows.Forms.Label();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.btnOk = new System.Windows.Forms.Button();
+            this.lblSettings = new System.Windows.Forms.Label();
+            this.wordBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.wordBindingSource)).BeginInit();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.wordBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // panel4
             // 
-            this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(142)))), ((int)(((byte)(30)))));
+            this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(73)))), ((int)(((byte)(106)))), ((int)(((byte)(129)))));
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel4.Controls.Add(this.lblSettings);
             this.panel4.Controls.Add(this.btnCloseFrm);
@@ -55,18 +56,6 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(727, 45);
             this.panel4.TabIndex = 7;
-            // 
-            // lblSettings
-            // 
-            this.lblSettings.AutoSize = true;
-            this.lblSettings.BackColor = System.Drawing.Color.Transparent;
-            this.lblSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSettings.ForeColor = System.Drawing.Color.White;
-            this.lblSettings.Location = new System.Drawing.Point(11, 3);
-            this.lblSettings.Name = "lblSettings";
-            this.lblSettings.Size = new System.Drawing.Size(476, 31);
-            this.lblSettings.TabIndex = 9;
-            this.lblSettings.Text = "Please remove all headers and footers";
             // 
             // btnCloseFrm
             // 
@@ -83,10 +72,6 @@
             this.btnCloseFrm.TabIndex = 8;
             this.btnCloseFrm.Text = "X";
             this.btnCloseFrm.UseVisualStyleBackColor = false;
-            // 
-            // wordBindingSource
-            // 
-            this.wordBindingSource.DataSource = typeof(SimTrixx.Reader.Concrete.Word);
             // 
             // label1
             // 
@@ -105,7 +90,7 @@
             // 
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLabel1.LinkColor = System.Drawing.Color.Navy;
+            this.linkLabel1.LinkColor = System.Drawing.Color.SteelBlue;
             this.linkLabel1.Location = new System.Drawing.Point(18, 92);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(562, 13);
@@ -132,7 +117,7 @@
             // 
             this.linkLabel2.AutoSize = true;
             this.linkLabel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLabel2.LinkColor = System.Drawing.Color.Navy;
+            this.linkLabel2.LinkColor = System.Drawing.Color.SteelBlue;
             this.linkLabel2.Location = new System.Drawing.Point(18, 148);
             this.linkLabel2.Name = "linkLabel2";
             this.linkLabel2.Size = new System.Drawing.Size(339, 13);
@@ -156,29 +141,49 @@
             this.panel2.Size = new System.Drawing.Size(726, 226);
             this.panel2.TabIndex = 14;
             // 
+            // btnCancel
+            // 
+            this.btnCancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(46)))), ((int)(((byte)(59)))));
+            this.btnCancel.FlatAppearance.BorderSize = 0;
+            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancel.Image = ((System.Drawing.Image)(resources.GetObject("btnCancel.Image")));
+            this.btnCancel.Location = new System.Drawing.Point(665, 192);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(48, 29);
+            this.btnCancel.TabIndex = 17;
+            this.btnCancel.UseVisualStyleBackColor = false;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
             // btnOk
             // 
-            this.btnOk.BackColor = System.Drawing.Color.White;
+            this.btnOk.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(46)))), ((int)(((byte)(59)))));
+            this.btnOk.FlatAppearance.BorderSize = 0;
             this.btnOk.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOk.Location = new System.Drawing.Point(565, 198);
+            this.btnOk.Image = ((System.Drawing.Image)(resources.GetObject("btnOk.Image")));
+            this.btnOk.Location = new System.Drawing.Point(611, 192);
             this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(75, 23);
+            this.btnOk.Size = new System.Drawing.Size(58, 29);
             this.btnOk.TabIndex = 16;
-            this.btnOk.Text = "OK";
             this.btnOk.UseVisualStyleBackColor = false;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
-            // btnCancel
+            // lblSettings
             // 
-            this.btnCancel.BackColor = System.Drawing.Color.White;
-            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCancel.Location = new System.Drawing.Point(646, 198);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 17;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = false;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            this.lblSettings.AutoSize = true;
+            this.lblSettings.BackColor = System.Drawing.Color.Transparent;
+            this.lblSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSettings.ForeColor = System.Drawing.Color.White;
+            this.lblSettings.Image = global::TestDocReader.Properties.Resources.alertIcon1;
+            this.lblSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblSettings.Location = new System.Drawing.Point(11, 3);
+            this.lblSettings.Name = "lblSettings";
+            this.lblSettings.Size = new System.Drawing.Size(518, 31);
+            this.lblSettings.TabIndex = 9;
+            this.lblSettings.Text = "      Please remove all headers and footers";
+            // 
+            // wordBindingSource
+            // 
+            this.wordBindingSource.DataSource = typeof(SimTrixx.Reader.Concrete.Word);
             // 
             // frmMessageBox
             // 
@@ -193,9 +198,9 @@
             this.Text = "frmSettings";
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.wordBindingSource)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.wordBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }

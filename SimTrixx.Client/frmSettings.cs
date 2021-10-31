@@ -74,18 +74,6 @@ namespace TestDocReader
             r.Keywords = new List<Word>();
             //r.Settings = new CustomSettings();
             r.Keywords.AddRange(_keywordsV2);
-            //if(selectedRb.Text.ToLower() == "word doc")
-            //{
-            //    r.Settings.FileExportType = "1";
-            //}
-            //else if(selectedRb.Text.ToLower()=="legacy word doc")
-            //{
-            //    r.Settings.FileExportType = "2";
-            //}
-            //else
-            //{
-            //    r.Settings.FileExportType = "3";
-            //}
             Properties.Settings.Default["License"] = txtLicense.Text;
             Properties.Settings.Default.Save();
             new TestDocReader.Logic.KeywordConfigHandler().ExportV2(r);
@@ -118,31 +106,57 @@ namespace TestDocReader
         {
             dgvKeywords.DataSource = null;
             dgvKeywords.DataSource = _keywordsV2;
+            dgvKeywords.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             var i = dgvKeywords.ColumnCount;
             if (i < 4)
             {
-                var col = new DataGridViewButtonColumn();
-                col.UseColumnTextForButtonValue = true;
-                col.Text = "X";
-                col.HeaderText = "Delete";
-                col.FlatStyle = FlatStyle.Popup;
-                
-                //col.DefaultCellStyle.ForeColor = Color.Red;
-                
+                //var col = new DataGridViewButtonColumn();
+                //col.UseColumnTextForButtonValue = true;
+                //col.Text = "     ";
+
+                //col.HeaderText = "Delete";
+                //col.FlatStyle = FlatStyle.Flat;
+                //col.Name = "btnDeleteRow";
+                var col = new DataGridViewImageColumn();
+                col.Image = Properties.Resources.deleteIcon;
                 col.Name = "btnDeleteRow";
+                col.HeaderText = "Delete";
+                col.DefaultCellStyle.SelectionBackColor = Color.White;
                 dgvKeywords.Columns.Add(col);
             }
+
             dgvKeywords.Columns["btnDeleteRow"].DisplayIndex = 3;
         }
 
         private void dgvKeywords_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var grid = (DataGridView)sender;
-            if (grid.Columns[e.ColumnIndex] is DataGridViewButtonColumn &&e.RowIndex >= 0)
+            if (grid.Columns[e.ColumnIndex] is DataGridViewImageColumn &&e.RowIndex >= 0)
             {
                 _keywordsV2.RemoveAt(e.RowIndex);
                 BuildGrid();
             }
+        }
+
+        private void dgvKeywords_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            //if (e.RowIndex < 0)
+            //    return;
+
+            ////I supposed your button column is at index 0
+           
+            //if (e.ColumnIndex == 3)
+            //{
+            //    e.Paint(e.CellBounds, DataGridViewPaintParts.All);
+
+            //    var w = Properties.Resources.deleteIcon.Width;
+            //    var h = Properties.Resources.deleteIcon.Height;
+            //    var x = e.CellBounds.Left + (e.CellBounds.Width - w) / 2;
+            //    var y = e.CellBounds.Top + (e.CellBounds.Height - h) / 2;
+
+            //    e.Graphics.DrawImage(Properties.Resources.deleteIcon, new Rectangle(x, y, w, h));
+            //    e.Handled = true;
+            //}
         }
     }
 }

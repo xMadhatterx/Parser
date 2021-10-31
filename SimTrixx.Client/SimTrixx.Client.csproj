@@ -123,14 +123,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="Configs\CustomSettings.json" />
     <None Include="Configs\KeywordsV2.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -146,6 +141,11 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -182,6 +182,24 @@
     <Content Include="Images\right-arrow-white.png" />
     <Content Include="Logo2.png" />
     <None Include="Resources\CloseButton.png" />
+    <None Include="Resources\exportWhite.png" />
+    <None Include="Resources\cogwhite.png" />
+    <None Include="Resources\addIcon16.png" />
+    <None Include="Resources\dbIcon.png" />
+    <None Include="Resources\alertIcon1.png" />
+    <None Include="Resources\cancelIcon.png" />
+    <None Include="Resources\documentIcon17.png" />
+    <None Include="Resources\deleteIcon.png" />
+    <None Include="Resources\805.gif" />
+    <None Include="Resources\1495.gif" />
+    <None Include="Resources\1495.png" />
+    <None Include="Resources\1495 %281%29.gif" />
+    <None Include="Resources\1495 %282%29.gif" />
+    <Content Include="Resources\ImportWhite.png" />
+    <None Include="Resources\saveIcon.png" />
+    <None Include="Resources\licenseIcon.png" />
+    <None Include="Resources\okIcon1.png" />
+    <None Include="Resources\Spinner-3.gif" />
     <Content Include="Update.xml" />
   </ItemGroup>
   <ItemGroup>
