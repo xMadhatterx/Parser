@@ -67,11 +67,11 @@
             this.btnCloseFrm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCloseFrm.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCloseFrm.ForeColor = System.Drawing.Color.White;
-            this.btnCloseFrm.Location = new System.Drawing.Point(750, 3);
+            this.btnCloseFrm.Image = global::TestDocReader.Properties.Resources.closeIcon32;
+            this.btnCloseFrm.Location = new System.Drawing.Point(748, 3);
             this.btnCloseFrm.Name = "btnCloseFrm";
-            this.btnCloseFrm.Size = new System.Drawing.Size(45, 28);
+            this.btnCloseFrm.Size = new System.Drawing.Size(34, 37);
             this.btnCloseFrm.TabIndex = 8;
-            this.btnCloseFrm.Text = "X";
             this.btnCloseFrm.UseVisualStyleBackColor = false;
             this.btnCloseFrm.Click += new System.EventHandler(this.btnCloseFrm_Click);
             // 
@@ -174,10 +174,6 @@
             this.lblSettings.TabIndex = 9;
             this.lblSettings.Text = "     Settings";
             this.lblSettings.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // wordBindingSource
-            // 
-            this.wordBindingSource.DataSource = typeof(SimTrixx.Reader.Concrete.Word);
             // 
             // frmSettings
             // 

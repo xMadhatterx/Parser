@@ -195,11 +195,16 @@
     <None Include="Resources\1495.png" />
     <None Include="Resources\1495 %281%29.gif" />
     <None Include="Resources\1495 %282%29.gif" />
+    <None Include="Resources\closeIcon32.png" />
+    <None Include="Resources\closeIcon16.png" />
+    <None Include="Resources\closeIcon24.png" />
     <Content Include="Resources\ImportWhite.png" />
     <None Include="Resources\saveIcon.png" />
     <None Include="Resources\licenseIcon.png" />
     <None Include="Resources\okIcon1.png" />
     <None Include="Resources\Spinner-3.gif" />
+    <None Include="Resources\minimizeIcon32.png" />
+    <None Include="Resources\minimizeIcon24.png" />
     <Content Include="Update.xml" />
   </ItemGroup>
   <ItemGroup>
