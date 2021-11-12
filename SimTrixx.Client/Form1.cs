@@ -94,7 +94,7 @@ namespace TestDocReader
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+            _documentLines = null;
             var strBuilder = new System.Text.StringBuilder();
             var msbResult = new frmMessageBox().ShowDialog();
 
@@ -108,24 +108,47 @@ namespace TestDocReader
                     {
                         _currentDocument = ofdDocument.FileName;
                     }
-
-                    //var fullTempPath = $"{_documentPath}{TemporaryFileName}";
-                    //var fullTempPath = $@"C:\temp\{TemporaryFileName}";
-                    var contract = new ContractReaderV2.ReaderV2(_currentDocument, tempfile);
                     var fileType = new Logic.FileExtensionHandler().GetDocumentType(_currentDocument);
-                    switch (fileType)
+
+
+
+
+
+
+
+                    //*****************************Uncomment for V2*****************************************
+                    //var contract = new ContractReaderV2.ReaderV2(_currentDocument, tempfile);
+
+                    //switch (fileType)
+                    //{
+                    //    case Logic.FileExtensionHandler.FileType.WordDoc:
+                    //        _documentLines = contract.ParseWordDocument(_keywords);
+                    //        break;
+                    //    case Logic.FileExtensionHandler.FileType.Pdf:
+                    //        _documentLines = contract.ParsePdfDocument(_keywords);
+                    //        break;
+                    //    default:
+                    //        MessageBox.Show($@"Error => Error occured while deriving file type{Environment.NewLine}Either file was not found or the file type was unsupported", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //        _documentLines = null;
+                    //        break;
+                    //}
+                    //***************************************************************************************
+
+
+
+                    //**************************V3***********************************************************
+                    if (fileType == Logic.FileExtensionHandler.FileType.Pdf)
                     {
-                        case Logic.FileExtensionHandler.FileType.WordDoc:
-                            _documentLines = contract.ParseWordDocument(_keywords);
-                            break;
-                        case Logic.FileExtensionHandler.FileType.Pdf:
-                            _documentLines = contract.ParsePdfDocument(_keywords);
-                            break;
-                        default:
-                            MessageBox.Show($@"Error => Error occured while deriving file type{Environment.NewLine}Either file was not found or the file type was unsupported", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            _documentLines = null;
-                            break;
+                        var reader = new ContractReaderV2.ReaderV3(_currentDocument, tempfile, ContractReaderV2.ReaderV3.DocumentType.Pdf);
+                        _documentLines = reader.ParseDocument(_keywords, ContractReaderV2.ReaderV3.DocumentParseMode.KeyWordSectionsWithSplits);
                     }
+
+                    //**************************V3***********************************************************
+
+
+
+
+
                     if (_documentLines == null)
                     {
                         MessageBox.Show($@"Error => Error opening document{Environment.NewLine}Please make sure the document is not already open.", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -134,7 +157,6 @@ namespace TestDocReader
                     {
                         dataGridView1.DataSource = _documentLines;
                         dataGridView1.Columns[0].DefaultCellStyle.ForeColor = Color.Green;
-                        //dataGridView1.Columns[1].DefaultCellStyle.BackColor = Color.Yellow;
                         dataGridView1.Columns[1].DefaultCellStyle.ForeColor = Color.Black;
 
                         label2.Text = _currentDocument;

@@ -130,17 +130,11 @@
   <data name="closeIcon24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\closeIcon24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Spinner-3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Spinner-3.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="okIcon1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\okIcon1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="exportWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\exportWhite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="1495 (1)" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\1495 (1).gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="minimizeIcon32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\minimizeIcon32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -154,12 +148,6 @@
   <data name="saveIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\saveIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="right-arrow-white" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\right-arrow-white.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="1495 (2)" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\1495 (2).gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="dbIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\dbIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -169,26 +157,14 @@
   <data name="alertIcon1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\alertIcon1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="14951" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\1495.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="closeIcon16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\closeIcon16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="left-arrow-white" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\left-arrow-white.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="deleteIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\deleteIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ImportWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ImportWhite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="805" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\805.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="1495" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\1495.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="addIcon16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\addIcon16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -198,5 +174,8 @@
   </data>
   <data name="minimizeIcon24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\minimizeIcon24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spinner" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\spinner.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
