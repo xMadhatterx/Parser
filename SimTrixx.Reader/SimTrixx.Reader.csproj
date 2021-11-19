@@ -131,16 +131,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Concrete\Contract.cs" />
+    <Compile Include="Handlers\FileExtensionHandler.cs" />
     <Compile Include="Concrete\Keyword.cs" />
     <Compile Include="Concrete\KeywordDictionary.cs" />
     <Compile Include="Concrete\ReplacementDictionary.cs" />
-    <Compile Include="Handlers\DocumentHandler.cs" />
+    <Compile Include="Handlers\TextExtractionHandler.cs" />
+    <Compile Include="Handlers\SectionFilterHandler.cs" />
     <Compile Include="Handlers\SectionHandler.cs" />
     <Compile Include="Reader.cs" />
-    <Compile Include="Concrete\Enum\GlobalEnum.cs" />
+    <Compile Include="Concrete\Enums\GlobalEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReaderV2.cs" />
-    <Compile Include="ReaderV3.cs" />
+    <Compile Include="DocumentManager.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

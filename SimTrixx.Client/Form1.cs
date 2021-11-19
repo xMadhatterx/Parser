@@ -4,11 +4,11 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using SimTrixx.Reader.Concrete;
+using SimTrixx.Reader.Concrete.Enums;
 using System.IO;
 using AutoUpdaterDotNET;
 using SimTrixx.Data.Repos;
 using SimTrixx.Client.Logic;
-
 namespace TestDocReader
 {
     public partial class Form1 : Form
@@ -37,6 +37,8 @@ namespace TestDocReader
             tmrLoading.Start();
             CheckUpdate();
             CheckLicense();
+            cmbFilter.SelectedIndex = (int)Properties.Settings.Default["FilterType"];
+            cbSectionFilter.Checked = (bool)Properties.Settings.Default["AdvSectionFilter"];
             _documentLines = new List<Contract>();
             _keywords = new List<Word>();
             LoadKeywords();
@@ -77,13 +79,13 @@ namespace TestDocReader
 
         private void DisableForm()
         {
-            btnLoadDocument.Enabled = false;
+            btnImport.Enabled = false;
             btnOutput.Enabled = false;
         }
 
         private void EnableForm()
         {
-            btnLoadDocument.Enabled = true;
+            btnImport.Enabled = true;
             btnOutput.Enabled = true;
         }
 
@@ -92,7 +94,7 @@ namespace TestDocReader
             AutoUpdater.Start("https://simtrixx.blob.core.windows.net/install/Update.xml");
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnImport_Click(object sender, EventArgs e)
         {
             _documentLines = null;
             var strBuilder = new System.Text.StringBuilder();
@@ -108,15 +110,8 @@ namespace TestDocReader
                     {
                         _currentDocument = ofdDocument.FileName;
                     }
-                    var fileType = new Logic.FileExtensionHandler().GetDocumentType(_currentDocument);
-
-
-
-
-
-
-
                     //*****************************Uncomment for V2*****************************************
+                    //var fileType = new Logic.FileExtensionHandler().GetDocumentType(_currentDocument);
                     //var contract = new ContractReaderV2.ReaderV2(_currentDocument, tempfile);
 
                     //switch (fileType)
@@ -137,11 +132,23 @@ namespace TestDocReader
 
 
                     //**************************V3***********************************************************
-                    if (fileType == Logic.FileExtensionHandler.FileType.Pdf)
+
+                    var reader = new ContractReaderV2.DocumentManager(_currentDocument, tempfile);
+
+                    if (cmbFilter.SelectedIndex == 0)
                     {
-                        var reader = new ContractReaderV2.ReaderV3(_currentDocument, tempfile, ContractReaderV2.ReaderV3.DocumentType.Pdf);
-                        _documentLines = reader.ParseDocument(_keywords, ContractReaderV2.ReaderV3.DocumentParseMode.KeyWordSectionsWithSplits);
+                        _documentLines = reader.ParseDocument(_keywords, GlobalEnum.DocumentParseMode.KeyWordSectionsWithSplits);
                     }
+                    if(cmbFilter.SelectedIndex == 1)
+                    {
+                        _documentLines = reader.ParseDocument(_keywords, GlobalEnum.DocumentParseMode.KeyWordSectionsOnly);
+                    }
+                    if (cmbFilter.SelectedIndex == 2)
+                    {
+                        _documentLines = reader.ParseDocument(_keywords, GlobalEnum.DocumentParseMode.FullDocument);
+                    }
+
+
 
                     //**************************V3***********************************************************
 
@@ -234,6 +241,7 @@ namespace TestDocReader
 
         private void btnCloseFrm_Click(object sender, EventArgs e)
         {
+            Properties.Settings.Default.Save();
             this.Close();
         }
 
@@ -358,5 +366,17 @@ namespace TestDocReader
             tmrLoading.Stop();
             pnlLoading.Dispose();
         }
+
+        private void cmbFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default["FilterType"] = cmbFilter.SelectedIndex;
+        }
+
+        private void cbSectionFilter_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default["AdvSectionFilter"] = cbSectionFilter.Checked;
+        }
+
+
     }
 }

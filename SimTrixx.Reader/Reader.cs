@@ -5,11 +5,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using SimTrixx.Reader.Concrete.Enum;
 using org.apache.pdfbox.pdmodel;
 using org.apache.pdfbox.util;
-using static SimTrixx.Reader.Concrete.Enum.GlobalEnum;
-
+using SimTrixx.Reader.Concrete.Enums;
 namespace SimTrixx.Reader
 {
     public class Reader
@@ -94,7 +92,7 @@ namespace SimTrixx.Reader
 
         }
 
-        public void FirstPass(List<string> lines, int lineCount, int lineAmount, List<string> keywords, List<string> replacements, LineType lineType = LineType.Generic)
+        public void FirstPass(List<string> lines, int lineCount, int lineAmount, List<string> keywords, List<string> replacements, GlobalEnum.LineType lineType = GlobalEnum.LineType.Generic)
         {
             var firstLine = string.Empty;
             var keyWordHit = false;
@@ -186,7 +184,7 @@ namespace SimTrixx.Reader
                             contract.DocumentSection = _lastSectionId;
                             //contract.DataType = LineType.Contractor;
                             _lineList.Add(contract);
-                            lineType = LineType.Contractor;
+                            lineType = GlobalEnum.LineType.Contractor;
                         }
                         //}
                     }

@@ -47,12 +47,6 @@ namespace TestDocReader
         {
             txtLicense.Text = Properties.Settings.Default["License"].ToString();
         }
-
-        //private void ModifyKeywordList()
-        //{
-        //    new Logic.KeywordConfigHandler().Add(_keywords);
-        //}
-
         private void LoadKeywords()
         {
             _keywordsV2 = new Logic.KeywordConfigHandler().ImportV2().Keywords;

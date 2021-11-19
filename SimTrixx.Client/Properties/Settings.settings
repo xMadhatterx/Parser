@@ -5,5 +5,11 @@
     <Setting Name="License" Type="System.String" Scope="User">
       <Value Profile="(Default)">aa948083-c933-452b-82f1-b369eec9d957</Value>
     </Setting>
+    <Setting Name="FilterType" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="AdvSectionFilter" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

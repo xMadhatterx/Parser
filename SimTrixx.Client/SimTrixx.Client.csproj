@@ -106,7 +106,6 @@
       <DependentUpon>frmSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="Logic\FileExportHandler.cs" />
-    <Compile Include="Logic\FileExtensionHandler.cs" />
     <Compile Include="Logic\KeywordConfigHandler.cs" />
     <Compile Include="Logic\LicenseManager.cs" />
     <Compile Include="Logic\ReplacementWordConfigHandler.cs" />
@@ -198,6 +197,7 @@
     <None Include="Resources\closeIcon16.png" />
     <None Include="Resources\closeIcon24.png" />
     <None Include="Resources\1495.gif" />
+    <None Include="Resources\filterIcon16.png" />
     <Content Include="Resources\ImportWhite.png" />
     <None Include="Resources\saveIcon.png" />
     <None Include="Resources\licenseIcon.png" />

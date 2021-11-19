@@ -183,6 +183,16 @@ namespace TestDocReader.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap filterIcon16 {
+            get {
+                object obj = ResourceManager.GetObject("filterIcon16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ImportWhite {
             get {
                 object obj = ResourceManager.GetObject("ImportWhite", resourceCulture);
