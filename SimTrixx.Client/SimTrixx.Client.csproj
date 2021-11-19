@@ -46,6 +46,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>favicon2.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoUpdater.NET, Version=1.7.0.0, Culture=neutral, PublicKeyToken=501435c91b35f4bc, processorArchitecture=MSIL">
       <HintPath>..\packages\Autoupdater.NET.Official.1.7.0\lib\net45\AutoUpdater.NET.dll</HintPath>
@@ -176,6 +179,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="favicon.ico" />
+    <Content Include="favicon2.ico" />
     <Content Include="Images\cogwheel-white.png" />
     <Content Include="Images\left-arrow-white.png" />
     <Content Include="Images\right-arrow-white.png" />
@@ -206,6 +211,7 @@
     <None Include="Resources\minimizeIcon32.png" />
     <None Include="Resources\minimizeIcon24.png" />
     <None Include="Resources\spinner.gif" />
+    <Content Include="simtrixx.ico" />
     <Content Include="Update.xml" />
   </ItemGroup>
   <ItemGroup>
