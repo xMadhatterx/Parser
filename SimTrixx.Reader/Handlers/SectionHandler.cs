@@ -12,7 +12,7 @@ namespace ContractReaderV2.Handlers
         
         private bool _inActiveSection = false;
         private bool _atleastOne = false;
-        public List<Contract> GetSections(List<string> lines, int lineAmount)
+        public List<Contract> GetSections(List<string> lines, int lineAmount,bool advancedFiltering)
         {
             var _lastSectionId = string.Empty;
            var contractLines = new List<Contract>();
@@ -100,15 +100,17 @@ namespace ContractReaderV2.Handlers
                                     Int32.TryParse(newSection, out int newSectionDecimal);
                                     Int32.TryParse(newLastSection, out int lastSectionDecimal);
 
-                                    if (newSectionDecimal < lastSectionDecimal)
-                                    {
-                                        sameSection = true;
-                                    }
-                                    else
-                                    {
-                                        //New Section, let's set our sectionid
-                                        _lastSectionId = section.Trim();
-                                    }
+
+                                        if (newSectionDecimal < lastSectionDecimal)
+                                        {
+                                            sameSection = true;
+                                        }
+                                        else
+                                        {
+                                            //New Section, let's set our sectionid
+                                            _lastSectionId = section.Trim();
+                                        }
+                            
                                 }
 
                             }

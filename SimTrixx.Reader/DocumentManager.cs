@@ -36,7 +36,7 @@ namespace ContractReaderV2
                 throw new Exception("unsupported document type");
             }
         }
-        public List<Contract> ParseDocument(List<Word> keywords,GlobalEnum.DocumentParseMode documentParseMode)
+        public List<Contract> ParseDocument(List<Word> keywords,GlobalEnum.DocumentParseMode documentParseMode,bool advancedFiltering)
         {
             var textList = new List<string>();
             var lineCounter = 0;
@@ -51,15 +51,15 @@ namespace ContractReaderV2
             }
             if (documentParseMode == GlobalEnum.DocumentParseMode.FullDocument)
             {
-                contractList = CreateFullDocument(textList, lineCounter);
+                contractList = CreateFullDocument(textList, lineCounter, advancedFiltering);
             }
             else if (documentParseMode == GlobalEnum.DocumentParseMode.KeyWordSectionsOnly)
             {
-                contractList = CreateDocumentWithKeywordSections(textList, lineCounter, keywords);
+                contractList = CreateDocumentWithKeywordSections(textList, lineCounter, keywords, advancedFiltering);
             }
             else if (documentParseMode == GlobalEnum.DocumentParseMode.KeyWordSectionsWithSplits)
             {
-                contractList = CreateDocumentWithKeywordSectionsSplits(textList, lineCounter, keywords);
+                contractList = CreateDocumentWithKeywordSectionsSplits(textList, lineCounter, keywords, advancedFiltering);
             }
             else
             {
@@ -68,28 +68,28 @@ namespace ContractReaderV2
             return contractList;
         }
 
-        private List<Contract> CreateFullDocument(List<string> lines, int totalLines)
+        private List<Contract> CreateFullDocument(List<string> lines, int totalLines,bool advancedFiltering)
         {
             var sectionHandler = new Handlers.SectionHandler();
             File.Delete(_tempDocumentPath);
-            return sectionHandler.GetSections(lines, totalLines);
+            return sectionHandler.GetSections(lines, totalLines,advancedFiltering);
         }
 
-        private List<Contract> CreateDocumentWithKeywordSections(List<string> lines, int totalLines,List<Word> keywords)
+        private List<Contract> CreateDocumentWithKeywordSections(List<string> lines, int totalLines,List<Word> keywords, bool advancedFiltering)
         {
             var sectionHandler = new Handlers.SectionHandler();
             var sectionFilterHandler = new Handlers.SectionFilterHandler();
-            var fullContractList = sectionHandler.GetSections(lines, totalLines);
+            var fullContractList = sectionHandler.GetSections(lines, totalLines,advancedFiltering);
             var contractListKeywordSectionOnly = sectionFilterHandler.GetSectionsWithKeywords(keywords,fullContractList);
             File.Delete(_tempDocumentPath);
             return contractListKeywordSectionOnly;
         }
 
-        private List<Contract> CreateDocumentWithKeywordSectionsSplits(List<string> lines, int totalLines, List<Word> keywords)
+        private List<Contract> CreateDocumentWithKeywordSectionsSplits(List<string> lines, int totalLines, List<Word> keywords, bool advancedFiltering)
         {
             var sectionHandler = new Handlers.SectionHandler();
             var sectionFilterHandler = new Handlers.SectionFilterHandler();
-            var fullContractList = sectionHandler.GetSections(lines, totalLines);
+            var fullContractList = sectionHandler.GetSections(lines, totalLines,advancedFiltering);
             var contractListKeywordSectionOnly = sectionFilterHandler.GetSectionsWithKeywords(keywords,fullContractList);
             var contractWithSectionSplits = sectionFilterHandler.SplitSectionsByKeyword(contractListKeywordSectionOnly, keywords);
             File.Delete(_tempDocumentPath);

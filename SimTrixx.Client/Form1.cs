@@ -134,18 +134,18 @@ namespace TestDocReader
                     //**************************V3***********************************************************
 
                     var reader = new ContractReaderV2.DocumentManager(_currentDocument, tempfile);
-
+                    var advancedFiltering = cbSectionFilter.Checked;
                     if (cmbFilter.SelectedIndex == 0)
                     {
-                        _documentLines = reader.ParseDocument(_keywords, GlobalEnum.DocumentParseMode.KeyWordSectionsWithSplits);
+                        _documentLines = reader.ParseDocument(_keywords, GlobalEnum.DocumentParseMode.KeyWordSectionsWithSplits, advancedFiltering);
                     }
                     if(cmbFilter.SelectedIndex == 1)
                     {
-                        _documentLines = reader.ParseDocument(_keywords, GlobalEnum.DocumentParseMode.KeyWordSectionsOnly);
+                        _documentLines = reader.ParseDocument(_keywords, GlobalEnum.DocumentParseMode.KeyWordSectionsOnly, advancedFiltering);
                     }
                     if (cmbFilter.SelectedIndex == 2)
                     {
-                        _documentLines = reader.ParseDocument(_keywords, GlobalEnum.DocumentParseMode.FullDocument);
+                        _documentLines = reader.ParseDocument(_keywords, GlobalEnum.DocumentParseMode.FullDocument, advancedFiltering);
                     }
 
 
