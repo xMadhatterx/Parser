@@ -185,6 +185,9 @@
     <Content Include="Images\left-arrow-white.png" />
     <Content Include="Images\right-arrow-white.png" />
     <Content Include="Logo2.png" />
+    <Content Include="Viewer\ContractDataViewer.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\CloseButton.png" />
     <None Include="Resources\exportWhite.png" />
     <None Include="Resources\cogwhite.png" />

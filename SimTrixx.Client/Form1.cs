@@ -15,6 +15,7 @@ namespace TestDocReader
     {
         //private readonly string _documentPath = System.Configuration.ConfigurationManager.AppSettings.Get("DocumentPath");
         private string tempfile = Path.GetTempFileName();
+        private string runTimePath = Environment.CurrentDirectory;
         //private const string TemporaryFileName = "Temp_Output.txt";
         //private readonly string _outputDocumentPath = $"{System.Configuration.ConfigurationManager.AppSettings.Get("OutputDocumentPath")}output.html";
         private string _currentDocument;
@@ -42,13 +43,12 @@ namespace TestDocReader
             _documentLines = new List<Contract>();
             _keywords = new List<Word>();
             LoadKeywords();
+            var url = $@"{runTimePath}\Viewer\ContractDataViewer.html";
+            webBrowser1.Url = new Uri(url);
             //Type dgvType =dataGridView1.GetType();
             //var pi = dgvType.GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
             //pi.SetValue(dataGridView1, new object[]{true}, null);
-            typeof(DataGridView).InvokeMember("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.SetProperty,
-               null,
-               dataGridView1,
-               new object[] { true });
+
         }
 
 
@@ -162,9 +162,11 @@ namespace TestDocReader
                     }
                     else
                     {
-                        dataGridView1.DataSource = _documentLines;
-                        dataGridView1.Columns[0].DefaultCellStyle.ForeColor = Color.Green;
-                        dataGridView1.Columns[1].DefaultCellStyle.ForeColor = Color.Black;
+                        var doc = new Logic.FileExportHandler().LinesToDoc(_documentLines);
+                        System.IO.File.WriteAllText($@"{runTimePath}\Viewer\ContractDataViewer.html", doc);
+                        webBrowser1.Refresh();
+                        //Write to HTML here
+                        //_documentlines
 
                         label2.Text = _currentDocument;
                     }
@@ -178,7 +180,7 @@ namespace TestDocReader
             {
                 try
                 {
-                    var doc =new Logic.FileExportHandler().LinesToDoc(_documentLines);
+                    
                     
                     SaveFileDialog saveFileDialog1 = new SaveFileDialog();
                     saveFileDialog1.Filter = "Word Document |*.docx|Legacy Word Doc|*.doc|Excel|*.xlsx";
@@ -193,6 +195,7 @@ namespace TestDocReader
                         }
                         else if (saveFileDialog1.FilterIndex == 2)
                         {
+                            var doc = new Logic.FileExportHandler().LinesToDoc(_documentLines);
                             System.IO.File.AppendAllText(saveFileDialog1.FileName, doc);
                         }
                         else if (saveFileDialog1.FilterIndex == 3)
@@ -316,49 +319,49 @@ namespace TestDocReader
 
         private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            var searchString = "shall";
-            if (e.RowIndex > -1 && e.ColumnIndex > -1 && dataGridView1.Columns[e.ColumnIndex].Name != "Section")
-            {
-                // Check data for search  
+            //var searchString = "shall";
+            //if (e.RowIndex > -1 && e.ColumnIndex > -1 && dataGridView1.Columns[e.ColumnIndex].Name != "Section")
+            //{
+            //    // Check data for search  
      
-                    String gridCellValue = e.FormattedValue.ToString();
-                    // check the index of search text into grid cell.  
-                    int startIndexInCellValue = gridCellValue.ToLower().IndexOf(searchString.Trim().ToLower());
-                    // IF search text is exists inside grid cell then startIndexInCellValue value will be greater then 0 or equal to 0  
-                    if (startIndexInCellValue >= 0)
-                    {
-                        e.Handled = true;
-                        e.PaintBackground(e.CellBounds, true);
-                        //the highlite rectangle  
-                        Rectangle hl_rect = new Rectangle();
-                        hl_rect.Y = e.CellBounds.Y + 2;
-                        hl_rect.Height = 10;//e.CellBounds.Height - 20;
-                        //find the size of the text before the search word in grid cell data.  
-                        String sBeforeSearchword = gridCellValue.Substring(0, startIndexInCellValue);
-                        //size of the search word in the grid cell data  
-                        String sSearchWord = gridCellValue.Substring(startIndexInCellValue, searchString.Trim().Length);
-                        Size s1 = TextRenderer.MeasureText(e.Graphics, sBeforeSearchword, e.CellStyle.Font, e.CellBounds.Size);
-                        Size s2 = TextRenderer.MeasureText(e.Graphics, sSearchWord, e.CellStyle.Font, e.CellBounds.Size);
-                        if (s1.Width > 5)
-                        {
-                            hl_rect.X = e.CellBounds.X + s1.Width - 5;
-                            hl_rect.Width = s2.Width - 6;
-                        }
-                        else
-                        {
-                            hl_rect.X = e.CellBounds.X + 2;
-                            hl_rect.Width = s2.Width - 6;
-                        }
-                        //color for showing highlighted text in grid cell  
-                        SolidBrush hl_brush;
-                        hl_brush = new SolidBrush(Color.Yellow);
-                        //paint the background behind the search word  
-                        e.Graphics.FillRectangle(hl_brush, hl_rect);
-                        hl_brush.Dispose();
-                        e.PaintContent(e.CellBounds);
-                    }
+            //        String gridCellValue = e.FormattedValue.ToString();
+            //        // check the index of search text into grid cell.  
+            //        int startIndexInCellValue = gridCellValue.ToLower().IndexOf(searchString.Trim().ToLower());
+            //        // IF search text is exists inside grid cell then startIndexInCellValue value will be greater then 0 or equal to 0  
+            //        if (startIndexInCellValue >= 0)
+            //        {
+            //            e.Handled = true;
+            //            e.PaintBackground(e.CellBounds, true);
+            //            //the highlite rectangle  
+            //            Rectangle hl_rect = new Rectangle();
+            //            hl_rect.Y = e.CellBounds.Y + 2;
+            //            hl_rect.Height = 10;//e.CellBounds.Height - 20;
+            //            //find the size of the text before the search word in grid cell data.  
+            //            String sBeforeSearchword = gridCellValue.Substring(0, startIndexInCellValue);
+            //            //size of the search word in the grid cell data  
+            //            String sSearchWord = gridCellValue.Substring(startIndexInCellValue, searchString.Trim().Length);
+            //            Size s1 = TextRenderer.MeasureText(e.Graphics, sBeforeSearchword, e.CellStyle.Font, e.CellBounds.Size);
+            //            Size s2 = TextRenderer.MeasureText(e.Graphics, sSearchWord, e.CellStyle.Font, e.CellBounds.Size);
+            //            if (s1.Width > 5)
+            //            {
+            //                hl_rect.X = e.CellBounds.X + s1.Width - 5;
+            //                hl_rect.Width = s2.Width - 6;
+            //            }
+            //            else
+            //            {
+            //                hl_rect.X = e.CellBounds.X + 2;
+            //                hl_rect.Width = s2.Width - 6;
+            //            }
+            //            //color for showing highlighted text in grid cell  
+            //            SolidBrush hl_brush;
+            //            hl_brush = new SolidBrush(Color.Yellow);
+            //            //paint the background behind the search word  
+            //            e.Graphics.FillRectangle(hl_brush, hl_rect);
+            //            hl_brush.Dispose();
+            //            e.PaintContent(e.CellBounds);
+            //        }
                 
-            }
+            //}
         }
 
         private void tmrLoading_Tick(object sender, EventArgs e)
