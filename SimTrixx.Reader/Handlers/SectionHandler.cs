@@ -15,7 +15,7 @@ namespace ContractReaderV2.Handlers
         public List<Contract> GetSections(List<string> lines, int lineAmount,bool advancedFiltering)
         {
             var _lastSectionId = string.Empty;
-           var contractLines = new List<Contract>();
+            var contractLines = new List<Contract>();
             var lineCount = 0;
             var contract = new Contract();
             bool sameSection = false;
@@ -76,29 +76,31 @@ namespace ContractReaderV2.Handlers
                             }
                             else
                             {
-                                try
+                                if (advancedFiltering)
                                 {
-                                    var workingSection = section;
-                                    var workingLastSection = _lastSectionId;
-                                    if (workingSection.Length == 1) workingSection = workingSection + ".0";
-                                    if (workingLastSection.Length == 1) workingLastSection = workingLastSection + ".0";
-                                    var newSection = new Version(workingSection);
-                                    var lastSection = new Version(workingLastSection);
+                                    try
+                                    {
+                                        var workingSection = section;
+                                        var workingLastSection = _lastSectionId;
+                                        if (workingSection.Length == 1) workingSection = workingSection + ".0";
+                                        if (workingLastSection.Length == 1) workingLastSection = workingLastSection + ".0";
+                                        var newSection = new Version(workingSection);
+                                        var lastSection = new Version(workingLastSection);
 
-                                    var result = newSection.CompareTo(lastSection);
-                                    if (result > 0)
-                                        _lastSectionId = section.Trim();
-                                    else if (result < 0)
-                                        sameSection = true;
-                                    else
-                                        sameSection = true;
-                                }
-                                catch
-                                {
-                                    var newSection = section.Replace(".", "");
-                                    var newLastSection = _lastSectionId.Replace(".", "");
-                                    Int32.TryParse(newSection, out int newSectionDecimal);
-                                    Int32.TryParse(newLastSection, out int lastSectionDecimal);
+                                        var result = newSection.CompareTo(lastSection);
+                                        if (result > 0)
+                                            _lastSectionId = section.Trim();
+                                        else if (result < 0)
+                                            sameSection = true;
+                                        else
+                                            sameSection = true;
+                                    }
+                                    catch
+                                    {
+                                        var newSection = section.Replace(".", "");
+                                        var newLastSection = _lastSectionId.Replace(".", "");
+                                        Int32.TryParse(newSection, out int newSectionDecimal);
+                                        Int32.TryParse(newLastSection, out int lastSectionDecimal);
 
 
                                         if (newSectionDecimal < lastSectionDecimal)
@@ -110,9 +112,14 @@ namespace ContractReaderV2.Handlers
                                             //New Section, let's set our sectionid
                                             _lastSectionId = section.Trim();
                                         }
-                            
-                                }
 
+                                    }
+                                } else
+                                {
+                                    //New Section, let's set our sectionid
+                                    sameSection = false;
+                                    _lastSectionId = section.Trim();
+                                }
                             }
                         }
                         else
