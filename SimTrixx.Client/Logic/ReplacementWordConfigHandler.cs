@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SimTrixx.Reader.Concrete;
-
+using System.IO;
 namespace TestDocReader.Logic
 {
     public class ReplacementWordConfigHandler
@@ -20,7 +20,9 @@ namespace TestDocReader.Logic
 
         public ReplacementDictionary Import()
         {
-            var jsonText = System.IO.File.ReadAllText("./Configs/Replacements.json");
+            var keywordPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Simtrixx", "Replacements.json");
+            //var jsonText = System.IO.File.ReadAllText("./Configs/Replacements.json");
+            var jsonText = System.IO.File.ReadAllText(keywordPath);
             var replacements = JsonConvert.DeserializeObject<ReplacementDictionary>(jsonText);
             return replacements;
 
@@ -29,10 +31,11 @@ namespace TestDocReader.Logic
         public void Export(ReplacementDictionary replacementDictionary)
         {
             string jsonString = JsonConvert.SerializeObject(replacementDictionary);
-
+            var keywordPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Simtrixx", "Replacements.json");
             if (!string.IsNullOrEmpty(jsonString))
             {
-                System.IO.File.WriteAllText("./Configs/Replacements.json", jsonString);
+                //System.IO.File.WriteAllText("./Configs/Replacements.json", jsonString);
+                System.IO.File.WriteAllText(keywordPath, jsonString);
             }
         }
     }

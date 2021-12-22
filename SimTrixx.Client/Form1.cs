@@ -9,15 +9,13 @@ using System.IO;
 using AutoUpdaterDotNET;
 using SimTrixx.Data.Repos;
 using SimTrixx.Client.Logic;
+using System.Diagnostics;
 namespace TestDocReader
 {
     public partial class Form1 : Form
     {
-        //private readonly string _documentPath = System.Configuration.ConfigurationManager.AppSettings.Get("DocumentPath");
         private string tempfile = Path.GetTempFileName();
         private string runTimePath = Environment.CurrentDirectory;
-        //private const string TemporaryFileName = "Temp_Output.txt";
-        //private readonly string _outputDocumentPath = $"{System.Configuration.ConfigurationManager.AppSettings.Get("OutputDocumentPath")}output.html";
         private string _currentDocument;
         private List<Contract> _documentLines;
         private List<Word> _keywords;
@@ -46,7 +44,8 @@ namespace TestDocReader
 
             LoadHtmlGrid();
 
-            var url = $@"{runTimePath}\Configs\ContractDataViewer.html";
+            //var url = $@"{runTimePath}\Configs\ContractDataViewer.html";
+            var url = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Simtrixx", "ContractDataViewer.html");
             webBrowser1.Url = new Uri(url);
             //Type dgvType =dataGridView1.GetType();
             //var pi = dgvType.GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
@@ -195,7 +194,12 @@ namespace TestDocReader
         private void LoadHtmlGrid()
         {
             var doc = new Logic.GridDataHandler().BuildHtmlString(_documentLines);
-            System.IO.File.WriteAllText($@"{runTimePath}\Configs\ContractDataViewer.html", doc);
+            var htmlDocPath = string.Empty;
+            htmlDocPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Simtrixx", "ContractDataViewer.html");
+
+            //System.IO.File.WriteAllText($@"{runTimePath}\Configs\ContractDataViewer.html", doc);
+            System.IO.File.WriteAllText(htmlDocPath,doc);
+
             webBrowser1.Refresh();
         }
 
@@ -399,6 +403,13 @@ namespace TestDocReader
             ImportDocument();
         }
 
+        private void CreateDocumentDirectory()
+        {
 
+            if (Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Simtrix")))
+            {
+
+            }
+        }
     }
 }

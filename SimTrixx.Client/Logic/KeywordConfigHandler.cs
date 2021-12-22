@@ -1,34 +1,28 @@
 ﻿using System.Collections.Generic;
 using SimTrixx.Reader.Concrete;
 using Newtonsoft.Json;
+using System.IO;
+using System;
 namespace TestDocReader.Logic
 {
     public class KeywordConfigHandler
     {
-        //public void Add(List<string> keywords)
-        //{
-        //    var keywordDictionary = new KeywordDictionary();
-        //    keywordDictionary.Keywords = new List<string>();
-        //    keywordDictionary.Keywords.AddRange(keywords);
-        //    Export(keywordDictionary);
-        //}
-
-
-
-        //public KeywordDictionary Import()
-        //{
-        //    var jsonText= System.IO.File.ReadAllText("./Configs/Keywords.json");
-        //    var keywords = JsonConvert.DeserializeObject<KeywordDictionary>(jsonText);
-        //    return keywords;
-
-        //}
-
         public Root ImportV2()
         {
+            var keywordPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Simtrixx", "KeywordsV2.json");
             var keywords = new Root();
-            if (System.IO.File.Exists("./Configs/KeywordsV2.json"))
+            //if (System.IO.File.Exists("./Configs/KeywordsV2.json"))
+            //{
+            //    var jsonText = System.IO.File.ReadAllText("./Configs/KeywordsV2.json");
+            //    keywords = JsonConvert.DeserializeObject<Root>(jsonText);
+            //}
+            //else
+            //{
+            //    throw new System.Exception("Can not find Keyword file");
+            //}
+            if (System.IO.File.Exists(keywordPath))
             {
-                var jsonText = System.IO.File.ReadAllText("./Configs/KeywordsV2.json");
+                var jsonText = System.IO.File.ReadAllText(keywordPath);
                 keywords = JsonConvert.DeserializeObject<Root>(jsonText);
             }
             else
@@ -38,23 +32,18 @@ namespace TestDocReader.Logic
             return keywords;
 
         }
-
-        //public void Export(KeywordDictionary keywordDictionary)
-        //{
-        //    string jsonString = JsonConvert.SerializeObject(keywordDictionary);
-
-        //    if (!string.IsNullOrEmpty(jsonString))
-        //    {
-        //        System.IO.File.WriteAllText("./Configs/Keywords.json", jsonString);
-        //    }
-        //}
         public void ExportV2(Root keywordDictionary)
         {
+            var keywordPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Simtrixx", "KeywordsV2.json");
             string jsonString = JsonConvert.SerializeObject(keywordDictionary);
 
+            //if (!string.IsNullOrEmpty(jsonString))
+            //{
+            //    System.IO.File.WriteAllText("./Configs/KeywordsV2.json", jsonString);
+            //}
             if (!string.IsNullOrEmpty(jsonString))
             {
-                System.IO.File.WriteAllText("./Configs/KeywordsV2.json", jsonString);
+                System.IO.File.WriteAllText(keywordPath, jsonString);
             }
         }
     }
