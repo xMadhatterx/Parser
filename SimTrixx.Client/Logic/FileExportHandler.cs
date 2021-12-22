@@ -4,6 +4,7 @@ using System.Text;
 using SimTrixx.Reader.Concrete;
 using Microsoft.Office.Interop.Word;
 using Microsoft.Office.Interop.Excel;
+using System.Text.RegularExpressions;
 namespace TestDocReader.Logic
 {
    public class FileExportHandler
@@ -28,7 +29,7 @@ namespace TestDocReader.Logic
                 {
                     var section = string.IsNullOrWhiteSpace(line.DocumentSection) ? "Empty" : line.DocumentSection;
                     //var lineType = string.IsNullOrWhiteSpace(line.DataType.ToString()) ? "Empty" : line.DataType.ToString();
-                    var lineContent = string.IsNullOrWhiteSpace(line.Data) ? "Empty" : line.Data;
+                    var lineContent = string.IsNullOrWhiteSpace(line.Data) ? "Empty" : Microsoft.Security.Application.Encoder.HtmlEncode(line.Data);
                     htmlString.Append("<tr>");
                     htmlString.Append($"<td style='width:10%'>{section}</td>");
                     //htmlString.Append($"<td style='width:10%;font-weight:bold'>{lineType}</td>");
@@ -36,7 +37,8 @@ namespace TestDocReader.Logic
                     {
                         if (!keyword.Split)
                         {
-                            lineContent = lineContent.ToLower().Replace(keyword.Keyword.ToLower(), $"<span style = 'background-color: #FFFF00'>{keyword.Keyword.ToLower()}</span>");
+                            //lineContent = lineContent.ToLower().Replace(keyword.Keyword.ToLower(), $"<span style = 'background-color: #FFFF00'>{keyword.Keyword.ToLower()}</span>");
+                            lineContent = Regex.Replace(lineContent, keyword.Keyword, $"<span style = 'background-color: #FFFF00'>{keyword.Keyword.ToLower()}</span>", RegexOptions.IgnoreCase);
                         }
                     }
                     htmlString.Append($"<td style='width:70%'>{lineContent}</td>");
@@ -95,9 +97,10 @@ namespace TestDocReader.Logic
             document.PageSetup.Orientation = WdOrientation.wdOrientLandscape;
             firstTable.PreferredWidth = document.PageSetup.PageWidth - (document.PageSetup.LeftMargin + document.PageSetup.RightMargin);
             firstTable.Borders.Enable = 1;
+            var rowCount = 1;
             foreach (Row row in firstTable.Rows)
             {
-
+                
                 foreach (Cell cell in row.Cells)
                 {
                     cell.WordWrap = true;
@@ -111,25 +114,30 @@ namespace TestDocReader.Logic
                         {
                             cell.PreferredWidthType = WdPreferredWidthType.wdPreferredWidthPercent;
                             cell.PreferredWidth = 10;
-                            cell.Range.Text = "Document Section";
+                            cell.Range.Text = "Section";
+                            cell.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter;
+                            
                         }
                         if (cell.ColumnIndex == 2)
                         {
                             cell.PreferredWidthType = WdPreferredWidthType.wdPreferredWidthPercent;
                             cell.PreferredWidth = 70;
                             cell.Range.Text = "Contents";
+                            cell.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter;
                         }
                         if (cell.ColumnIndex == 3)
                         {
                             cell.PreferredWidthType = WdPreferredWidthType.wdPreferredWidthPercent;
                             cell.PreferredWidth = 5;
                             cell.Range.Text = "Y/N";
+                            cell.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter;
                         }
                         if (cell.ColumnIndex == 4)
                         {
                             cell.PreferredWidthType = WdPreferredWidthType.wdPreferredWidthPercent;
                             cell.PreferredWidth = 15;
                             cell.Range.Text = "If yes, provide discriminator/past performance";
+                            cell.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter;
                         }
 
                     }
@@ -139,16 +147,10 @@ namespace TestDocReader.Logic
 
                         if (cell.ColumnIndex == 1)
                         {
-                            //if(cell.RowIndex>2)
-                            //{
-                            //    if (lines[row.Index].DocumentSection < lines[row.Index - 1].DocumentSection)
-                            //    {
-
-                            //    }
-                            //}
                             cell.Range.Text = string.IsNullOrWhiteSpace(lines[row.Index -2].DocumentSection) ? "Empty" : lines[row.Index-2].DocumentSection;
                             cell.PreferredWidthType = WdPreferredWidthType.wdPreferredWidthPercent;
                             cell.PreferredWidth = 10;
+                            cell.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter;
 
                         }
                         if (cell.ColumnIndex == 2)
@@ -156,19 +158,41 @@ namespace TestDocReader.Logic
                             cell.Range.Text = lines[row.Index-2].Data;
                             cell.PreferredWidthType = WdPreferredWidthType.wdPreferredWidthPercent;
                             cell.PreferredWidth = 70;
+                            cell.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter;
                         }
                         if (cell.ColumnIndex == 3)
                         {
                             cell.PreferredWidthType = WdPreferredWidthType.wdPreferredWidthPercent;
                             cell.PreferredWidth = 5;
+                            cell.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter;
                         }
                         if (cell.ColumnIndex == 4)
                         {
                             cell.PreferredWidthType = WdPreferredWidthType.wdPreferredWidthPercent;
                             cell.PreferredWidth = 15;
+                            cell.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter;
                         }
                     }
                 }
+               
+                if(rowCount == 1)
+                {
+                    row.Cells[1].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
+                    row.Cells[2].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
+                    row.Cells[3].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
+                    row.Cells[4].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
+
+
+                    //row.Cells[1].Range.Shading.BackgroundPatternColor = WdColor.wdColorLightBlue;
+                    //row.Cells[2].Range.Shading.BackgroundPatternColor = WdColor.wdColorLightBlue;
+                    //row.Cells[3].Range.Shading.BackgroundPatternColor = WdColor.wdColorLightBlue;
+                    //row.Cells[4].Range.Shading.BackgroundPatternColor = WdColor.wdColorLightBlue;
+                }
+                else
+                {
+                    row.Cells[1].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
+                }
+                rowCount++;
             }
 
             object filename = filepath;

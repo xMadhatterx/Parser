@@ -43,7 +43,10 @@ namespace TestDocReader
             _documentLines = new List<Contract>();
             _keywords = new List<Word>();
             LoadKeywords();
-            var url = $@"{runTimePath}\Viewer\ContractDataViewer.html";
+
+            LoadHtmlGrid();
+
+            var url = $@"{runTimePath}\Configs\ContractDataViewer.html";
             webBrowser1.Url = new Uri(url);
             //Type dgvType =dataGridView1.GetType();
             //var pi = dgvType.GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
@@ -110,66 +113,7 @@ namespace TestDocReader
                     {
                         _currentDocument = ofdDocument.FileName;
                     }
-                    //*****************************Uncomment for V2*****************************************
-                    //var fileType = new Logic.FileExtensionHandler().GetDocumentType(_currentDocument);
-                    //var contract = new ContractReaderV2.ReaderV2(_currentDocument, tempfile);
-
-                    //switch (fileType)
-                    //{
-                    //    case Logic.FileExtensionHandler.FileType.WordDoc:
-                    //        _documentLines = contract.ParseWordDocument(_keywords);
-                    //        break;
-                    //    case Logic.FileExtensionHandler.FileType.Pdf:
-                    //        _documentLines = contract.ParsePdfDocument(_keywords);
-                    //        break;
-                    //    default:
-                    //        MessageBox.Show($@"Error => Error occured while deriving file type{Environment.NewLine}Either file was not found or the file type was unsupported", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    //        _documentLines = null;
-                    //        break;
-                    //}
-                    //***************************************************************************************
-
-
-
-                    //**************************V3***********************************************************
-
-                    var reader = new ContractReaderV2.DocumentManager(_currentDocument, tempfile);
-                    var advancedFiltering = cbSectionFilter.Checked;
-                    if (cmbFilter.SelectedIndex == 0)
-                    {
-                        _documentLines = reader.ParseDocument(_keywords, GlobalEnum.DocumentParseMode.KeyWordSectionsWithSplits, advancedFiltering);
-                    }
-                    if(cmbFilter.SelectedIndex == 1)
-                    {
-                        _documentLines = reader.ParseDocument(_keywords, GlobalEnum.DocumentParseMode.KeyWordSectionsOnly, advancedFiltering);
-                    }
-                    if (cmbFilter.SelectedIndex == 2)
-                    {
-                        _documentLines = reader.ParseDocument(_keywords, GlobalEnum.DocumentParseMode.FullDocument, advancedFiltering);
-                    }
-
-
-
-                    //**************************V3***********************************************************
-
-
-
-
-
-                    if (_documentLines == null)
-                    {
-                        MessageBox.Show($@"Error => Error opening document{Environment.NewLine}Please make sure the document is not already open.", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    else
-                    {
-                        var doc = new Logic.FileExportHandler().LinesToDoc(_documentLines);
-                        System.IO.File.WriteAllText($@"{runTimePath}\Viewer\ContractDataViewer.html", doc);
-                        webBrowser1.Refresh();
-                        //Write to HTML here
-                        //_documentlines
-
-                        label2.Text = _currentDocument;
-                    }
+                    ImportDocument();
                 }
             }
         }
@@ -246,6 +190,79 @@ namespace TestDocReader
         {
             Properties.Settings.Default.Save();
             this.Close();
+        }
+
+        private void LoadHtmlGrid()
+        {
+            var doc = new Logic.GridDataHandler().BuildHtmlString(_documentLines);
+            System.IO.File.WriteAllText($@"{runTimePath}\Configs\ContractDataViewer.html", doc);
+            webBrowser1.Refresh();
+        }
+
+        private void ImportDocument()
+        {
+            if (!string.IsNullOrWhiteSpace(_currentDocument))
+            {
+
+                //*****************************Uncomment for V2*****************************************
+                //var fileType = new Logic.FileExtensionHandler().GetDocumentType(_currentDocument);
+                //var contract = new ContractReaderV2.ReaderV2(_currentDocument, tempfile);
+
+                //switch (fileType)
+                //{
+                //    case Logic.FileExtensionHandler.FileType.WordDoc:
+                //        _documentLines = contract.ParseWordDocument(_keywords);
+                //        break;
+                //    case Logic.FileExtensionHandler.FileType.Pdf:
+                //        _documentLines = contract.ParsePdfDocument(_keywords);
+                //        break;
+                //    default:
+                //        MessageBox.Show($@"Error => Error occured while deriving file type{Environment.NewLine}Either file was not found or the file type was unsupported", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //        _documentLines = null;
+                //        break;
+                //}
+                //***************************************************************************************
+
+
+
+                //**************************V3***********************************************************
+
+                var reader = new ContractReaderV2.DocumentManager(_currentDocument, tempfile);
+                var advancedFiltering = cbSectionFilter.Checked;
+                if (cmbFilter.SelectedIndex == 0)
+                {
+                    _documentLines = reader.ParseDocument(_keywords, GlobalEnum.DocumentParseMode.KeyWordSectionsWithSplits, advancedFiltering);
+                }
+                if (cmbFilter.SelectedIndex == 1)
+                {
+                    _documentLines = reader.ParseDocument(_keywords, GlobalEnum.DocumentParseMode.KeyWordSectionsOnly, advancedFiltering);
+                }
+                if (cmbFilter.SelectedIndex == 2)
+                {
+                    _documentLines = reader.ParseDocument(_keywords, GlobalEnum.DocumentParseMode.FullDocument, advancedFiltering);
+                }
+
+
+
+                //**************************V3***********************************************************
+
+
+
+
+
+                if (_documentLines == null)
+                {
+                    MessageBox.Show($@"Error => Error opening document{Environment.NewLine}Please make sure the document is not already open.", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    LoadHtmlGrid();
+                    //Write to HTML here
+                    //_documentlines
+
+                    label2.Text = _currentDocument;
+                }
+            }
         }
 
         #region Menu MouseOver
@@ -373,11 +390,13 @@ namespace TestDocReader
         private void cmbFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
             Properties.Settings.Default["FilterType"] = cmbFilter.SelectedIndex;
+            ImportDocument();
         }
 
         private void cbSectionFilter_CheckedChanged(object sender, EventArgs e)
         {
             Properties.Settings.Default["AdvSectionFilter"] = cbSectionFilter.Checked;
+            ImportDocument();
         }
 
 
