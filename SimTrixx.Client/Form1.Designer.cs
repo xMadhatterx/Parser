@@ -59,8 +59,8 @@
             this.btnMinimize = new System.Windows.Forms.Button();
             this.btnCloseFrm = new System.Windows.Forms.Button();
             this.tmrLoading = new System.Windows.Forms.Timer(this.components);
-            this.contractBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.contractBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.panel1.SuspendLayout();
             this.pnlLoading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbLoading)).BeginInit();
@@ -338,8 +338,8 @@
             this.cmbFilter.FormattingEnabled = true;
             this.cmbFilter.ItemHeight = 13;
             this.cmbFilter.Items.AddRange(new object[] {
-            "Keyword Sections only with splits",
-            "Keyword Sections only",
+            "Keyword Sections only With Splits",
+            "Keyword Sections Only",
             "Full Document"});
             this.cmbFilter.Location = new System.Drawing.Point(498, 6);
             this.cmbFilter.Name = "cmbFilter";
@@ -426,10 +426,6 @@
             this.tmrLoading.Interval = 5000;
             this.tmrLoading.Tick += new System.EventHandler(this.tmrLoading_Tick);
             // 
-            // contractBindingSource
-            // 
-            this.contractBindingSource.DataSource = typeof(SimTrixx.Reader.Concrete.Contract);
-            // 
             // webBrowser1
             // 
             this.webBrowser1.Location = new System.Drawing.Point(260, 80);
@@ -437,6 +433,10 @@
             this.webBrowser1.Name = "webBrowser1";
             this.webBrowser1.Size = new System.Drawing.Size(966, 620);
             this.webBrowser1.TabIndex = 14;
+            // 
+            // contractBindingSource
+            // 
+            this.contractBindingSource.DataSource = typeof(SimTrixx.Reader.Concrete.Contract);
             // 
             // Form1
             // 
