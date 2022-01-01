@@ -66,6 +66,7 @@ namespace TestDocReader.Logic
 
         public void CreateWordDoc(List<SimTrixx.Reader.Concrete.Contract> lines,string filepath)
         {
+            _keywordsV2 = new Logic.KeywordConfigHandler().ImportV2().Keywords;
             var winword = new Microsoft.Office.Interop.Word.Application();
             winword.ShowAnimation = false;
             
@@ -193,6 +194,21 @@ namespace TestDocReader.Logic
                     row.Cells[1].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
                 }
                 rowCount++;
+            }
+
+           
+
+            foreach (var keyword in _keywordsV2)
+            {
+                var rng = document.Range();
+                rng.Find.Text = keyword.Keyword;
+                rng.Find.MatchCase = false;
+
+                while (rng.Find.Execute(Forward: true))
+                {
+                    rng.Font.Bold = 1;
+                    rng.HighlightColorIndex = WdColorIndex.wdYellow;
+                }
             }
 
             object filename = filepath;
