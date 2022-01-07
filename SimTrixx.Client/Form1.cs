@@ -36,8 +36,10 @@ namespace TestDocReader
             tmrLoading.Start();
             CheckUpdate();
             CheckLicense();
-            cmbFilter.SelectedIndex = (int)Properties.Settings.Default["FilterType"];
-            cbSectionFilter.Checked = (bool)Properties.Settings.Default["AdvSectionFilter"];
+            //cmbFilter.SelectedIndex = (int)Properties.Settings.Default["FilterType"];
+            //cbSectionFilter.Checked = (bool)Properties.Settings.Default["AdvSectionFilter"];
+            cmbFilter.SelectedIndex = 0;
+            cbSectionFilter.Checked = false;
             _documentLines = new List<Contract>();
             _keywords = new List<Word>();
             LoadKeywords();
@@ -393,13 +395,13 @@ namespace TestDocReader
 
         private void cmbFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default["FilterType"] = cmbFilter.SelectedIndex;
+            //Properties.Settings.Default["FilterType"] = cmbFilter.SelectedIndex;
             ImportDocument();
         }
 
         private void cbSectionFilter_CheckedChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default["AdvSectionFilter"] = cbSectionFilter.Checked;
+            //Properties.Settings.Default["AdvSectionFilter"] = cbSectionFilter.Checked;
             ImportDocument();
         }
 
