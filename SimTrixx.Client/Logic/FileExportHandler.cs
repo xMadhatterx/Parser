@@ -173,6 +173,7 @@ namespace TestDocReader.Logic
                             cell.PreferredWidth = 15;
                             cell.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter;
                         }
+                 
                     }
                 }
                
@@ -192,6 +193,11 @@ namespace TestDocReader.Logic
                 else
                 {
                     row.Cells[1].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
+                    if(rowCount == 2)
+                    {
+                        //row.Cells[2].Merge(row.Cells[4]);
+                        //row.Cells[2].Merge(row.Cells[4]);
+                    }
                 }
                 rowCount++;
             }
@@ -228,6 +234,14 @@ namespace TestDocReader.Logic
             Microsoft.Office.Interop.Excel.Range cellRange;
             excel = new Microsoft.Office.Interop.Excel.Application();
 
+            var numberDropDown = new List<string>();
+            numberDropDown.Add("1");
+            numberDropDown.Add("2");
+            numberDropDown.Add("3");
+            numberDropDown.Add("4");
+            numberDropDown.Add("5");
+            var flatList = string.Join(",", numberDropDown.ToArray());
+
             try
             {
                 
@@ -244,6 +258,9 @@ namespace TestDocReader.Logic
                 workSheet.Cells.Font.Size = 15;
                 workSheet.Cells[2, 1] = "Section";
                 workSheet.Cells[2, 2] = "Data";
+                workSheet.Cells[2, 3] = "Y / N";
+                workSheet.Cells[2, 4] = "Color Code";
+                workSheet.Cells[2, 5] = "Provide discriminator/past performance";
                 int rowcount = 2;
                 foreach (var line in lines)
                 {
@@ -252,21 +269,34 @@ namespace TestDocReader.Logic
                     {
                         workSheet.Cells[rowcount, 1] = line.DocumentSection;
                         workSheet.Cells[rowcount, 2] = line.Data;
+
+                        //Add Color Dropdown Menu
+                        var cell = (Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowcount, 4];
+                        cell.Validation.Delete();
+                        cell.Validation.Add(
+                           XlDVType.xlValidateList,
+                           XlDVAlertStyle.xlValidAlertInformation,
+                           XlFormatConditionOperator.xlBetween,
+                           flatList,
+                           Type.Missing);
+
+                        cell.Validation.IgnoreBlank = true;
+                        cell.Validation.InCellDropdown = true;
                     }
                 }
-                cellRange = workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[rowcount, 2]];
+                cellRange = workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[rowcount, 5]];
                 cellRange.EntireColumn.AutoFit();
                 cellRange.EntireColumn.WrapText = true;
                 Microsoft.Office.Interop.Excel.Borders border = cellRange.Borders;
                 border.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
                 border.Weight = 2d;
                 //Style Sheet Header
-                cellRange = workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 2]];
+                cellRange = workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 5]];
                 cellRange.Interior.Color = System.Drawing.Color.Yellow;
                 cellRange.Font.Bold = true;
 
                 //Style Column Headers
-                cellRange = workSheet.Range[workSheet.Cells[2, 1], workSheet.Cells[2,2]];
+                cellRange = workSheet.Range[workSheet.Cells[2, 1], workSheet.Cells[2,5]];
                 cellRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
                 cellRange.Interior.Color = System.Drawing.Color.DarkGray;
                 cellRange.Font.Color = System.Drawing.Color.White;
@@ -274,6 +304,66 @@ namespace TestDocReader.Logic
                 //Center left column
                 cellRange = workSheet.Range[workSheet.Cells[3, 1], workSheet.Cells[rowcount, 1]];
                 cellRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+                //Center Color Column
+                cellRange = workSheet.Range[workSheet.Cells[3, 4], workSheet.Cells[rowcount, 4]];
+                cellRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                cellRange.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+                //*************************************************************************************
+
+                //var row = $"D{rowcount}";
+                FormatCondition format = (FormatCondition)(workSheet.get_Range($"D3:D{rowcount}",
+                    Type.Missing).FormatConditions.Add(XlFormatConditionType.xlExpression,
+                                                       XlFormatConditionOperator.xlEqual,
+                                                       "=D3=1",
+                                                       Type.Missing, Type.Missing, Type.Missing,
+                                                       Type.Missing, Type.Missing));
+
+                    format.Font.Bold = true;
+                    format.Interior.Color = 0x000000FF; //Red
+                    FormatCondition format2 = (FormatCondition)(workSheet.get_Range($"D3:D{rowcount}",
+                    Type.Missing).FormatConditions.Add(XlFormatConditionType.xlExpression,
+                                                       XlFormatConditionOperator.xlEqual,
+                                                       "=$D3=2",
+                                                       Type.Missing, Type.Missing, Type.Missing,
+                                                       Type.Missing, Type.Missing));
+
+                    format2.Font.Bold = true;
+                    format2.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Yellow);
+
+                    FormatCondition format3 = (FormatCondition)(workSheet.get_Range($"D3:D{rowcount}",
+                    Type.Missing).FormatConditions.Add(XlFormatConditionType.xlExpression,
+                                                       XlFormatConditionOperator.xlEqual,
+                                                       "=$D3=3",
+                                                       Type.Missing, Type.Missing, Type.Missing,
+                                                       Type.Missing, Type.Missing));
+
+                    format3.Font.Bold = true;
+                    format3.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Blue);
+
+                    FormatCondition format4 = (FormatCondition)(workSheet.get_Range($"D3:D{rowcount}",
+                    Type.Missing).FormatConditions.Add(XlFormatConditionType.xlExpression,
+                                                       XlFormatConditionOperator.xlEqual,
+                                                       "=$D3=4",
+                                                       Type.Missing, Type.Missing, Type.Missing,
+                                                       Type.Missing, Type.Missing));
+
+                    format4.Font.Bold = true;
+                    format4.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Green);
+
+                    FormatCondition format5 = (FormatCondition)(workSheet.get_Range($"D3:D{rowcount}",
+                    Type.Missing).FormatConditions.Add(XlFormatConditionType.xlExpression,
+                                                       XlFormatConditionOperator.xlEqual,
+                                                       "=$D3=5",
+                                                       Type.Missing, Type.Missing, Type.Missing,
+                                                       Type.Missing, Type.Missing));
+
+                    format5.Font.Bold = true;
+                    format5.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Orange);
+         
+
+                //*************************************************************************************
 
                 workBook.SaveAs(filepath);
                 workBook.Close();
