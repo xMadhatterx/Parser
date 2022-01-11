@@ -259,7 +259,7 @@ namespace TestDocReader.Logic
                 workSheet.Cells[2, 1] = "Section";
                 workSheet.Cells[2, 2] = "Data";
                 workSheet.Cells[2, 3] = "Y / N";
-                workSheet.Cells[2, 4] = "Color Code";
+                workSheet.Cells[2, 4] = "Capabilities Ranking";
                 workSheet.Cells[2, 5] = "Provide discriminator/past performance";
                 int rowcount = 2;
                 foreach (var line in lines)
@@ -284,6 +284,8 @@ namespace TestDocReader.Logic
                         cell.Validation.InCellDropdown = true;
                     }
                 }
+
+                //Global Style
                 cellRange = workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[rowcount, 5]];
                 cellRange.EntireColumn.AutoFit();
                 cellRange.EntireColumn.WrapText = true;
@@ -294,16 +296,20 @@ namespace TestDocReader.Logic
                 cellRange = workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 5]];
                 cellRange.Interior.Color = System.Drawing.Color.Yellow;
                 cellRange.Font.Bold = true;
+           
 
                 //Style Column Headers
                 cellRange = workSheet.Range[workSheet.Cells[2, 1], workSheet.Cells[2,5]];
                 cellRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
-                cellRange.Interior.Color = System.Drawing.Color.DarkGray;
+                cellRange.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.DarkGray);
                 cellRange.Font.Color = System.Drawing.Color.White;
                 cellRange.Font.Bold = true;
+                cellRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                cellRange.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
                 //Center left column
                 cellRange = workSheet.Range[workSheet.Cells[3, 1], workSheet.Cells[rowcount, 1]];
                 cellRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                cellRange.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
 
                 //Center Color Column
                 cellRange = workSheet.Range[workSheet.Cells[3, 4], workSheet.Cells[rowcount, 4]];
@@ -312,7 +318,6 @@ namespace TestDocReader.Logic
 
                 //*************************************************************************************
 
-                //var row = $"D{rowcount}";
                 FormatCondition format = (FormatCondition)(workSheet.get_Range($"D3:D{rowcount}",
                     Type.Missing).FormatConditions.Add(XlFormatConditionType.xlExpression,
                                                        XlFormatConditionOperator.xlEqual,
@@ -340,7 +345,7 @@ namespace TestDocReader.Logic
                                                        Type.Missing, Type.Missing));
 
                     format3.Font.Bold = true;
-                    format3.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Blue);
+                    format3.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Green);
 
                     FormatCondition format4 = (FormatCondition)(workSheet.get_Range($"D3:D{rowcount}",
                     Type.Missing).FormatConditions.Add(XlFormatConditionType.xlExpression,
@@ -350,7 +355,7 @@ namespace TestDocReader.Logic
                                                        Type.Missing, Type.Missing));
 
                     format4.Font.Bold = true;
-                    format4.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Green);
+                    format4.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Blue);
 
                     FormatCondition format5 = (FormatCondition)(workSheet.get_Range($"D3:D{rowcount}",
                     Type.Missing).FormatConditions.Add(XlFormatConditionType.xlExpression,
