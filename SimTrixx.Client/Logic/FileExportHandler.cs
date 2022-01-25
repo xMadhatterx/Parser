@@ -203,11 +203,18 @@ namespace TestDocReader.Logic
             }
 
            
-
+            //Keyword Highlighting
             foreach (var keyword in _keywordsV2)
             {
                 var rng = document.Range();
-                rng.Find.Text = keyword.Keyword;
+                if (!string.IsNullOrWhiteSpace(keyword.Replacement) && keyword.Replacement.ToLower() != "change me")
+                {
+                    rng.Find.Text = keyword.Replacement;
+                }
+                else
+                {
+                    rng.Find.Text = keyword.Keyword;
+                }
                 rng.Find.MatchCase = false;
 
                 while (rng.Find.Execute(Forward: true))

@@ -31,20 +31,31 @@ namespace TestDocReader.Logic
                     htmlString.Append($"<td style='width:10%;text-align:center'>{section}</td>");
                     foreach (var keyword in _keywordsV2)
                     {
-                        if (!keyword.Split)
+
+                        if (!string.IsNullOrEmpty(keyword.Replacement) && keyword.Replacement != "Change Me")
                         {
-                            if (!string.IsNullOrEmpty(keyword.Replacement) && keyword.Replacement != "Change Me")
-                            {
-                                lineContent = Regex.Replace(lineContent, keyword.Keyword, $"<span style = 'background-color: #FFFF00'>{keyword.Replacement}</span>", RegexOptions.IgnoreCase);
-                            }
-                            else
-                            {
-                                lineContent = Regex.Replace(lineContent, keyword.Keyword, $"<span style = 'background-color: #FFFF00'>{keyword.Keyword.ToLower()}</span>", RegexOptions.IgnoreCase);
-                            }
-                        } else
+                            lineContent = Regex.Replace(lineContent, keyword.Replacement, $"<span style = 'background-color: #FFFF00'>{keyword.Replacement}</span>", RegexOptions.IgnoreCase);
+                        }
+                        else
                         {
                             lineContent = Regex.Replace(lineContent, keyword.Keyword, $"<span style = 'background-color: #FFFF00'>{keyword.Keyword.ToLower()}</span>", RegexOptions.IgnoreCase);
                         }
+
+
+                        //if (!keyword.Split)
+                        //{
+                        //    if (!string.IsNullOrEmpty(keyword.Replacement) && keyword.Replacement != "Change Me")
+                        //    {
+                        //        lineContent = Regex.Replace(lineContent, keyword.Keyword, $"<span style = 'background-color: #FFFF00'>{keyword.Replacement}</span>", RegexOptions.IgnoreCase);
+                        //    }
+                        //    else
+                        //    {
+                        //        lineContent = Regex.Replace(lineContent, keyword.Keyword, $"<span style = 'background-color: #FFFF00'>{keyword.Keyword.ToLower()}</span>", RegexOptions.IgnoreCase);
+                        //    }
+                        //} else
+                        //{
+                        //    lineContent = Regex.Replace(lineContent, keyword.Keyword, $"<span style = 'background-color: #FFFF00'>{keyword.Keyword.ToLower()}</span>", RegexOptions.IgnoreCase);
+                        //}
                     }
                     htmlString.Append($"<td style='width:70%'>{lineContent}</td>");
                     htmlString.Append($"<td style='width:5%'></td>");//Y/N column
