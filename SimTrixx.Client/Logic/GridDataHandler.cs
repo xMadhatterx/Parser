@@ -41,6 +41,9 @@ namespace TestDocReader.Logic
                             {
                                 lineContent = Regex.Replace(lineContent, keyword.Keyword, $"<span style = 'background-color: #FFFF00'>{keyword.Keyword.ToLower()}</span>", RegexOptions.IgnoreCase);
                             }
+                        } else
+                        {
+                            lineContent = Regex.Replace(lineContent, keyword.Keyword, $"<span style = 'background-color: #FFFF00'>{keyword.Keyword.ToLower()}</span>", RegexOptions.IgnoreCase);
                         }
                     }
                     htmlString.Append($"<td style='width:70%'>{lineContent}</td>");
