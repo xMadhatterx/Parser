@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "SimTrixx"
-#define MyAppVersion "1.3.3"
+#define MyAppVersion "1.4.0"
 #define MyAppPublisher "SimTrixx LLC"
 #define MyAppURL "https://www.simtrixx.com/"
 #define MyAppExeName "SimTrixx.exe"
@@ -40,10 +40,10 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Users\M4dh4tt3r\Documents\GitHub\Parser\SimTrixx.Client\bin\Debug\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\M4dh4tt3r\Documents\GitHub\Parser\SimTrixx.Client\bin\Debug\Configs\*"; DestDir: "{app}\Configs"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\M4dh4tt3r\Documents\GitHub\Parser\SimTrixx.Client\bin\Debug\*"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\M4dh4tt3r\Documents\GitHub\Parser\packages\NDP461-KB3102436-x86-x64-AllOS-ENU.exe"; DestDir: {tmp}; Flags: deleteafterinstall; AfterInstall: InstallFramework; Check: FrameworkIsNotInstalled
+Source: "E:\code\Parser\SimTrixx.Client\bin\Debug\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\code\Parser\SimTrixx.Client\bin\Debug\Configs\*"; DestDir: "{app}\Configs"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "E:\code\Parser\SimTrixx.Client\bin\Debug\*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "E:\code\Parser\packages\NDP461-KB3102436-x86-x64-AllOS-ENU.exe"; DestDir: {tmp}; Flags: deleteafterinstall; AfterInstall: InstallFramework; Check: FrameworkIsNotInstalled
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Registry]
