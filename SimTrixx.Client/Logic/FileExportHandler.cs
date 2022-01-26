@@ -72,6 +72,20 @@ namespace TestDocReader.Logic
         public void CreateWordDoc(List<SimTrixx.Reader.Concrete.Contract> lines,string filepath)
         {
             _keywordsV2 = new Logic.KeywordConfigHandler().ImportV2().Keywords;
+
+            var newLines = new Contract();
+            //Replace Keywords
+            foreach (var keyword in _keywordsV2)
+            {
+                if (!string.IsNullOrWhiteSpace(keyword.Replacement) && keyword.Replacement.ToLower() != "change me")
+                {
+                    foreach(var line in lines)
+                    {
+                        line.Data = Regex.Replace(line.Data, keyword.Keyword, keyword.Replacement, RegexOptions.IgnoreCase);
+                    }
+                }
+            }
+
             var winword = new Microsoft.Office.Interop.Word.Application();
             winword.ShowAnimation = false;
             
