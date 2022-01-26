@@ -10,6 +10,11 @@ namespace TestDocReader.Logic
    public class FileExportHandler
     {
         private List<Word> _keywordsV2;
+
+        public FileExportHandler()
+        {
+            _keywordsV2 = new Logic.KeywordConfigHandler().ImportV2().Keywords;
+        }
         public string LinesToDoc(List<SimTrixx.Reader.Concrete.Contract> lines)
         {
             try
@@ -221,6 +226,7 @@ namespace TestDocReader.Logic
                 {
                     rng.Font.Bold = 1;
                     rng.HighlightColorIndex = WdColorIndex.wdYellow;
+                    
                 }
             }
 
@@ -235,6 +241,7 @@ namespace TestDocReader.Logic
 
         public void CreateExcelDoc(List<SimTrixx.Reader.Concrete.Contract> lines, string filepath)
         {
+   
             Microsoft.Office.Interop.Excel.Application excel;
             Microsoft.Office.Interop.Excel.Workbook workBook;
             Microsoft.Office.Interop.Excel.Worksheet workSheet;
@@ -275,6 +282,17 @@ namespace TestDocReader.Logic
                     if (rowcount > 2)
                     {
                         workSheet.Cells[rowcount, 1] = line.DocumentSection;
+
+                        //Check for keyword replacements
+                        foreach (var keyword in _keywordsV2)
+                        {
+
+                            if (!string.IsNullOrWhiteSpace(keyword.Replacement) && keyword.Replacement.ToLower() != "change me")
+                            {
+                                line.Data = Regex.Replace(line.Data, keyword.Keyword, keyword.Replacement, RegexOptions.IgnoreCase);
+                            }
+   
+                        }
                         workSheet.Cells[rowcount, 2] = line.Data;
 
                         //Add Color Dropdown Menu
@@ -373,9 +391,18 @@ namespace TestDocReader.Logic
 
                     format5.Font.Bold = true;
                     format5.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Orange);
-         
+
 
                 //*************************************************************************************
+
+                //foreach (var keyword in _keywordsV2)
+                //{
+                //    var rng = (Microsoft.Office.Interop.Excel.Range)workSheet.UsedRange;
+                //    if (!string.IsNullOrWhiteSpace(keyword.Replacement) && keyword.Replacement.ToLower() != "change me")
+                //    {
+                //        bool success = (bool)rng.Replace(keyword.Keyword, keyword.Replacement, XlLookAt.xlWhole, XlSearchOrder.xlByRows, false);
+                //    }
+                //}
 
                 workBook.SaveAs(filepath);
                 workBook.Close();

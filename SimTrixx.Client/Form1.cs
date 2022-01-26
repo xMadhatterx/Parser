@@ -127,6 +127,7 @@ namespace TestDocReader
                 {
 
                     var exportHandler = new Logic.FileExportHandler();
+                    
                     SaveFileDialog saveFileDialog1 = new SaveFileDialog();
                     saveFileDialog1.Filter = "Word Document |*.docx|Legacy Word Doc|*.doc|Excel|*.xlsx";
                     saveFileDialog1.DefaultExt = ".docx";
