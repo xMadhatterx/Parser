@@ -299,6 +299,7 @@
     <None Include="Resources\minimizeIcon32.png" />
     <None Include="Resources\minimizeIcon24.png" />
     <None Include="Resources\spinner.gif" />
+    <None Include="Resources\maximize24.png" />
     <Content Include="simtrixx.ico" />
     <Content Include="Update.xml" />
   </ItemGroup>
