@@ -118,6 +118,7 @@ namespace TestDocReader.Logic
             firstTable.PreferredWidth = document.PageSetup.PageWidth - (document.PageSetup.LeftMargin + document.PageSetup.RightMargin);
             firstTable.Borders.Enable = 1;
             var rowCount = 1;
+            firstTable.Rows[1].HeadingFormat = -1;
             foreach (Row row in firstTable.Rows)
             {
                 
@@ -204,10 +205,10 @@ namespace TestDocReader.Logic
                     row.Cells[4].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
 
 
-                    //row.Cells[1].Range.Shading.BackgroundPatternColor = WdColor.wdColorLightBlue;
-                    //row.Cells[2].Range.Shading.BackgroundPatternColor = WdColor.wdColorLightBlue;
-                    //row.Cells[3].Range.Shading.BackgroundPatternColor = WdColor.wdColorLightBlue;
-                    //row.Cells[4].Range.Shading.BackgroundPatternColor = WdColor.wdColorLightBlue;
+                    row.Cells[1].Range.Shading.BackgroundPatternColor = WdColor.wdColorDarkBlue;
+                    row.Cells[2].Range.Shading.BackgroundPatternColor = WdColor.wdColorDarkBlue;
+                    row.Cells[3].Range.Shading.BackgroundPatternColor = WdColor.wdColorDarkBlue;
+                    row.Cells[4].Range.Shading.BackgroundPatternColor = WdColor.wdColorDarkBlue;
                 }
                 else
                 {
