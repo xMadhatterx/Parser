@@ -10,6 +10,8 @@ using AutoUpdaterDotNET;
 using SimTrixx.Data.Repos;
 using SimTrixx.Client.Logic;
 using System.Diagnostics;
+using System.Reflection;
+
 namespace TestDocReader
 {
     public partial class Form1 : Form
@@ -33,6 +35,7 @@ namespace TestDocReader
         {
             
             InitializeComponent();
+            lblVersion.Text = $"Initializing...\nVersion {Assembly.GetExecutingAssembly().GetName().Version}";
             tmrLoading.Start();
             CheckUpdate();
             CheckLicense();
