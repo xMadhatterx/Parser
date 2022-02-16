@@ -13,10 +13,11 @@ namespace ContractReaderV2.Handlers
 {
    public class TextExtractionHandler
     {
-        public void ParseWordDocument(string documentPath,string tempDocumentPath)
+        public void ParseWordDocument(string documentPath, string tempDocumentPath)
         {
-            var extractor = new TextExtractor(documentPath);
-            var docText = extractor.ExtractText();
+            var docText = new WordDocHandler().TextFromWord(documentPath);
+            //var extractor = new TextExtractor(documentPath);
+            //var docText = extractor.ExtractText();
             File.WriteAllText(tempDocumentPath, docText);
         }
 
