@@ -24,8 +24,8 @@ namespace ContractReaderV2
             var documentHandler = new Handlers.TextExtractionHandler();
             if (documentType == GlobalEnum.DocumentType.WordDoc)
             {
-                //documentHandler.ParseWordDocument(_documentPath, _tempDocumentPath);
-                documentHandler.ParseWordInterop(_documentPath, _tempDocumentPath);
+                documentHandler.ParseWordDocument(_documentPath, _tempDocumentPath);
+                //documentHandler.ParseWordInterop(_documentPath, _tempDocumentPath);
             }
             if (documentType == GlobalEnum.DocumentType.Pdf)
             {

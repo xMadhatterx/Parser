@@ -157,7 +157,13 @@ namespace ContractReaderV2.Handlers
                     //Remove Section from current line
                     if (!string.IsNullOrEmpty(section) && !string.IsNullOrEmpty(lineData) && lineData.Contains(section))
                     {
-                        lineData = lineData.Remove(0, section.Length + 1);
+                        try
+                        {
+                            lineData = lineData.Remove(0, section.Length + 1);
+                        } catch
+                        {
+
+                        }
                     }
 
                     //Lets check and see if we are in a new section or a continuation section
@@ -201,6 +207,7 @@ namespace ContractReaderV2.Handlers
             var sectionChecker = new Regex(@"(?m)^\d+(?:\.\d+)*[ \t]+\S.*$");
             var sectionCheckerTrailing = new Regex(@"(?m)^\d+(?:\.\d+)*\S[ \t]+\S.*$");
             var sectionCheckerLeading = new Regex(@"(?m)^\S.\d+(?:\.\d+)*[ \t]+\S.*$");
+            var sectionCheckerDot = new Regex(@"(?m)^\S.[-.]?\d\S.*$");
 
             if (sectionChecker.IsMatch(line))
             {
@@ -211,6 +218,11 @@ namespace ContractReaderV2.Handlers
                 match = true;
             }
             else if (sectionCheckerLeading.IsMatch(line))
+            {
+                match = true;
+                leadingLetter = true;
+            }
+            else if (sectionCheckerDot.IsMatch(line))
             {
                 match = true;
                 leadingLetter = true;
