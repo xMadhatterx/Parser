@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "SimTrixx"
-#define MyAppVersion "1.4.1"
+#define MyAppVersion "1.4.2"
 #define MyAppPublisher "SimTrixx LLC"
 #define MyAppURL "https://www.simtrixx.com/"
 #define MyAppExeName "SimTrixx.exe"
