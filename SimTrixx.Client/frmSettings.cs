@@ -15,7 +15,7 @@ namespace TestDocReader
     public partial class frmSettings : Form
     {
         private List<string> _keywords;
-        private List<Word> _keywordsV2;
+        private BindingList<Word> _keywordsV2;
         private List<string> _replacements;
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
@@ -65,9 +65,12 @@ namespace TestDocReader
         private void btnSave_Click(object sender, EventArgs e)
         {
             var r = new Root();
-            r.Keywords = new List<Word>();
+            r.Keywords = new BindingList<Word>();
             //r.Settings = new CustomSettings();
-            r.Keywords.AddRange(_keywordsV2);
+            foreach (var item in _keywordsV2)
+            {
+                r.Keywords.Add(item);
+            }
             Properties.Settings.Default["License"] = txtLicense.Text;
             Properties.Settings.Default.Save();
             new TestDocReader.Logic.KeywordConfigHandler().ExportV2(r);
@@ -98,6 +101,7 @@ namespace TestDocReader
 
         private void BuildGrid()
         {
+            dgvKeywords.ClearSelection();
             dgvKeywords.DataSource = null;
             dgvKeywords.DataSource = _keywordsV2;
             dgvKeywords.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;

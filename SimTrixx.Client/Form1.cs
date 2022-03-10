@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -8,9 +9,9 @@ using SimTrixx.Reader.Concrete.Enums;
 using System.IO;
 using AutoUpdaterDotNET;
 using SimTrixx.Data.Repos;
-using SimTrixx.Client.Logic;
 using System.Diagnostics;
 using System.Reflection;
+using LicenseManager = SimTrixx.Client.Logic.LicenseManager;
 
 namespace TestDocReader
 {
@@ -20,7 +21,7 @@ namespace TestDocReader
         private string runTimePath = Environment.CurrentDirectory;
         private string _currentDocument;
         private List<Contract> _documentLines;
-        private List<Word> _keywords;
+        private BindingList<Word> _keywords;
         private  System.Timers.Timer loadingTimer;
 
         public const int WM_NCLBUTTONDOWN = 0xA1;
@@ -35,7 +36,8 @@ namespace TestDocReader
         {
             
             InitializeComponent();
-            lblVersion.Text = $"Initializing...\nVersion {Assembly.GetExecutingAssembly().GetName().Version}";
+            lblVersion.Text = $@"Initializing...
+Version {Assembly.GetExecutingAssembly().GetName().Version}";
             tmrLoading.Start();
             CheckUpdate();
             CheckLicense();
@@ -44,7 +46,7 @@ namespace TestDocReader
             cmbFilter.SelectedIndex = 0;
             cbSectionFilter.Checked = false;
             _documentLines = new List<Contract>();
-            _keywords = new List<Word>();
+            _keywords = new BindingList<Word>();
             LoadKeywords();
 
             LoadHtmlGrid();

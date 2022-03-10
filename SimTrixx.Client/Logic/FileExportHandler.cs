@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using SimTrixx.Reader.Concrete;
 using Microsoft.Office.Interop.Word;
@@ -9,7 +10,7 @@ namespace TestDocReader.Logic
 {
    public class FileExportHandler
     {
-        private List<Word> _keywordsV2;
+        private BindingList<Word> _keywordsV2;
 
         public FileExportHandler()
         {

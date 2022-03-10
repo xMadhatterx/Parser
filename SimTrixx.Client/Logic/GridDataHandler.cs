@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace TestDocReader.Logic
 {
    public class GridDataHandler
     {
-        private List<Word> _keywordsV2;
+        private BindingList<Word> _keywordsV2;
         public string BuildHtmlString(List<SimTrixx.Reader.Concrete.Contract> lines)
         {
             try

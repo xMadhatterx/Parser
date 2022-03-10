@@ -1,6 +1,7 @@
 ﻿using SimTrixx.Reader.Concrete;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -10,7 +11,7 @@ namespace ContractReaderV2.Handlers
 {
     public class SectionFilterHandler
     {
-        public List<Contract> GetSectionsWithKeywords(List<Word> keywords, List<Contract> contractLines)
+        public List<Contract> GetSectionsWithKeywords(BindingList<Word> keywords, List<Contract> contractLines)
         {
             var keywordSection = new List<Contract>();
             foreach (var contract in contractLines)
@@ -26,7 +27,7 @@ namespace ContractReaderV2.Handlers
             }
             return keywordSection;
         }
-        public List<Contract> SplitSectionsByKeyword(List<Contract> contracts, List<Word> keywords)
+        public List<Contract> SplitSectionsByKeyword(List<Contract> contracts, BindingList<Word> keywords)
         {
             var splitSectionContract = new List<Contract>();
             foreach (var contract in contracts)

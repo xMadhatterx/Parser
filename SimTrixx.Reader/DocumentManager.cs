@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,7 +38,7 @@ namespace ContractReaderV2
                 throw new Exception("unsupported document type");
             }
         }
-        public List<Contract> ParseDocument(List<Word> keywords,GlobalEnum.DocumentParseMode documentParseMode,bool advancedFiltering)
+        public List<Contract> ParseDocument(BindingList<Word> keywords,GlobalEnum.DocumentParseMode documentParseMode,bool advancedFiltering)
         {
             var textList = new List<string>();
             var lineCounter = 0;
@@ -76,7 +77,7 @@ namespace ContractReaderV2
             return sectionHandler.GetSections(lines, totalLines,advancedFiltering);
         }
 
-        private List<Contract> CreateDocumentWithKeywordSections(List<string> lines, int totalLines,List<Word> keywords, bool advancedFiltering)
+        private List<Contract> CreateDocumentWithKeywordSections(List<string> lines, int totalLines,BindingList<Word> keywords, bool advancedFiltering)
         {
             var sectionHandler = new Handlers.SectionHandler();
             var sectionFilterHandler = new Handlers.SectionFilterHandler();
@@ -86,7 +87,7 @@ namespace ContractReaderV2
             return contractListKeywordSectionOnly;
         }
 
-        private List<Contract> CreateDocumentWithKeywordSectionsSplits(List<string> lines, int totalLines, List<Word> keywords, bool advancedFiltering)
+        private List<Contract> CreateDocumentWithKeywordSectionsSplits(List<string> lines, int totalLines, BindingList<Word> keywords, bool advancedFiltering)
         {
             var sectionHandler = new Handlers.SectionHandler();
             var sectionFilterHandler = new Handlers.SectionFilterHandler();
