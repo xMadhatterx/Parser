@@ -38,34 +38,38 @@ namespace ContractReaderV2
                 throw new Exception("unsupported document type");
             }
         }
+
         public List<Contract> ParseDocument(BindingList<Word> keywords,GlobalEnum.DocumentParseMode documentParseMode,bool advancedFiltering)
         {
             var textList = new List<string>();
             var lineCounter = 0;
-            var contractList = new List<Contract>();
+            List<Contract> contractList;
             using (var reader = new StreamReader(new FileStream(_tempDocumentPath, FileMode.Open)))
             {
                 while (!reader.EndOfStream)
                 {
-                    textList.Add(reader.ReadLine());
-                    lineCounter++;
+                    //Separate by sentence added 3-15-22 by Greg
+                    var sentences = Regex.Split(reader.ReadLine() ?? throw new InvalidOperationException(), @"(?<=[\.!\?])\s+");
+                    foreach (var sentence in sentences)
+                    {
+                        textList.Add(sentence);
+                        lineCounter++;
+                    }
                 }
             }
-            if (documentParseMode == GlobalEnum.DocumentParseMode.FullDocument)
+            switch (documentParseMode)
             {
-                contractList = CreateFullDocument(textList, lineCounter, advancedFiltering);
-            }
-            else if (documentParseMode == GlobalEnum.DocumentParseMode.KeyWordSectionsOnly)
-            {
-                contractList = CreateDocumentWithKeywordSections(textList, lineCounter, keywords, advancedFiltering);
-            }
-            else if (documentParseMode == GlobalEnum.DocumentParseMode.KeyWordSectionsWithSplits)
-            {
-                contractList = CreateDocumentWithKeywordSectionsSplits(textList, lineCounter, keywords, advancedFiltering);
-            }
-            else
-            {
-                throw new Exception("Unsupported document parsing mode");
+                case GlobalEnum.DocumentParseMode.FullDocument:
+                    contractList = CreateFullDocument(textList, lineCounter, advancedFiltering);
+                    break;
+                case GlobalEnum.DocumentParseMode.KeyWordSectionsOnly:
+                    contractList = CreateDocumentWithKeywordSections(textList, lineCounter, keywords, advancedFiltering);
+                    break;
+                case GlobalEnum.DocumentParseMode.KeyWordSectionsWithSplits:
+                    contractList = CreateDocumentWithKeywordSectionsSplits(textList, lineCounter, keywords, advancedFiltering);
+                    break;
+                default:
+                    throw new Exception("Unsupported document parsing mode");
             }
             return contractList;
         }
