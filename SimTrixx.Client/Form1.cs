@@ -123,7 +123,7 @@ Version {Assembly.GetExecutingAssembly().GetName().Version}";
                 }
             }
         }
-
+        
         private void btnOutput_Click(object sender, EventArgs e)
         {
             if (_documentLines != null)
@@ -178,6 +178,26 @@ Version {Assembly.GetExecutingAssembly().GetName().Version}";
             frm.StartPosition = FormStartPosition.CenterParent;
             frm.ShowDialog();
         }
+        private void btnExportAbbrv_Click(object sender, EventArgs e)
+        {
+            _documentLines = null;
+            var strBuilder = new System.Text.StringBuilder();
+            var msbResult = new frmMessageBox().ShowDialog();
+
+            if (msbResult == DialogResult.OK)
+            {
+                var result = ofdDocument.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    LoadKeywords();
+                    if (!string.IsNullOrWhiteSpace(ofdDocument.FileName))
+                    {
+                        _currentDocument = ofdDocument.FileName;
+                    }
+                    ImportDocument();
+                }
+            }
+        }
 
         private void LoadKeywords()
         {
@@ -210,35 +230,10 @@ Version {Assembly.GetExecutingAssembly().GetName().Version}";
 
             webBrowser1.Refresh();
         }
-
         private void ImportDocument()
         {
             if (!string.IsNullOrWhiteSpace(_currentDocument))
             {
-
-                //*****************************Uncomment for V2*****************************************
-                //var fileType = new Logic.FileExtensionHandler().GetDocumentType(_currentDocument);
-                //var contract = new ContractReaderV2.ReaderV2(_currentDocument, tempfile);
-
-                //switch (fileType)
-                //{
-                //    case Logic.FileExtensionHandler.FileType.WordDoc:
-                //        _documentLines = contract.ParseWordDocument(_keywords);
-                //        break;
-                //    case Logic.FileExtensionHandler.FileType.Pdf:
-                //        _documentLines = contract.ParsePdfDocument(_keywords);
-                //        break;
-                //    default:
-                //        MessageBox.Show($@"Error => Error occured while deriving file type{Environment.NewLine}Either file was not found or the file type was unsupported", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //        _documentLines = null;
-                //        break;
-                //}
-                //***************************************************************************************
-
-
-
-                //**************************V3***********************************************************
-
                 var reader = new ContractReaderV2.DocumentManager(_currentDocument, tempfile);
                 var advancedFiltering = cbSectionFilter.Checked;
                 if (cmbFilter.SelectedIndex == 0)
@@ -253,15 +248,6 @@ Version {Assembly.GetExecutingAssembly().GetName().Version}";
                 {
                     _documentLines = reader.ParseDocument(_keywords, GlobalEnum.DocumentParseMode.FullDocument, advancedFiltering);
                 }
-
-
-
-                //**************************V3***********************************************************
-
-
-
-
-
                 if (_documentLines == null)
                 {
                     MessageBox.Show($@"Error => Error opening document{Environment.NewLine}Please make sure the document is not already open.", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -276,6 +262,7 @@ Version {Assembly.GetExecutingAssembly().GetName().Version}";
                 }
             }
         }
+
 
         #region Menu MouseOver
         private void btnMinimize_Click(object sender, EventArgs e)
@@ -432,5 +419,7 @@ Version {Assembly.GetExecutingAssembly().GetName().Version}";
             }
             
         }
+
+  
     }
 }

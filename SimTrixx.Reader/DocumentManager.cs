@@ -8,6 +8,7 @@ using SimTrixx.Reader.Concrete;
 using System.Text.RegularExpressions;
 using System.IO;
 using SimTrixx.Reader.Concrete.Enums;
+using SimTrixx.Reader.Handlers;
 namespace ContractReaderV2
 {
     public class DocumentManager
@@ -43,6 +44,8 @@ namespace ContractReaderV2
         {
             var textList = new List<string>();
             var lineCounter = 0;
+            var abbrvHandler = new AbbrvExtractionHandler();
+            var abbrvList = new List<AbbrvContainer>();
             List<Contract> contractList;
             using (var reader = new StreamReader(new FileStream(_tempDocumentPath, FileMode.Open)))
             {
@@ -54,6 +57,13 @@ namespace ContractReaderV2
                     {
                         textList.Add(sentence);
                         lineCounter++;
+
+                        var actionResult= abbrvHandler.GetAbbreviations(sentence);
+                        if (actionResult.Count > 0)
+                        {
+                            abbrvList.AddRange(abbrvHandler.CreateAbbrvEntity(actionResult));
+                        }
+
                     }
                 }
             }

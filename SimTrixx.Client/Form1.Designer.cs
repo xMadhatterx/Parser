@@ -62,6 +62,9 @@
             this.tmrLoading = new System.Windows.Forms.Timer(this.components);
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.contractBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.panel9 = new System.Windows.Forms.Panel();
+            this.panel11 = new System.Windows.Forms.Panel();
+            this.btnExportAbbrv = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.pnlSettings.SuspendLayout();
             this.pnlExport.SuspendLayout();
@@ -71,6 +74,7 @@
             this.panel2.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.contractBindingSource)).BeginInit();
+            this.panel9.SuspendLayout();
             this.SuspendLayout();
             // 
             // label2
@@ -96,6 +100,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(46)))), ((int)(((byte)(59)))));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.panel9);
             this.panel1.Controls.Add(this.pnlSettings);
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.pnlExport);
@@ -245,10 +250,9 @@
             this.pnlLoading.Controls.Add(this.lblVersion);
             this.pnlLoading.Controls.Add(this.panel5);
             this.pnlLoading.Controls.Add(this.pbLoading);
-            this.pnlLoading.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlLoading.Location = new System.Drawing.Point(0, 0);
+            this.pnlLoading.Location = new System.Drawing.Point(484, 104);
             this.pnlLoading.Name = "pnlLoading";
-            this.pnlLoading.Size = new System.Drawing.Size(1226, 700);
+            this.pnlLoading.Size = new System.Drawing.Size(400, 400);
             this.pnlLoading.TabIndex = 15;
             // 
             // panel7
@@ -258,7 +262,7 @@
             this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel7.Location = new System.Drawing.Point(0, 0);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(1226, 45);
+            this.panel7.Size = new System.Drawing.Size(400, 45);
             this.panel7.TabIndex = 17;
             // 
             // lblVersion
@@ -269,7 +273,7 @@
             this.lblVersion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblVersion.ForeColor = System.Drawing.SystemColors.Control;
-            this.lblVersion.Location = new System.Drawing.Point(518, 361);
+            this.lblVersion.Location = new System.Drawing.Point(105, 361);
             this.lblVersion.Name = "lblVersion";
             this.lblVersion.Size = new System.Drawing.Size(173, 31);
             this.lblVersion.TabIndex = 16;
@@ -473,6 +477,43 @@
             // 
             this.contractBindingSource.DataSource = typeof(SimTrixx.Reader.Concrete.Contract);
             // 
+            // panel9
+            // 
+            this.panel9.BackColor = System.Drawing.Color.Transparent;
+            this.panel9.Controls.Add(this.panel11);
+            this.panel9.Controls.Add(this.btnExportAbbrv);
+            this.panel9.Location = new System.Drawing.Point(0, 297);
+            this.panel9.Name = "panel9";
+            this.panel9.Size = new System.Drawing.Size(258, 60);
+            this.panel9.TabIndex = 16;
+            // 
+            // panel11
+            // 
+            this.panel11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(73)))), ((int)(((byte)(106)))), ((int)(((byte)(129)))));
+            this.panel11.Location = new System.Drawing.Point(1, 0);
+            this.panel11.Name = "panel11";
+            this.panel11.Size = new System.Drawing.Size(6, 60);
+            this.panel11.TabIndex = 0;
+            // 
+            // btnExportAbbrv
+            // 
+            this.btnExportAbbrv.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(46)))), ((int)(((byte)(59)))));
+            this.btnExportAbbrv.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnExportAbbrv.FlatAppearance.BorderSize = 0;
+            this.btnExportAbbrv.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(46)))), ((int)(((byte)(59)))));
+            this.btnExportAbbrv.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExportAbbrv.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExportAbbrv.ForeColor = System.Drawing.Color.Gainsboro;
+            this.btnExportAbbrv.Image = global::TestDocReader.Properties.Resources.exportWhite;
+            this.btnExportAbbrv.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnExportAbbrv.Location = new System.Drawing.Point(24, 9);
+            this.btnExportAbbrv.Name = "btnExportAbbrv";
+            this.btnExportAbbrv.Size = new System.Drawing.Size(230, 43);
+            this.btnExportAbbrv.TabIndex = 7;
+            this.btnExportAbbrv.Text = "Abbr";
+            this.btnExportAbbrv.UseVisualStyleBackColor = false;
+            this.btnExportAbbrv.Click += new System.EventHandler(this.btnExportAbbrv_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -500,6 +541,7 @@
             this.panel2.PerformLayout();
             this.panel4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.contractBindingSource)).EndInit();
+            this.panel9.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -538,6 +580,9 @@
         private System.Windows.Forms.ComboBox cmbFilter;
         private System.Windows.Forms.WebBrowser webBrowser1;
         private System.Windows.Forms.Button btnMax;
+        private System.Windows.Forms.Panel panel9;
+        private System.Windows.Forms.Panel panel11;
+        private System.Windows.Forms.Button btnExportAbbrv;
     }
 }
 
