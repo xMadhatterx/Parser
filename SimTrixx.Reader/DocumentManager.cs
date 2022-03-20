@@ -55,10 +55,11 @@ namespace ContractReaderV2
                     var sentences = Regex.Split(reader.ReadLine() ?? throw new InvalidOperationException(), @"(?<=[\.!\?])\s+");
                     foreach (var sentence in sentences)
                     {
-                        textList.Add(sentence);
+                        var cleanSentence = sentence.Replace("\t", " ");
+                        textList.Add(cleanSentence);
                         lineCounter++;
 
-                        var actionResult= abbrvHandler.GetAbbreviations(sentence);
+                        var actionResult= abbrvHandler.GetAbbreviations(cleanSentence);
                         if (actionResult.Count > 0)
                         {
                             abbrvList.AddRange(abbrvHandler.CreateAbbrvEntity(actionResult));

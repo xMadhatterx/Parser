@@ -27,28 +27,16 @@ namespace SimTrixx.Reader.Handlers
             return tupleList;
         }
 
-        public bool CheckForInt(string theString)
-        {
-            bool result = false;
-            foreach (var i in theString)
-            {
-
-                if (int.TryParse(i.ToString(), out int value))
-                {
-                    result = true;
-                }
-            }
-            return result;
-        }
         public  List<AbbrvContainer> CreateAbbrvEntity(List<Tuple<string, string, string>> ret)
         {
             var abbrvList = new List<AbbrvContainer>();
             var lastIndex = 0;
+            var lastAbbrv = string.Empty;
             foreach (var tup in ret)
             {
                 string[] defStringArray;
                 string definition = string.Empty;
-                var startIndex = tup.Item3.IndexOf(tup.Item1);
+                var startIndex = tup.Item3.IndexOf(tup.Item1,lastIndex + lastAbbrv.Length);
                 Console.WriteLine(lastIndex + " | " + startIndex);
                 var sub = tup.Item3.Substring(lastIndex, startIndex - lastIndex).ToString();
 
@@ -77,9 +65,37 @@ namespace SimTrixx.Reader.Handlers
                 abbrvItem.Location = new List<string>() { tup.Item3 };
                 abbrvList.Add(abbrvItem);
                 lastIndex = startIndex + tup.Item1.Length;
+                lastAbbrv = tup.Item2;
 
             }
             return abbrvList;
+        }
+
+        //public bool CheckIndex(int lastIndex, string sentence)
+        //{
+        //    var startIndex = sentence.IndexOf()
+        //}
+
+        public bool CheckForInt(string theString)
+        {
+            bool result = false;
+            //foreach (var i in theString)
+            //{
+
+            //    if (int.TryParse(i.ToString(), out int value))
+            //    {
+            //        result = true;
+            //    }
+            //}
+            if (theString.Contains(" "))
+            {
+                return false;
+            }
+            if (int.TryParse(theString[0].ToString(), out int value))
+            {
+                result = true;
+            }
+            return result;
         }
     }
 }
