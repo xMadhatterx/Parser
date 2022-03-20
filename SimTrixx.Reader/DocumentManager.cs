@@ -46,27 +46,24 @@ namespace ContractReaderV2
             var lineCounter = 0;
             var abbrvHandler = new AbbrvExtractionHandler();
             var abbrvList = new List<AbbrvContainer>();
-            List<Contract> contractList;
+            var contractList = new List<Contract>();
+            
             using (var reader = new StreamReader(new FileStream(_tempDocumentPath, FileMode.Open)))
             {
                 while (!reader.EndOfStream)
                 {
-                    //Separate by sentence added 3-15-22 by Greg
-                    var sentences = Regex.Split(reader.ReadLine() ?? throw new InvalidOperationException(), @"(?<=[\.!\?])\s+");
-                    foreach (var sentence in sentences)
-                    {
-                        textList.Add(sentence);
-                        lineCounter++;
-
-                        var actionResult= abbrvHandler.GetAbbreviations(sentence);
-                        if (actionResult.Count > 0)
-                        {
-                            abbrvList.AddRange(abbrvHandler.CreateAbbrvEntity(actionResult));
-                        }
-
-                    }
+                    textList.Add(reader.ReadLine());
+                    lineCounter++;
                 }
             }
+
+            textList = SentenceHandler.GetSentences(textList.ToList());
+
+            foreach (var actionResult in textList.Select(sentence => abbrvHandler.GetAbbreviations(sentence)).Where(actionResult => actionResult.Count > 0))
+            {
+                abbrvList.AddRange(abbrvHandler.CreateAbbrvEntity(actionResult));
+            }
+
             switch (documentParseMode)
             {
                 case GlobalEnum.DocumentParseMode.FullDocument:
