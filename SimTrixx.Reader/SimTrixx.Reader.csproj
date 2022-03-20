@@ -150,6 +150,7 @@
     <Compile Include="Concrete\Keyword.cs" />
     <Compile Include="Concrete\KeywordDictionary.cs" />
     <Compile Include="Concrete\ReplacementDictionary.cs" />
+    <Compile Include="Handlers\SentenceHandler.cs" />
     <Compile Include="Handlers\TextExtractionHandler.cs" />
     <Compile Include="Handlers\SectionFilterHandler.cs" />
     <Compile Include="Handlers\SectionHandler.cs" />
