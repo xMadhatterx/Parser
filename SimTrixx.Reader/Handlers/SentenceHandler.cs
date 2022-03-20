@@ -25,6 +25,13 @@ namespace SimTrixx.Reader.Handlers
             return listOfSentences;
         }
 
+        public static List<Contract> GetSentences(Contract input)
+        {
+            var newSentence = Regex.Split(input.Data, @"(?<=[\.!\?])\s+");
+
+            return newSentence.Select(sentence => new Contract { DocumentSection = input.DocumentSection, Data = sentence }).ToList();
+        }
+
         public static List<Contract> GetSentences(List<Contract> input)
         {
             return (from items in input let sentences = Regex.Split(items.Data ?? throw new InvalidOperationException(), @"(?<=[\.!\?])\s+") from sentence in sentences select new Contract { Data = sentence, DocumentSection = items.DocumentSection }).ToList();
