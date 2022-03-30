@@ -438,5 +438,115 @@ namespace TestDocReader.Logic
             }
 
         }
+
+        public void CreateExcelAbbrviationDoc(List<SimTrixx.Reader.Concrete.AbbrvContainer> abbreviationList,string filepath)
+        {
+            Microsoft.Office.Interop.Excel.Application excel;
+            Microsoft.Office.Interop.Excel.Workbook workBook;
+            Microsoft.Office.Interop.Excel.Worksheet workSheet;
+            Microsoft.Office.Interop.Excel.Range cellRange;
+            excel = new Microsoft.Office.Interop.Excel.Application();
+
+            //var numberDropDown = new List<string>();
+            //numberDropDown.Add("1");
+            //numberDropDown.Add("2");
+            //numberDropDown.Add("3");
+            //numberDropDown.Add("4");
+            //numberDropDown.Add("5");
+            //var flatList = string.Join(",", numberDropDown.ToArray());
+
+            try
+            {
+
+                excel.Visible = false;
+                excel.DisplayAlerts = false;
+                workBook = excel.Workbooks.Add(Type.Missing);
+
+
+                workSheet = (Microsoft.Office.Interop.Excel.Worksheet)workBook.ActiveSheet;
+                workSheet.Name = "SimTrixx - Acronym Export";
+
+                workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 2]].Merge();
+                workSheet.Cells[1, 1] = $"SimTrixx Acronym Export - {System.IO.Path.GetFileName(filepath)}";
+                workSheet.Cells.Font.Size = 10;
+                workSheet.Cells[2, 1] = "Acronym";
+                workSheet.Cells[2, 2] = "Definition";
+                workSheet.Cells[2, 3] = "Location";
+                workSheet.Cells[2, 4] = "Count";
+                int rowcount = 2;
+                foreach (var abbrv in abbreviationList)
+                {
+                    foreach (var loc in abbrv.Location)
+                    {
+                        rowcount += 1;
+                        if (rowcount > 2)
+                        {
+                            workSheet.Cells[rowcount, 1] = abbrv.Abbrv;
+                            workSheet.Cells[rowcount, 2] = abbrv.Definition;
+                            workSheet.Cells[rowcount, 3] = loc;
+                            workSheet.Cells[rowcount, 4] = abbrv.Count;
+
+                            var abbrvIndex = loc.IndexOf(abbrv.Abbrv);
+                           
+                            workSheet.Cells[rowcount, 3].Font.FontStyle = "Regular";
+                            workSheet.Cells[rowcount, 3].Characters(abbrvIndex+1, abbrv.Abbrv.Length).Font.FontStyle = "Bold";
+
+                        }
+                    }
+                }
+
+                //Global Style
+                cellRange = workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[rowcount, 4]];
+                cellRange.EntireColumn.AutoFit();
+                cellRange.EntireColumn.WrapText = true;
+                Microsoft.Office.Interop.Excel.Borders border = cellRange.Borders;
+                border.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                border.Weight = 2d;
+                //Style Sheet Header
+                cellRange = workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[1, 4]];
+                cellRange.Interior.Color = System.Drawing.Color.Yellow;
+                cellRange.Font.Bold = true;
+
+
+                //Style Column Headers
+                cellRange = workSheet.Range[workSheet.Cells[2, 1], workSheet.Cells[2, 4]];
+                cellRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                cellRange.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.DarkGray);
+                cellRange.Font.Color = System.Drawing.Color.White;
+                cellRange.Font.Bold = true;
+                cellRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                cellRange.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                //Center Acronym column
+                cellRange = workSheet.Range[workSheet.Cells[3, 1], workSheet.Cells[rowcount, 1]];
+                cellRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                cellRange.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                //vCenter Definition column
+                cellRange = workSheet.Range[workSheet.Cells[3, 2], workSheet.Cells[rowcount, 2]];
+                //cellRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                cellRange.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+                //Center Color Column
+                cellRange = workSheet.Range[workSheet.Cells[3, 4], workSheet.Cells[rowcount, 4]];
+                cellRange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                cellRange.VerticalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+
+
+                workBook.SaveAs(filepath);
+                workBook.Close();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                excel.Quit();
+                workSheet = null;
+                workBook = null;
+                cellRange = null;
+                excel = null;
+            }
+        }
     }
 }

@@ -12,6 +12,7 @@ namespace SimTrixx.Reader.Handlers
         public  List<Tuple<string, string, string>> GetAbbreviations(string sentence)
         {
             var tupleList = new List<Tuple<string, string, string>>();
+            sentence = sentence.Replace("\t", " ");
             var t = Regex.Matches(sentence, @"\(([^)]*)\)");
             //var t = Regex.Matches(sentence, @"\(([a - zA - Z)]*)\)");
             for (var i = 0; i < t.Count; i++)
@@ -89,11 +90,15 @@ namespace SimTrixx.Reader.Handlers
             //}
             if (theString.Contains(" "))
             {
-                return false;
+                return true;
             }
             if (int.TryParse(theString[0].ToString(), out int value))
             {
                 result = true;
+            }
+            if(theString.StartsWith(">") || theString.StartsWith("<"))
+            {
+                return true;
             }
             return result;
         }

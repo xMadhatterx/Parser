@@ -81,6 +81,50 @@ namespace ContractReaderV2
             return contractList;
         }
 
+        public List<AbbrvContainer> GetAbbriviations()
+        {
+            var textList = new List<string>();
+            var lineCounter = 0;
+            var abbrvHandler = new AbbrvExtractionHandler();
+            var mainAbbrList = new List<AbbrvContainer>();
+            var abbrvList = new List<AbbrvContainer>();
+            var contractList = new List<Contract>();
+            
+            using (var reader = new StreamReader(new FileStream(_tempDocumentPath, FileMode.Open)))
+            {
+                while (!reader.EndOfStream)
+                {
+                    textList.Add(reader.ReadLine());
+                    lineCounter++;
+                }
+            }
+
+            textList = SentenceHandler.GetSentences(textList.ToList());
+
+            foreach (var actionResult in textList.Select(sentence => abbrvHandler.GetAbbreviations(sentence)).Where(actionResult => actionResult.Count > 0))
+            {
+                abbrvList.AddRange(abbrvHandler.CreateAbbrvEntity(actionResult));
+            }
+
+            foreach (var abbrv in abbrvList)
+            {
+                if (mainAbbrList.Exists(x => x.Abbrv == abbrv.Abbrv))
+                {
+                    var k = mainAbbrList.FirstOrDefault(x => x.Abbrv == abbrv.Abbrv);
+                    k.Count = k.Count + 1;
+                    k.Location.AddRange(abbrv.Location);
+                }
+                else
+                {
+                    mainAbbrList.Add(abbrv);
+
+                }
+            }
+
+            mainAbbrList= mainAbbrList.OrderBy(x => x.Abbrv).ToList();
+            return mainAbbrList;
+        }
+
         private List<Contract> CreateFullDocument(List<string> lines, int totalLines,bool advancedFiltering)
         {
             var sectionHandler = new Handlers.SectionHandler();

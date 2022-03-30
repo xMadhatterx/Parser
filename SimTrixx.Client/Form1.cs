@@ -164,7 +164,7 @@ Version {Assembly.GetExecutingAssembly().GetName().Version}";
                 }
                 catch(Exception ex)
                 {
-                    MessageBox.Show(ex.ToString());
+                    MessageBox.Show(ex.Message);
                 }
             }
             else
@@ -181,10 +181,9 @@ Version {Assembly.GetExecutingAssembly().GetName().Version}";
         private void btnExportAbbrv_Click(object sender, EventArgs e)
         {
             _documentLines = null;
-            var strBuilder = new System.Text.StringBuilder();
-            var msbResult = new frmMessageBox().ShowDialog();
-
-            if (msbResult == DialogResult.OK)
+            var exportHandler = new Logic.FileExportHandler();
+            LoadKeywords();
+            try
             {
                 var result = ofdDocument.ShowDialog();
                 if (result == DialogResult.OK)
@@ -194,8 +193,27 @@ Version {Assembly.GetExecutingAssembly().GetName().Version}";
                     {
                         _currentDocument = ofdDocument.FileName;
                     }
-                    ImportDocument();
+                    var reader = new ContractReaderV2.DocumentManager(_currentDocument, tempfile);
+                    var abbrvList = reader.GetAbbriviations();
+                    SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                    saveFileDialog1.Filter = "Excel|*.xlsx";
+                    saveFileDialog1.DefaultExt = ".xlsx";
+                    saveFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                    if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                    {
+                        exportHandler.CreateExcelAbbrviationDoc(abbrvList, saveFileDialog1.FileName);
+                        MessageBox.Show($@"File saved to {saveFileDialog1.FileName}","Export complete");
+                    }
+                    else
+                    {
+                        MessageBox.Show($@"Export operation has been canceled");
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -329,6 +347,25 @@ Version {Assembly.GetExecutingAssembly().GetName().Version}";
         {
             pnlSettings.BorderStyle = BorderStyle.None;
         }
+        private void pnlAcronym_MouseEnter(object sender, EventArgs e)
+        {
+            pnlAcronym.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        private void pnlAcronym_MouseLeave(object sender, EventArgs e)
+        {
+            pnlAcronym.BorderStyle = BorderStyle.None;
+        }
+
+        private void btnExportAbbrv_MouseEnter(object sender, EventArgs e)
+        {
+            pnlAcronym.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        private void btnExportAbbrv_MouseLeave(object sender, EventArgs e)
+        {
+            pnlAcronym.BorderStyle = BorderStyle.None;
+        }
 
 
         #endregion
@@ -420,6 +457,6 @@ Version {Assembly.GetExecutingAssembly().GetName().Version}";
             
         }
 
-  
+
     }
 }
