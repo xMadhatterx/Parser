@@ -172,7 +172,7 @@ namespace ContractReaderV2.Handlers
                         //Same section as previous
                         //------------------------
                         if (!string.IsNullOrEmpty(lineData))
-                            contract.Data += lineData;
+                            contract.Data += $" {lineData}";
 
                     }
                     else

@@ -57,12 +57,12 @@ namespace ContractReaderV2
                 }
             }
 
-            textList = SentenceHandler.GetSentences(textList.ToList());
+            //textList = SentenceHandler.GetSentences(textList.ToList());
 
-            foreach (var actionResult in textList.Select(sentence => abbrvHandler.GetAbbreviations(sentence)).Where(actionResult => actionResult.Count > 0))
-            {
-                abbrvList.AddRange(abbrvHandler.CreateAbbrvEntity(actionResult));
-            }
+            //foreach (var actionResult in textList.Select(sentence => abbrvHandler.GetAbbreviations(sentence)).Where(actionResult => actionResult.Count > 0))
+            //{
+            //    abbrvList.AddRange(abbrvHandler.CreateAbbrvEntity(actionResult));
+            //}
 
             switch (documentParseMode)
             {
