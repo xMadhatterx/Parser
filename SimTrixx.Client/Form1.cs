@@ -34,13 +34,13 @@ namespace TestDocReader
 
         public Form1()
         {
-            
             InitializeComponent();
             lblVersion.Text = $@"Initializing...
 Version {Assembly.GetExecutingAssembly().GetName().Version}";
             tmrLoading.Start();
             CheckUpdate();
             CheckLicense();
+
             //cmbFilter.SelectedIndex = (int)Properties.Settings.Default["FilterType"];
             //cbSectionFilter.Checked = (bool)Properties.Settings.Default["AdvSectionFilter"];
             cmbFilter.SelectedIndex = 0;
@@ -59,10 +59,6 @@ Version {Assembly.GetExecutingAssembly().GetName().Version}";
             //pi.SetValue(dataGridView1, new object[]{true}, null);
 
         }
-
-
-
-
 
         public void CheckLicense()
         {

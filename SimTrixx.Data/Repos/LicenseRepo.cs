@@ -1,25 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SimTrixx.Common.Entities;
-using Dapper;
-using System.Data.SqlClient;
+﻿using System.Linq;
+using SimTrixx.Data.Contexts;
 
 namespace SimTrixx.Data.Repos
 {
     public class LicenseRepo
     {
-        public License GetLicense(string Id)
+        public License GetLicense(string licenseKey)
         {
-            string sql = "SELECT * FROM Licenses WHERE Id = '" + Id + "'";
+            var dbContext = new simtrixxEntities();
 
-            using (var connection = new SqlConnection("Data Source=SQL5105.site4now.net;Initial Catalog=db_a39883_simtrixx;User Id=db_a39883_simtrixx_admin;Password=Of*w6m8TYO5"))
-            {
-                var orderDetails = connection.Query<License>(sql).FirstOrDefault();
-                return orderDetails;
-            }
+            var userLicense = dbContext.Licenses.Where(x => x.Key == licenseKey).FirstOrDefault();
+            return userLicense;
         }
     }
 }
