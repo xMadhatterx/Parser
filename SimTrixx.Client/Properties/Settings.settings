@@ -2,14 +2,14 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SimTrixx.Client.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="License" Type="System.String" Scope="User">
-      <Value Profile="(Default)">aa948083-c933-452b-82f1-b369eec9d957</Value>
-    </Setting>
     <Setting Name="FilterType" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="AdvSectionFilter" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="License" Type="System.String" Scope="User">
+      <Value Profile="(Default)">837e6866-0401-4525-8d05-96c2521ae873</Value>
     </Setting>
   </Settings>
 </SettingsFile>

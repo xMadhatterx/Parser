@@ -8,38 +8,36 @@ using SimTrixx.Reader.Concrete.Enums;
 using System.IO;
 using AutoUpdaterDotNET;
 using System.Reflection;
-using LicenseManager = SimTrixx.Client.Logic.LicenseHandler;
+using SimTrixx.Client.Logic;
+using SimTrixx.Common.Enums;
 
 namespace SimTrixx.Client
 {
-    public partial class Form1 : Form
+    public partial class frmMain : Form
     {
-        private string tempfile = Path.GetTempFileName();
-        private string runTimePath = Environment.CurrentDirectory;
+        private readonly string _tempfile = Path.GetTempFileName();
         private string _currentDocument;
         private List<Contract> _documentLines;
         private BindingList<Word> _keywords;
-        private  System.Timers.Timer loadingTimer;
-
+        
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
 
-        [DllImportAttribute("user32.dll")]
+        [DllImport("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
-        [DllImportAttribute("user32.dll")]
+        [DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
 
-        public Form1()
+        private readonly LoggingHandler _log = new LoggingHandler(AppDomain.CurrentDomain.BaseDirectory);
+
+        public frmMain()
         {
             InitializeComponent();
-            lblVersion.Text = $@"Initializing...
-Version {Assembly.GetExecutingAssembly().GetName().Version}";
+            Cursor.Current = Cursors.WaitCursor;
+            lblVersion.Text = $@"Initializing...{Environment.NewLine}Version {Assembly.GetExecutingAssembly().GetName().Version}";
             tmrLoading.Start();
             CheckUpdate();
             CheckLicense();
-
-            //cmbFilter.SelectedIndex = (int)Properties.Settings.Default["FilterType"];
-            //cbSectionFilter.Checked = (bool)Properties.Settings.Default["AdvSectionFilter"];
             cmbFilter.SelectedIndex = 0;
             cbSectionFilter.Checked = false;
             _documentLines = new List<Contract>();
@@ -47,14 +45,10 @@ Version {Assembly.GetExecutingAssembly().GetName().Version}";
             LoadKeywords();
 
             LoadHtmlGrid();
-
-            //var url = $@"{runTimePath}\Configs\ContractDataViewer.html";
+            
             var url = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Simtrixx", "ContractDataViewer.html");
             webBrowser1.Url = new Uri(url);
-            //Type dgvType =dataGridView1.GetType();
-            //var pi = dgvType.GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
-            //pi.SetValue(dataGridView1, new object[]{true}, null);
-
+            Cursor.Current = Cursors.Default;
         }
 
         public void CheckLicense()
@@ -63,18 +57,21 @@ Version {Assembly.GetExecutingAssembly().GetName().Version}";
             var licenseKey = Properties.Settings.Default["License"];
             if(!string.IsNullOrEmpty(licenseKey.ToString())) 
             {
-                var license = new LicenseManager().CheckLicense(licenseKey.ToString());
+                var license = new LicenseHandler().CheckLicense(licenseKey.ToString());
                 if (license)
                 {
+                    _log.LogIt(LogType.Information, $"License Verified {licenseKey}");
                     EnableForm();
                 } else
                 {
-                    MessageBox.Show("Your license is not valid, please contact support.", "License", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    _log.LogIt(LogType.Error, $"Your license is not valid, please contact support. {licenseKey}");
+                    MessageBox.Show(@"Your license is not valid, please contact support.", @"License", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     DisableForm();
                 }
             } else
             {
-                MessageBox.Show("Please enter you license key in the settings menu and restart the app.", "License", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                _log.LogIt(LogType.Error, $"No License Key Present");
+                MessageBox.Show(@"Please enter you license key in the settings menu and restart the app.", @"License", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 DisableForm();
             }
         }
@@ -93,28 +90,24 @@ Version {Assembly.GetExecutingAssembly().GetName().Version}";
 
         private void CheckUpdate()
         {
+            _log.LogIt(LogType.Information, $"Checking For Update");
             AutoUpdater.Start("https://simtrixx.blob.core.windows.net/install/Update.xml");
         }
 
         private void btnImport_Click(object sender, EventArgs e)
         {
             _documentLines = null;
-            var strBuilder = new System.Text.StringBuilder();
             var msbResult = new frmMessageBox().ShowDialog();
 
-            if (msbResult == DialogResult.OK)
+            if (msbResult != DialogResult.OK) return;
+            var result = ofdDocument.ShowDialog();
+            if (result != DialogResult.OK) return;
+            LoadKeywords();
+            if (!string.IsNullOrWhiteSpace(ofdDocument.FileName))
             {
-                var result = ofdDocument.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    LoadKeywords();
-                    if (!string.IsNullOrWhiteSpace(ofdDocument.FileName))
-                    {
-                        _currentDocument = ofdDocument.FileName;
-                    }
-                    ImportDocument();
-                }
+                _currentDocument = ofdDocument.FileName;
             }
+            ImportDocument();
         }
         
         private void btnOutput_Click(object sender, EventArgs e)
@@ -123,157 +116,163 @@ Version {Assembly.GetExecutingAssembly().GetName().Version}";
             {
                 try
                 {
-
+                    _log.LogIt(LogType.Information, $"Exporting Processes Initiated");
                     var exportHandler = new Logic.FileExportHandler();
                     
-                    SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-                    saveFileDialog1.Filter = "Word Document |*.docx|Legacy Word Doc|*.doc|Excel|*.xlsx";
+                    var saveFileDialog1 = new SaveFileDialog();
+                    saveFileDialog1.Filter = @"Word Document |*.docx|Legacy Word Doc|*.doc|Excel|*.xlsx";
                     saveFileDialog1.DefaultExt = ".docx";
                     saveFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                     if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                     {
                         Cursor.Current = Cursors.WaitCursor;
-                        if (saveFileDialog1.FilterIndex == 1)
+                        switch (saveFileDialog1.FilterIndex)
                         {
-                            exportHandler.CreateWordDoc(_documentLines, saveFileDialog1.FileName);
-                        }
-                        else if (saveFileDialog1.FilterIndex == 2)
-                        {
-                           var doc = exportHandler.LinesToDoc(_documentLines);
-                            System.IO.File.AppendAllText(saveFileDialog1.FileName, doc);
-                        }
-                        else if (saveFileDialog1.FilterIndex == 3)
-                        {
-                            exportHandler.CreateExcelDoc(_documentLines, saveFileDialog1.FileName);
+                            case 1:
+                                exportHandler.CreateWordDoc(_documentLines, saveFileDialog1.FileName);
+                                break;
+                            case 2:
+                            {
+                                var doc = exportHandler.LinesToDoc(_documentLines);
+                                File.AppendAllText(saveFileDialog1.FileName, doc);
+                                break;
+                            }
+                            case 3:
+                                exportHandler.CreateExcelDoc(_documentLines, saveFileDialog1.FileName);
+                                break;
                         }
                         Cursor.Current = Cursors.Default;
-                        MessageBox.Show($@"Export complete {Environment.NewLine} File saved to {saveFileDialog1.FileName}");
+                        _log.LogIt(LogType.Information, $"Exporting Complete, File Saved to {saveFileDialog1.FileName}");
+                        MessageBox.Show($@"File saved to {saveFileDialog1.FileName}", @"Export complete");
                     }
                     else
                     {
-                        MessageBox.Show($@"Export operation has been canceled");
+                        _log.LogIt(LogType.Information, $"Exporting Processes Cancelled");
+                        MessageBox.Show($@"Export operation has been cancelled");
                     }
                     
                 }
                 catch(Exception ex)
                 {
+                    _log.LogIt(LogType.Error, $"Error while exporting {Environment.NewLine}{ex.Message}{Environment.NewLine}{ex.InnerException}{Environment.NewLine}{ex.StackTrace}");
                     MessageBox.Show(ex.Message);
                 }
             }
             else
             {
+                _log.LogIt(LogType.Information, "Output clicked prior to importing.");
                 MessageBox.Show(@"Please load a document first");
             }
         }
+
         private void btnSettings_Click(object sender, EventArgs e)
         {
             var frm = new frmSettings(this);
             frm.StartPosition = FormStartPosition.CenterParent;
             frm.ShowDialog();
         }
+
         private void btnExportAbbrv_Click(object sender, EventArgs e)
         {
             _documentLines = null;
-            var exportHandler = new Logic.FileExportHandler();
+            var exportHandler = new FileExportHandler();
             LoadKeywords();
             try
             {
                 var result = ofdDocument.ShowDialog();
-                if (result == DialogResult.OK)
+                if (result != DialogResult.OK) return;
+                LoadKeywords();
+                if (!string.IsNullOrWhiteSpace(ofdDocument.FileName))
                 {
-                    LoadKeywords();
-                    if (!string.IsNullOrWhiteSpace(ofdDocument.FileName))
-                    {
-                        _currentDocument = ofdDocument.FileName;
-                    }
-                    var reader = new ContractReaderV2.DocumentManager(_currentDocument, tempfile);
-                    var abbrvList = reader.GetAbbriviations();
-                    SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-                    saveFileDialog1.Filter = "Excel|*.xlsx";
-                    saveFileDialog1.DefaultExt = ".xlsx";
-                    saveFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                    if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                    {
-                        exportHandler.CreateExcelAbbrviationDoc(abbrvList, saveFileDialog1.FileName);
-                        MessageBox.Show($@"File saved to {saveFileDialog1.FileName}","Export complete");
-                    }
-                    else
-                    {
-                        MessageBox.Show($@"Export operation has been canceled");
-                    }
+                    _currentDocument = ofdDocument.FileName;
+                }
+                var reader = new ContractReaderV2.DocumentManager(_currentDocument, _tempfile);
+                var abbrvList = reader.GetAbbriviations();
+                var saveFileDialog1 = new SaveFileDialog();
+                saveFileDialog1.Filter = @"Excel|*.xlsx";
+                saveFileDialog1.DefaultExt = ".xlsx";
+                saveFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    Cursor.Current = Cursors.WaitCursor;
+                    exportHandler.CreateExcelAbbrviationDoc(abbrvList, saveFileDialog1.FileName);
+                    _log.LogIt(LogType.Information, $"Export Complete {saveFileDialog1.FileName}");
+                    Cursor.Current = Cursors.Default;
+                    MessageBox.Show($@"File saved to {saveFileDialog1.FileName}", @"Export complete");
+                }
+                else
+                {
+                    _log.LogIt(LogType.Information, "Export Cancelled");
+                    MessageBox.Show(@"Export operation has been canceled");
                 }
             }
             catch (Exception ex)
             {
-
+                _log.LogIt(LogType.Error, $"Error while exporting {Environment.NewLine}{ex.Message}{Environment.NewLine}{ex.InnerException}{Environment.NewLine}{ex.StackTrace}");
                 MessageBox.Show(ex.Message);
             }
         }
 
         private void LoadKeywords()
         {
-            _keywords = new Logic.KeywordConfigHandler().ImportV2().Keywords;
+            _keywords = new KeywordConfigHandler().ImportV2().Keywords;
         }
 
-        private void Form1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void frmMain_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
-            {
-                ReleaseCapture();
-                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
-            }
+            if (e.Button != MouseButtons.Left) return;
+            ReleaseCapture();
+            SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
         }
 
         private void btnCloseFrm_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.Save();
-            this.Close();
+            Close();
         }
 
         private void LoadHtmlGrid()
         {
             var doc = new Logic.GridDataHandler().BuildHtmlString(_documentLines);
-            var htmlDocPath = string.Empty;
-            htmlDocPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Simtrixx", "ContractDataViewer.html");
-
-            //System.IO.File.WriteAllText($@"{runTimePath}\Configs\ContractDataViewer.html", doc);
-            System.IO.File.WriteAllText(htmlDocPath,doc);
+            var htmlDocPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Simtrixx", "ContractDataViewer.html");
+            
+            File.WriteAllText(htmlDocPath,doc);
 
             webBrowser1.Refresh();
         }
         private void ImportDocument()
         {
-            if (!string.IsNullOrWhiteSpace(_currentDocument))
+            _log.LogIt(LogType.Information, "Importing Document");
+            if (string.IsNullOrWhiteSpace(_currentDocument)) return;
+            var reader = new ContractReaderV2.DocumentManager(_currentDocument, _tempfile);
+            var advancedFiltering = cbSectionFilter.Checked;
+            switch (cmbFilter.SelectedIndex)
             {
-                var reader = new ContractReaderV2.DocumentManager(_currentDocument, tempfile);
-                var advancedFiltering = cbSectionFilter.Checked;
-                if (cmbFilter.SelectedIndex == 0)
-                {
+                case 0:
                     _documentLines = reader.ParseDocument(_keywords, GlobalEnum.DocumentParseMode.KeyWordSectionsWithSplits, advancedFiltering);
-                }
-                if (cmbFilter.SelectedIndex == 1)
-                {
+                    break;
+                case 1:
                     _documentLines = reader.ParseDocument(_keywords, GlobalEnum.DocumentParseMode.KeyWordSectionsOnly, advancedFiltering);
-                }
-                if (cmbFilter.SelectedIndex == 2)
-                {
+                    break;
+                case 2:
                     _documentLines = reader.ParseDocument(_keywords, GlobalEnum.DocumentParseMode.FullDocument, advancedFiltering);
-                }
-                if (_documentLines == null)
-                {
-                    MessageBox.Show($@"Error => Error opening document{Environment.NewLine}Please make sure the document is not already open.", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                else
-                {
-                    LoadHtmlGrid();
-                    //Write to HTML here
-                    //_documentlines
+                    break;
+            }
 
-                    label2.Text = _currentDocument;
-                }
+            if (_documentLines == null)
+            {
+                _log.LogIt(LogType.Error, $"Error opening document{Environment.NewLine}Please make sure the document is not already open.");
+                MessageBox.Show($@"Error => Error opening document{Environment.NewLine}Please make sure the document is not already open.", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                LoadHtmlGrid();
+                Cursor.Current = Cursors.Default;
+                //Write to HTML here
+                label2.Text = _currentDocument;
             }
         }
-
 
         #region Menu MouseOver
         private void btnMinimize_Click(object sender, EventArgs e)
@@ -363,8 +362,8 @@ Version {Assembly.GetExecutingAssembly().GetName().Version}";
 
         #endregion
 
-        private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
+        //private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        //{
             //var searchString = "shall";
             //if (e.RowIndex > -1 && e.ColumnIndex > -1 && dataGridView1.Columns[e.ColumnIndex].Name != "Section")
             //{
@@ -408,7 +407,7 @@ Version {Assembly.GetExecutingAssembly().GetName().Version}";
             //        }
                 
             //}
-        }
+        //}
 
         private void tmrLoading_Tick(object sender, EventArgs e)
         {
@@ -418,38 +417,17 @@ Version {Assembly.GetExecutingAssembly().GetName().Version}";
 
         private void cmbFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //Properties.Settings.Default["FilterType"] = cmbFilter.SelectedIndex;
             ImportDocument();
         }
 
         private void cbSectionFilter_CheckedChanged(object sender, EventArgs e)
         {
-            //Properties.Settings.Default["AdvSectionFilter"] = cbSectionFilter.Checked;
             ImportDocument();
-        }
-
-        private void CreateDocumentDirectory()
-        {
-
-            if (Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Simtrix")))
-            {
-
-            }
         }
 
         private void btnMax_Click(object sender, EventArgs e)
         {
-            if (this.WindowState == FormWindowState.Maximized)
-            {
-                this.WindowState = FormWindowState.Normal;
-            }
-            else
-            {
-                this.WindowState = FormWindowState.Maximized;
-            }
-            
+            WindowState = WindowState == FormWindowState.Maximized ? FormWindowState.Normal : FormWindowState.Maximized;
         }
-
-
     }
 }

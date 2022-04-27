@@ -1,6 +1,8 @@
-﻿namespace SimTrixx.Client
+﻿using System.Resources;
+
+namespace SimTrixx.Client
 {
-    partial class Form1
+    partial class frmMain
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +31,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.label2 = new System.Windows.Forms.Label();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.ofdDocument = new System.Windows.Forms.OpenFileDialog();
@@ -139,7 +140,7 @@
             this.btnExportAbbrv.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnExportAbbrv.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExportAbbrv.ForeColor = System.Drawing.Color.Gainsboro;
-            this.btnExportAbbrv.Image = Properties.Resources.exportWhite;
+            this.btnExportAbbrv.Image = global::SimTrixx.Client.Properties.Resources.extract;
             this.btnExportAbbrv.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnExportAbbrv.Location = new System.Drawing.Point(24, 9);
             this.btnExportAbbrv.Name = "btnExportAbbrv";
@@ -173,7 +174,7 @@
             this.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSettings.ForeColor = System.Drawing.Color.Gainsboro;
-            this.btnSettings.Image = global::SimTrixx.Client.Properties.Resources.cogwhite;
+            this.btnSettings.Image = global::SimTrixx.Client.Properties.Resources.settings;
             this.btnSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSettings.Location = new System.Drawing.Point(24, 10);
             this.btnSettings.Name = "btnSettings";
@@ -232,7 +233,7 @@
             this.btnOutput.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOutput.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnOutput.ForeColor = System.Drawing.Color.Gainsboro;
-            this.btnOutput.Image = global::SimTrixx.Client.Properties.Resources.exportWhite;
+            this.btnOutput.Image = global::SimTrixx.Client.Properties.Resources.export;
             this.btnOutput.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnOutput.Location = new System.Drawing.Point(24, 9);
             this.btnOutput.Name = "btnOutput";
@@ -273,7 +274,7 @@
             this.btnImport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnImport.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnImport.ForeColor = System.Drawing.Color.White;
-            this.btnImport.Image = global::SimTrixx.Client.Properties.Resources.ImportWhite;
+            this.btnImport.Image = global::SimTrixx.Client.Properties.Resources.import1;
             this.btnImport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnImport.Location = new System.Drawing.Point(24, 9);
             this.btnImport.Name = "btnImport";
@@ -444,7 +445,7 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(1226, 45);
             this.panel4.TabIndex = 6;
-            this.panel4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
+            this.panel4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmMain_MouseDown);
             // 
             // btnMax
             // 
@@ -492,7 +493,7 @@
             this.btnCloseFrm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCloseFrm.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCloseFrm.ForeColor = System.Drawing.Color.White;
-            this.btnCloseFrm.Image = ((System.Drawing.Image)(resources.GetObject("btnCloseFrm.Image")));
+            this.btnCloseFrm.Image = global::SimTrixx.Client.Properties.Resources.closeIcon24;
             this.btnCloseFrm.Location = new System.Drawing.Point(1181, 3);
             this.btnCloseFrm.Name = "btnCloseFrm";
             this.btnCloseFrm.Size = new System.Drawing.Size(34, 37);
@@ -520,7 +521,7 @@
             // 
             this.contractBindingSource.DataSource = typeof(SimTrixx.Reader.Concrete.Contract);
             // 
-            // Form1
+            // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -532,10 +533,10 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "Form1";
+            this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Parser";
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmMain_MouseDown);
             this.panel1.ResumeLayout(false);
             this.pnlAcronym.ResumeLayout(false);
             this.pnlSettings.ResumeLayout(false);

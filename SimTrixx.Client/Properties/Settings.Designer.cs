@@ -25,18 +25,6 @@ namespace SimTrixx.Client.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("aa948083-c933-452b-82f1-b369eec9d957")]
-        public string License {
-            get {
-                return ((string)(this["License"]));
-            }
-            set {
-                this["License"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int FilterType {
             get {
@@ -56,6 +44,18 @@ namespace SimTrixx.Client.Properties {
             }
             set {
                 this["AdvSectionFilter"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("837e6866-0401-4525-8d05-96c2521ae873")]
+        public string License {
+            get {
+                return ((string)(this["License"]));
+            }
+            set {
+                this["License"] = value;
             }
         }
     }

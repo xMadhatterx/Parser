@@ -31,15 +31,15 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSettings));
             this.panel4 = new System.Windows.Forms.Panel();
+            this.lblSettings = new System.Windows.Forms.Label();
             this.btnCloseFrm = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnSave = new System.Windows.Forms.Button();
             this.dgvKeywords = new System.Windows.Forms.DataGridView();
             this.txtLicense = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btnAddRow = new System.Windows.Forms.Button();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.lblSettings = new System.Windows.Forms.Label();
             this.wordBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.panel4.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -57,6 +57,21 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(800, 45);
             this.panel4.TabIndex = 7;
+            // 
+            // lblSettings
+            // 
+            this.lblSettings.AutoSize = true;
+            this.lblSettings.BackColor = System.Drawing.Color.Transparent;
+            this.lblSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSettings.ForeColor = System.Drawing.Color.Gainsboro;
+            this.lblSettings.Image = global::SimTrixx.Client.Properties.Resources.cogwhite;
+            this.lblSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblSettings.Location = new System.Drawing.Point(11, 3);
+            this.lblSettings.Name = "lblSettings";
+            this.lblSettings.Size = new System.Drawing.Size(161, 31);
+            this.lblSettings.TabIndex = 9;
+            this.lblSettings.Text = "     Settings";
+            this.lblSettings.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // btnCloseFrm
             // 
@@ -87,6 +102,18 @@
             this.panel1.Size = new System.Drawing.Size(800, 45);
             this.panel1.TabIndex = 10;
             // 
+            // btnSave
+            // 
+            this.btnSave.FlatAppearance.BorderSize = 0;
+            this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSave.Image = global::SimTrixx.Client.Properties.Resources.saveIcon;
+            this.btnSave.Location = new System.Drawing.Point(712, 3);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 34);
+            this.btnSave.TabIndex = 17;
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
             // dgvKeywords
             // 
             this.dgvKeywords.AllowUserToResizeColumns = false;
@@ -102,7 +129,7 @@
             // 
             // txtLicense
             // 
-            this.txtLicense.Location = new System.Drawing.Point(60, 362);
+            this.txtLicense.Location = new System.Drawing.Point(12, 366);
             this.txtLicense.Name = "txtLicense";
             this.txtLicense.Size = new System.Drawing.Size(346, 20);
             this.txtLicense.TabIndex = 22;
@@ -113,11 +140,12 @@
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Gainsboro;
             this.label3.Image = global::SimTrixx.Client.Properties.Resources.licenseIcon;
-            this.label3.Location = new System.Drawing.Point(7, 359);
+            this.label3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label3.Location = new System.Drawing.Point(18, 338);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(48, 25);
+            this.label3.Size = new System.Drawing.Size(189, 25);
             this.label3.TabIndex = 21;
-            this.label3.Text = "      ";
+            this.label3.Text = "      LICENSE KEY";
             // 
             // label1
             // 
@@ -146,34 +174,7 @@
             this.btnAddRow.TabIndex = 16;
             this.btnAddRow.Text = "   Add Keyword";
             this.btnAddRow.UseVisualStyleBackColor = true;
-            this.btnAddRow.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // btnSave
-            // 
-            this.btnSave.FlatAppearance.BorderSize = 0;
-            this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSave.Image = global::SimTrixx.Client.Properties.Resources.saveIcon;
-            this.btnSave.Location = new System.Drawing.Point(712, 3);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 34);
-            this.btnSave.TabIndex = 17;
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
-            // lblSettings
-            // 
-            this.lblSettings.AutoSize = true;
-            this.lblSettings.BackColor = System.Drawing.Color.Transparent;
-            this.lblSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSettings.ForeColor = System.Drawing.Color.Gainsboro;
-            this.lblSettings.Image = global::SimTrixx.Client.Properties.Resources.cogwhite;
-            this.lblSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblSettings.Location = new System.Drawing.Point(11, 3);
-            this.lblSettings.Name = "lblSettings";
-            this.lblSettings.Size = new System.Drawing.Size(161, 31);
-            this.lblSettings.TabIndex = 9;
-            this.lblSettings.Text = "     Settings";
-            this.lblSettings.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.btnAddRow.Click += new System.EventHandler(this.btnAddKeyword_Click);
             // 
             // frmSettings
             // 

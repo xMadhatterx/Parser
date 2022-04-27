@@ -16,27 +16,30 @@ namespace SimTrixx.Client
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
         private RadioButton selectedRb;
-        private Form1 main;
+        private frmMain main;
 
         [DllImportAttribute("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
         [DllImportAttribute("user32.dll")]
 
         public static extern bool ReleaseCapture();
-        public frmSettings(Form1 mainForm)
+
+        public frmSettings(frmMain mainForm)
         {
             main = mainForm;
             InitializeComponent();
+            Cursor.Current = Cursors.WaitCursor;
             _keywords = new List<string>();
             _replacements = new List<string>();
             LoadKeywords();
             LoadReplacements();
             LoadLicense();
+            Cursor.Current = Cursors.Default;
         }
 
         private void btnCloseFrm_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void LoadLicense()
@@ -52,16 +55,19 @@ namespace SimTrixx.Client
         {
             _replacements = new Logic.ReplacementWordConfigHandler().Import().ReplaceWords;
         }
-        private void button1_Click(object sender, EventArgs e)
+
+        private void btnAddKeyword_Click(object sender, EventArgs e)
         {
             _keywordsV2.Add(new Word() { Keyword = "Change Me", Replacement = "Change Me" });
-            BuildGrid();
+            //BuildGrid();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            var r = new Root();
-            r.Keywords = new BindingList<Word>();
+            var r = new Root
+            {
+                Keywords = new BindingList<Word>()
+            };
             //r.Settings = new CustomSettings();
             foreach (var item in _keywordsV2)
             {
@@ -71,28 +77,28 @@ namespace SimTrixx.Client
             Properties.Settings.Default.Save();
             new Logic.KeywordConfigHandler().ExportV2(r);
             main.CheckLicense();
-            this.Close();
+            Close();
         }
 
-        private void radioButton_CheckedChanged(object sender, EventArgs e)
-        {
-            RadioButton rb = sender as RadioButton;
+        //private void radioButton_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    var rb = sender as RadioButton;
 
-            if (rb == null)
-            {
-                MessageBox.Show("Sender is not a RadioButton");
-                return;
-            }
+        //    if (rb == null)
+        //    {
+        //        MessageBox.Show(@"Sender is not a RadioButton");
+        //        return;
+        //    }
 
-            // Ensure that the RadioButton.Checked property
-            // changed to true.
-            if (rb.Checked)
-            {
-                // Keep track of the selected RadioButton by saving a reference
-                // to it.
-                selectedRb = rb;
-            }
-        }
+        //    // Ensure that the RadioButton.Checked property
+        //    // changed to true.
+        //    if (rb.Checked)
+        //    {
+        //        // Keep track of the selected RadioButton by saving a reference
+        //        // to it.
+        //        selectedRb = rb;
+        //    }
+        //}
 
 
         private void BuildGrid()
@@ -101,9 +107,9 @@ namespace SimTrixx.Client
             dgvKeywords.DataSource = null;
             dgvKeywords.DataSource = _keywordsV2;
             dgvKeywords.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            var i = dgvKeywords.ColumnCount;
-            if (i < 4)
-            {
+            //var i = dgvKeywords.ColumnCount;
+            //if (i < 4)
+            //{
                 //var col = new DataGridViewButtonColumn();
                 //col.UseColumnTextForButtonValue = true;
                 //col.Text = "     ";
@@ -111,25 +117,23 @@ namespace SimTrixx.Client
                 //col.HeaderText = "Delete";
                 //col.FlatStyle = FlatStyle.Flat;
                 //col.Name = "btnDeleteRow";
-                var col = new DataGridViewImageColumn();
-                col.Image = Properties.Resources.deleteIcon;
-                col.Name = "btnDeleteRow";
-                col.HeaderText = "Delete";
-                col.DefaultCellStyle.SelectionBackColor = Color.White;
-                dgvKeywords.Columns.Add(col);
-            }
+            var col = new DataGridViewImageColumn();
+            col.Image = Properties.Resources.deleteIcon;
+            col.Name = "btnDeleteRow";
+            col.HeaderText = @"Delete";
+            col.DefaultCellStyle.SelectionBackColor = Color.White;
+            dgvKeywords.Columns.Add(col);
+            //}
 
-            dgvKeywords.Columns["btnDeleteRow"].DisplayIndex = 3;
+            //dgvKeywords.Columns["btnDeleteRow"].DisplayIndex = 3;
         }
 
         private void dgvKeywords_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var grid = (DataGridView)sender;
-            if (grid.Columns[e.ColumnIndex] is DataGridViewImageColumn &&e.RowIndex >= 0)
-            {
-                _keywordsV2.RemoveAt(e.RowIndex);
-                BuildGrid();
-            }
+            if (!(grid.Columns[e.ColumnIndex] is DataGridViewImageColumn) || e.RowIndex < 0) return;
+            _keywordsV2.RemoveAt(e.RowIndex);
+            //BuildGrid();
         }
 
         private void dgvKeywords_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
