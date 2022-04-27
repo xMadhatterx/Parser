@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Entities\Customer.cs" />
     <Compile Include="Entities\License.cs" />
+    <Compile Include="Enums\LogType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

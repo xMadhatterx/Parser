@@ -1,4 +1,4 @@
-﻿namespace TestDocReader
+﻿namespace SimTrixx.Client
 {
     partial class frmSettings
     {
@@ -67,7 +67,7 @@
             this.btnCloseFrm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCloseFrm.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCloseFrm.ForeColor = System.Drawing.Color.White;
-            this.btnCloseFrm.Image = global::TestDocReader.Properties.Resources.closeIcon32;
+            this.btnCloseFrm.Image = global::SimTrixx.Client.Properties.Resources.closeIcon32;
             this.btnCloseFrm.Location = new System.Drawing.Point(748, 3);
             this.btnCloseFrm.Name = "btnCloseFrm";
             this.btnCloseFrm.Size = new System.Drawing.Size(34, 37);
@@ -112,7 +112,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Gainsboro;
-            this.label3.Image = global::TestDocReader.Properties.Resources.licenseIcon;
+            this.label3.Image = global::SimTrixx.Client.Properties.Resources.licenseIcon;
             this.label3.Location = new System.Drawing.Point(7, 359);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(48, 25);
@@ -138,7 +138,7 @@
             this.btnAddRow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddRow.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddRow.ForeColor = System.Drawing.Color.Gainsboro;
-            this.btnAddRow.Image = global::TestDocReader.Properties.Resources.addIcon16;
+            this.btnAddRow.Image = global::SimTrixx.Client.Properties.Resources.addIcon16;
             this.btnAddRow.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAddRow.Location = new System.Drawing.Point(666, 321);
             this.btnAddRow.Name = "btnAddRow";
@@ -152,7 +152,7 @@
             // 
             this.btnSave.FlatAppearance.BorderSize = 0;
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSave.Image = global::TestDocReader.Properties.Resources.saveIcon;
+            this.btnSave.Image = global::SimTrixx.Client.Properties.Resources.saveIcon;
             this.btnSave.Location = new System.Drawing.Point(712, 3);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 34);
@@ -166,7 +166,7 @@
             this.lblSettings.BackColor = System.Drawing.Color.Transparent;
             this.lblSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSettings.ForeColor = System.Drawing.Color.Gainsboro;
-            this.lblSettings.Image = global::TestDocReader.Properties.Resources.cogwhite;
+            this.lblSettings.Image = global::SimTrixx.Client.Properties.Resources.cogwhite;
             this.lblSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblSettings.Location = new System.Drawing.Point(11, 3);
             this.lblSettings.Name = "lblSettings";

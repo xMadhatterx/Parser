@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using SimTrixx.Reader.Concrete;
 using SimTrixx.Reader.Concrete.Enums;
 using System.IO;
 using AutoUpdaterDotNET;
-using SimTrixx.Data.Repos;
-using System.Diagnostics;
 using System.Reflection;
-using LicenseManager = SimTrixx.Client.Logic.LicenseManager;
+using LicenseManager = SimTrixx.Client.Logic.LicenseHandler;
 
-namespace TestDocReader
+namespace SimTrixx.Client
 {
     public partial class Form1 : Form
     {

@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using SimTrixx.Reader.Concrete;
-namespace TestDocReader.Logic
+
+namespace SimTrixx.Client.Logic
 {
    public class GridDataHandler
     {

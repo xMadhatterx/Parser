@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace TestDocReader
+namespace SimTrixx.Client
 {
     static class Program
     {

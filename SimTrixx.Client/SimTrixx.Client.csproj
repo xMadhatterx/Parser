@@ -7,7 +7,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{6529E310-2B35-43AC-A119-3A215C4E73F8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>TestDocReader</RootNamespace>
+    <RootNamespace>SimTrixx.Client</RootNamespace>
     <AssemblyName>SimTrixx</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -214,7 +214,8 @@
     <Compile Include="Logic\FileExportHandler.cs" />
     <Compile Include="Logic\GridDataHandler.cs" />
     <Compile Include="Logic\KeywordConfigHandler.cs" />
-    <Compile Include="Logic\LicenseManager.cs" />
+    <Compile Include="Logic\LicenseHandler.cs" />
+    <Compile Include="Logic\LoggingHandler.cs" />
     <Compile Include="Logic\ReplacementWordConfigHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -244,8 +245,8 @@
     </None>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\ContractReaderV2.Concrete.Contract.datasource" />
-    <None Include="Properties\DataSources\TestDocReader.Concrete.Root.datasource" />
-    <None Include="Properties\DataSources\TestDocReader.Concrete.Word.datasource" />
+    <None Include="Properties\DataSources\SimTrixx.Client.Concrete.Root.datasource" />
+    <None Include="Properties\DataSources\SimTrixx.Client.Concrete.Word.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -376,9 +377,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Viewer\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

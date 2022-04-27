@@ -1,4 +1,4 @@
-﻿namespace TestDocReader
+﻿namespace SimTrixx.Client
 {
     partial class frmMessageBox
     {
@@ -64,7 +64,7 @@
             this.lblSettings.BackColor = System.Drawing.Color.Transparent;
             this.lblSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSettings.ForeColor = System.Drawing.Color.White;
-            this.lblSettings.Image = global::TestDocReader.Properties.Resources.alertIcon1;
+            this.lblSettings.Image = global::SimTrixx.Client.Properties.Resources.alertIcon1;
             this.lblSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblSettings.Location = new System.Drawing.Point(11, 3);
             this.lblSettings.Name = "lblSettings";

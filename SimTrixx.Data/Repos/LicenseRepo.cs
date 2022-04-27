@@ -7,9 +7,9 @@ namespace SimTrixx.Data.Repos
     {
         public License GetLicense(string licenseKey)
         {
-            var dbContext = new simtrixxEntities();
+            var dbContext = new simtrixxEntities(RepoService.GetEntityConnectionString(Properties.Resources.ConnectionString));
 
-            var userLicense = dbContext.Licenses.Where(x => x.Key == licenseKey).FirstOrDefault();
+            var userLicense = dbContext.Licenses.FirstOrDefault(x => x.Key == licenseKey);
             return userLicense;
         }
     }

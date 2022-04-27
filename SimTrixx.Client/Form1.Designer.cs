@@ -1,4 +1,4 @@
-﻿namespace TestDocReader
+﻿namespace SimTrixx.Client
 {
     partial class Form1
     {
@@ -139,7 +139,7 @@
             this.btnExportAbbrv.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnExportAbbrv.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExportAbbrv.ForeColor = System.Drawing.Color.Gainsboro;
-            this.btnExportAbbrv.Image = global::TestDocReader.Properties.Resources.exportWhite;
+            this.btnExportAbbrv.Image = Properties.Resources.exportWhite;
             this.btnExportAbbrv.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnExportAbbrv.Location = new System.Drawing.Point(24, 9);
             this.btnExportAbbrv.Name = "btnExportAbbrv";
@@ -173,7 +173,7 @@
             this.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSettings.ForeColor = System.Drawing.Color.Gainsboro;
-            this.btnSettings.Image = global::TestDocReader.Properties.Resources.cogwhite;
+            this.btnSettings.Image = global::SimTrixx.Client.Properties.Resources.cogwhite;
             this.btnSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSettings.Location = new System.Drawing.Point(24, 10);
             this.btnSettings.Name = "btnSettings";
@@ -196,7 +196,7 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.Transparent;
-            this.panel3.BackgroundImage = global::TestDocReader.Properties.Resources.Logo2;
+            this.panel3.BackgroundImage = global::SimTrixx.Client.Properties.Resources.Logo2;
             this.panel3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.panel3.Location = new System.Drawing.Point(11, 5);
             this.panel3.Name = "panel3";
@@ -232,7 +232,7 @@
             this.btnOutput.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOutput.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnOutput.ForeColor = System.Drawing.Color.Gainsboro;
-            this.btnOutput.Image = global::TestDocReader.Properties.Resources.exportWhite;
+            this.btnOutput.Image = global::SimTrixx.Client.Properties.Resources.exportWhite;
             this.btnOutput.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnOutput.Location = new System.Drawing.Point(24, 9);
             this.btnOutput.Name = "btnOutput";
@@ -273,7 +273,7 @@
             this.btnImport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnImport.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnImport.ForeColor = System.Drawing.Color.White;
-            this.btnImport.Image = global::TestDocReader.Properties.Resources.ImportWhite;
+            this.btnImport.Image = global::SimTrixx.Client.Properties.Resources.ImportWhite;
             this.btnImport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnImport.Location = new System.Drawing.Point(24, 9);
             this.btnImport.Name = "btnImport";
@@ -326,7 +326,7 @@
             // panel5
             // 
             this.panel5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(46)))), ((int)(((byte)(59)))));
-            this.panel5.BackgroundImage = global::TestDocReader.Properties.Resources.Logo2;
+            this.panel5.BackgroundImage = global::SimTrixx.Client.Properties.Resources.Logo2;
             this.panel5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.panel5.Location = new System.Drawing.Point(894, 594);
             this.panel5.Name = "panel5";
@@ -336,7 +336,7 @@
             // pbLoading
             // 
             this.pbLoading.BackColor = System.Drawing.Color.Transparent;
-            this.pbLoading.Image = global::TestDocReader.Properties.Resources.spinner;
+            this.pbLoading.Image = global::SimTrixx.Client.Properties.Resources.spinner;
             this.pbLoading.Location = new System.Drawing.Point(589, 266);
             this.pbLoading.Name = "pbLoading";
             this.pbLoading.Size = new System.Drawing.Size(64, 64);
@@ -410,7 +410,7 @@
             this.label4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.SystemColors.Control;
-            this.label4.Image = global::TestDocReader.Properties.Resources.filterIcon16;
+            this.label4.Image = global::SimTrixx.Client.Properties.Resources.filterIcon16;
             this.label4.Location = new System.Drawing.Point(472, 8);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(20, 17);
@@ -424,7 +424,7 @@
             this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.Control;
-            this.label1.Image = global::TestDocReader.Properties.Resources.documentIcon17;
+            this.label1.Image = global::SimTrixx.Client.Properties.Resources.documentIcon17;
             this.label1.Location = new System.Drawing.Point(3, 7);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(20, 17);
@@ -456,7 +456,7 @@
             this.btnMax.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMax.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnMax.ForeColor = System.Drawing.Color.White;
-            this.btnMax.Image = global::TestDocReader.Properties.Resources.maximize24;
+            this.btnMax.Image = global::SimTrixx.Client.Properties.Resources.maximize24;
             this.btnMax.Location = new System.Drawing.Point(1148, 3);
             this.btnMax.Name = "btnMax";
             this.btnMax.Size = new System.Drawing.Size(36, 38);
@@ -474,7 +474,7 @@
             this.btnMinimize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMinimize.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnMinimize.ForeColor = System.Drawing.Color.White;
-            this.btnMinimize.Image = global::TestDocReader.Properties.Resources.minimizeIcon24;
+            this.btnMinimize.Image = global::SimTrixx.Client.Properties.Resources.minimizeIcon24;
             this.btnMinimize.Location = new System.Drawing.Point(1115, 3);
             this.btnMinimize.Name = "btnMinimize";
             this.btnMinimize.Size = new System.Drawing.Size(36, 38);

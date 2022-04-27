@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SimTrixx.Reader.Concrete;
 using System.IO;
-namespace TestDocReader.Logic
+
+namespace SimTrixx.Client.Logic
 {
     public class ReplacementWordConfigHandler
     {

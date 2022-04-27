@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using SimTrixx.Reader.Concrete;
 
-namespace TestDocReader
+namespace SimTrixx.Client
 {
     public partial class frmSettings : Form
     {
@@ -73,7 +69,7 @@ namespace TestDocReader
             }
             Properties.Settings.Default["License"] = txtLicense.Text;
             Properties.Settings.Default.Save();
-            new TestDocReader.Logic.KeywordConfigHandler().ExportV2(r);
+            new Logic.KeywordConfigHandler().ExportV2(r);
             main.CheckLicense();
             this.Close();
         }

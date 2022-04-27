@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using SimTrixx.Reader.Concrete;
+﻿using SimTrixx.Reader.Concrete;
 using Newtonsoft.Json;
 using System.IO;
 using System;
-namespace TestDocReader.Logic
+
+namespace SimTrixx.Client.Logic
 {
     public class KeywordConfigHandler
     {

@@ -6,7 +6,8 @@ using SimTrixx.Reader.Concrete;
 using Microsoft.Office.Interop.Word;
 using Microsoft.Office.Interop.Excel;
 using System.Text.RegularExpressions;
-namespace TestDocReader.Logic
+
+namespace SimTrixx.Client.Logic
 {
    public class FileExportHandler
     {
