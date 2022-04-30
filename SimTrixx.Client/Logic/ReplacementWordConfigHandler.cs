@@ -18,22 +18,59 @@ namespace SimTrixx.Client.Logic
 
         public ReplacementDictionary Import()
         {
+            ReplacementDictionary replacements;
             var keywordPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Simtrixx", "Replacements.json");
             //var jsonText = System.IO.File.ReadAllText("./Configs/Replacements.json");
-            var jsonText = System.IO.File.ReadAllText(keywordPath);
-            var replacements = JsonConvert.DeserializeObject<ReplacementDictionary>(jsonText);
+            if (File.Exists(keywordPath))
+            {
+                var jsonText = File.ReadAllText(keywordPath);
+                replacements = JsonConvert.DeserializeObject<ReplacementDictionary>(jsonText);
+            }
+            else
+            {
+                var jsonDir = Path.GetDirectoryName(keywordPath);
+                if (!Directory.Exists(jsonDir))
+                {
+                    Directory.CreateDirectory(jsonDir);
+                }
+
+                using (var stream = File.Create(keywordPath))
+                {
+                }
+
+                //Build Keywords
+                BuildReplacements(keywordPath);
+
+                var jsonText = File.ReadAllText(keywordPath);
+                replacements = JsonConvert.DeserializeObject<ReplacementDictionary>(jsonText);
+            }
+
             return replacements;
 
         }
 
+        public void BuildReplacements(string path)
+        {
+            var r = new ReplacementDictionary
+            {
+                ReplaceWords = new List<string>()
+            };
+            r.ReplaceWords.Add("contractor");
+            r.ReplaceWords.Add("contractors");
+            r.ReplaceWords.Add("Contractor");
+            r.ReplaceWords.Add("Contractors");
+            var jsonString = JsonConvert.SerializeObject(r);
+            File.WriteAllText(path, jsonString);
+        }
+
         public void Export(ReplacementDictionary replacementDictionary)
         {
-            string jsonString = JsonConvert.SerializeObject(replacementDictionary);
+            var jsonString = JsonConvert.SerializeObject(replacementDictionary);
             var keywordPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Simtrixx", "Replacements.json");
             if (!string.IsNullOrEmpty(jsonString))
             {
                 //System.IO.File.WriteAllText("./Configs/Replacements.json", jsonString);
-                System.IO.File.WriteAllText(keywordPath, jsonString);
+                File.WriteAllText(keywordPath, jsonString);
             }
         }
     }

@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System.IO;
 using System;
+using System.ComponentModel;
 
 namespace SimTrixx.Client.Logic
 {
@@ -20,22 +21,51 @@ namespace SimTrixx.Client.Logic
             //{
             //    throw new System.Exception("Can not find Keyword file");
             //}
-            if (System.IO.File.Exists(keywordPath))
+            if (File.Exists(keywordPath))
             {
-                var jsonText = System.IO.File.ReadAllText(keywordPath);
+                var jsonText = File.ReadAllText(keywordPath);
                 keywords = JsonConvert.DeserializeObject<Root>(jsonText);
             }
             else
             {
-                throw new System.Exception("Can not find Keyword file");
+                var jsonDir = Path.GetDirectoryName(keywordPath);
+                if (!Directory.Exists(jsonDir))
+                {
+                    Directory.CreateDirectory(jsonDir);
+                }
+
+                using (var stream = File.Create(keywordPath)) 
+                {
+                }
+
+                BuildKeywords(keywordPath);
+
+                var jsonText = File.ReadAllText(keywordPath);
+                keywords = JsonConvert.DeserializeObject<Root>(jsonText);
             }
             return keywords;
 
         }
+
+        public void BuildKeywords(string path)
+        {
+            var r = new Root
+            {
+                Keywords = new BindingList<Word>
+                {
+                    new Word() { Keyword = "Contractor Shall", Replacement = "" },
+                    new Word() { Keyword = "Contractors Shall", Replacement = "" },
+                    new Word() { Keyword = "Contractor Will", Replacement = "" },
+                    new Word() { Keyword = "Contractors Will", Replacement = "" }
+                }
+            };
+            new KeywordConfigHandler().ExportV2(r);
+        }
+
         public void ExportV2(Root keywordDictionary)
         {
             var keywordPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Simtrixx", "KeywordsV2.json");
-            string jsonString = JsonConvert.SerializeObject(keywordDictionary);
+            var jsonString = JsonConvert.SerializeObject(keywordDictionary);
 
             //if (!string.IsNullOrEmpty(jsonString))
             //{
@@ -43,7 +73,7 @@ namespace SimTrixx.Client.Logic
             //}
             if (!string.IsNullOrEmpty(jsonString))
             {
-                System.IO.File.WriteAllText(keywordPath, jsonString);
+                File.WriteAllText(keywordPath, jsonString);
             }
         }
     }

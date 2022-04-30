@@ -145,6 +145,7 @@
   <ItemGroup>
     <Compile Include="Concrete\AbbrvContainer.cs" />
     <Compile Include="Concrete\Contract.cs" />
+    <Compile Include="Concrete\LocalLicense.cs" />
     <Compile Include="Handlers\AbbrvExtractionHandler.cs" />
     <Compile Include="Handlers\FileExtensionHandler.cs" />
     <Compile Include="Concrete\Keyword.cs" />

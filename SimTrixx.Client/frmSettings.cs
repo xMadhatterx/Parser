@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using SimTrixx.Client.Logic;
 using SimTrixx.Reader.Concrete;
 
 namespace SimTrixx.Client
@@ -44,16 +45,16 @@ namespace SimTrixx.Client
 
         private void LoadLicense()
         {
-            txtLicense.Text = Properties.Settings.Default["License"].ToString();
+            txtLicense.Text = new LicenseHandler().GetLicense().Key; // Properties.Settings.Default["License"].ToString();
         }
         private void LoadKeywords()
         {
-            _keywordsV2 = new Logic.KeywordConfigHandler().ImportV2().Keywords;
+            _keywordsV2 = new KeywordConfigHandler().ImportV2().Keywords;
             BuildGrid();
         }
         private void LoadReplacements()
         {
-            _replacements = new Logic.ReplacementWordConfigHandler().Import().ReplaceWords;
+            _replacements = new ReplacementWordConfigHandler().Import().ReplaceWords;
         }
 
         private void btnAddKeyword_Click(object sender, EventArgs e)
@@ -73,10 +74,19 @@ namespace SimTrixx.Client
             {
                 r.Keywords.Add(item);
             }
-            Properties.Settings.Default["License"] = txtLicense.Text;
-            Properties.Settings.Default.Save();
-            new Logic.KeywordConfigHandler().ExportV2(r);
+
+            var license = new LocalLicense()
+            {
+                Key = txtLicense.Text
+            };
+            new LicenseHandler().UpdateLicense(license);
             main.CheckLicense();
+
+            //Properties.Settings.Default["License"] = txtLicense.Text;
+            //Properties.Settings.Default.Save();
+
+            new KeywordConfigHandler().ExportV2(r);
+            
             Close();
         }
 

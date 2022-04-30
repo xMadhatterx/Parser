@@ -29,7 +29,7 @@
     <ProductName>Simple Matrix</ProductName>
     <PublisherName>Simtrixx</PublisherName>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.6.0.%2a</ApplicationVersion>
+    <ApplicationVersion>1.6.2.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -54,6 +54,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>favicon2.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AntiXssLibrary, Version=4.3.0.0, Culture=neutral, PublicKeyToken=d127efab8a9c114f, processorArchitecture=MSIL">
@@ -196,8 +199,8 @@
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
-	<Compile Include="frmMain.Designer.cs">
-	  <DependentUpon>frmMain.cs</DependentUpon>
+    <Compile Include="frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
     <Compile Include="frmMessageBox.cs">
       <SubType>Form</SubType>

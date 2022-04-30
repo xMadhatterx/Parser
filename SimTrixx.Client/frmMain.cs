@@ -28,7 +28,7 @@ namespace SimTrixx.Client
         [DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
 
-        private readonly LoggingHandler _log = new LoggingHandler(AppDomain.CurrentDomain.BaseDirectory);
+        private readonly LoggingHandler _log = new LoggingHandler($@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\Simtrixx\");
 
         public frmMain()
         {
@@ -54,10 +54,10 @@ namespace SimTrixx.Client
         public void CheckLicense()
         {
 
-            var licenseKey = Properties.Settings.Default["License"];
-            if(!string.IsNullOrEmpty(licenseKey.ToString())) 
+            var licenseKey = new LicenseHandler().GetLicense();// Properties.Settings.Default["License"];
+            if(!string.IsNullOrEmpty(licenseKey.Key)) 
             {
-                var license = new LicenseHandler().CheckLicense(licenseKey.ToString());
+                var license = new LicenseHandler().CheckLicense(licenseKey.Key);
                 if (license)
                 {
                     _log.LogIt(LogType.Information, $"License Verified {licenseKey}");
@@ -80,12 +80,14 @@ namespace SimTrixx.Client
         {
             btnImport.Enabled = false;
             btnOutput.Enabled = false;
+            btnExportAbbrv.Enabled = false;
         }
 
         private void EnableForm()
         {
             btnImport.Enabled = true;
             btnOutput.Enabled = true;
+            btnExportAbbrv.Enabled = true;
         }
 
         private void CheckUpdate()
