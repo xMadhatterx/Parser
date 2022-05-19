@@ -61,7 +61,7 @@ namespace SimTrixx.Data.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to data source=52.44.189.23;initial catalog=developt_simtrixx;persist security info=True;user id=wadmin;password=Ks&amp;xU29U$X2X.
+        ///   Looks up a localized string similar to Server=tcp:sim.database.windows.net,1433;Initial Catalog=simtrixx;Persist Security Info=False;User ID=SimAdmin;Password=keSN3zh3TinHGm&amp;Bp!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;.
         /// </summary>
         internal static string ConnectionString {
             get {

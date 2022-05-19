@@ -118,6 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConnectionString" xml:space="preserve">
-    <value>data source=52.44.189.23;initial catalog=developt_simtrixx;persist security info=True;user id=wadmin;password=Ks&amp;xU29U$X2X</value>
+    <value>Server=tcp:sim.database.windows.net,1433;Initial Catalog=simtrixx;Persist Security Info=False;User ID=SimAdmin;Password=keSN3zh3TinHGm&amp;Bp!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;</value>
   </data>
 </root>

@@ -164,7 +164,7 @@
     <value>..\Resources\filterIcon16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ConnectionString" xml:space="preserve">
-    <value>data source=52.44.189.23;initial catalog=developt_simtrixx;persist security info=True;user id=wadmin;password=Ks&amp;xU29U$X2X</value>
+    <value>Server=tcp:simtrixx.database.windows.net,1433;Initial Catalog=simtrixx;Persist Security Info=False;User ID=SimtrixxAdmin;Password=ez2lO%k%6@nY0O#h;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;</value>
   </data>
   <data name="export" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\export.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
